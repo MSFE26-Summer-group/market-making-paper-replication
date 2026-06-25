@@ -1,8 +1,8 @@
 site_name: Paper Replication
 site_description: Documentation for the replication of [Paper Title]
-site_url: https://<your-org>.github.io/<your-repo>/
-repo_url: https://github.com/<your-org>/<your-repo>
-repo_name: <your-org>/<your-repo>
+site_url: https://msfe26-summer-group.github.io/market-making-paper-replication/
+repo_url: https://github.com/MSFE26-Summer-group/market-making-paper-replication
+repo_name: MSFE26-Summer-group/market-making-paper-replication
 
 theme:
   name: material
