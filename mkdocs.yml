@@ -3,6 +3,7 @@ site_description: Documentation for the replication of [Paper Title]
 site_url: https://msfe26-summer-group.github.io/market-making-paper-replication/
 repo_url: https://github.com/MSFE26-Summer-group/market-making-paper-replication
 repo_name: MSFE26-Summer-group/market-making-paper-replication
+dev_addr: 127.0.0.1:8000
 
 theme:
   name: material
