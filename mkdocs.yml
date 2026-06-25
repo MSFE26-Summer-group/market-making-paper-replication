@@ -1,0 +1,49 @@
+site_name: Paper Replication
+site_description: Documentation for the replication of [Paper Title]
+site_url: https://<your-org>.github.io/<your-repo>/
+repo_url: https://github.com/<your-org>/<your-repo>
+repo_name: <your-org>/<your-repo>
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - search.suggest
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_source: true
+            docstring_style: google
+  - mkdocs-jupyter:
+      execute: false          # don't re-run on build; use stripped outputs
+      include_source: true
+
+nav:
+  - Home: index.md
+  - Paper Overview: paper_overview.md
+  - Experiments: experiments.md
+  - Notebooks:
+      - Overview: notebooks/index.md
+  - API Reference:
+      - Overview: api/index.md
+  - Progress: progress.md
