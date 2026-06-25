@@ -20,7 +20,9 @@ jobs:
           cache: pip
 
       - name: Install dependencies
-        run: pip install -e ".[dev]"
+        run: |
+           pip install --upgrade pip setuptools>=68
+           pip install -e ".[dev]"
 
       - name: black — formatting check
         run: black --check src/ tests/
@@ -49,7 +51,9 @@ jobs:
           cache: pip
 
       - name: Install dependencies
-        run: pip install -e ".[dev]"
+        run: |
+           pip install --upgrade pip setuptools>=68
+           pip install -e ".[dev]"
 
       - name: pytest with coverage
         run: pytest
