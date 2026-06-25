@@ -23,7 +23,9 @@ jobs:
           cache: pip
 
       - name: Install docs dependencies
-        run: pip install -e ".[docs]"
+        run: |
+           pip install --upgrade pip setuptools>=68
+           pip install -e ".[docs]"
 
       - name: Build & deploy to GitHub Pages
         run: mkdocs gh-deploy --force
