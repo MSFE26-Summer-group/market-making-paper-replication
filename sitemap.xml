@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://&lt;your-org&gt;.github.io/&lt;your-repo&gt;/</loc>
+         <loc>https://msfe26-summer-group.github.io/market-making-paper-replication/</loc>
          <lastmod>2026-06-25</lastmod>
     </url>
     <url>
-         <loc>https://&lt;your-org&gt;.github.io/&lt;your-repo&gt;/experiments/</loc>
+         <loc>https://msfe26-summer-group.github.io/market-making-paper-replication/experiments/</loc>
          <lastmod>2026-06-25</lastmod>
     </url>
     <url>
-         <loc>https://&lt;your-org&gt;.github.io/&lt;your-repo&gt;/paper_overview/</loc>
+         <loc>https://msfe26-summer-group.github.io/market-making-paper-replication/paper_overview/</loc>
          <lastmod>2026-06-25</lastmod>
     </url>
     <url>
-         <loc>https://&lt;your-org&gt;.github.io/&lt;your-repo&gt;/progress/</loc>
+         <loc>https://msfe26-summer-group.github.io/market-making-paper-replication/progress/</loc>
          <lastmod>2026-06-25</lastmod>
     </url>
     <url>
-         <loc>https://&lt;your-org&gt;.github.io/&lt;your-repo&gt;/api/</loc>
+         <loc>https://msfe26-summer-group.github.io/market-making-paper-replication/api/</loc>
          <lastmod>2026-06-25</lastmod>
     </url>
     <url>
-         <loc>https://&lt;your-org&gt;.github.io/&lt;your-repo&gt;/notebooks/</loc>
+         <loc>https://msfe26-summer-group.github.io/market-making-paper-replication/notebooks/</loc>
          <lastmod>2026-06-25</lastmod>
     </url>
 </urlset>
