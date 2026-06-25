@@ -13,29 +13,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-          cache: pip
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
 
       - name: Install dependencies
-        run: |
-           pip install --upgrade pip setuptools>=68
-           pip install -e ".[dev]"
+        run: uv sync --extra dev
 
       - name: black — formatting check
-        run: black --check src/ tests/
+        run: uv run black --check src/ tests/
 
       - name: isort — import order check
-        run: isort --check-only src/ tests/
+        run: uv run isort --check-only src/ tests/
 
       - name: mypy — type check
-        run: mypy src/
+        run: uv run mypy src/
 
       - name: ruff — lint (informational)
-        run: ruff check src/ tests/
-        continue-on-error: true   # reported but not a hard block
+        run: uv run ruff check src/ tests/
+        continue-on-error: true
 
   tests:
     name: Tests
@@ -44,19 +39,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-          cache: pip
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
 
       - name: Install dependencies
-        run: |
-           pip install --upgrade pip setuptools>=68
-           pip install -e ".[dev]"
+        run: uv sync --extra dev
 
       - name: pytest with coverage
-        run: pytest
+        run: uv run pytest
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4

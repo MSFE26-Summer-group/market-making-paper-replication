@@ -12,12 +12,11 @@ Replication of **[Paper Title]** by [Authors], [Venue Year].
 ## Setup
 
 ```bash
-git clone https://github.com/<your-org>/<your-repo>.git
-cd <your-repo>
-
-python -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev,docs]"
-pre-commit install
+git clone https://github.com/MSFE26-Summer-group/market-making-paper-replication.git
+cd market-making-paper-replication
+pip install uv        # one-time, installs uv globally
+uv sync --extra dev --extra docs
+uv run pre-commit install
 ```
 
 ## Running Tests
