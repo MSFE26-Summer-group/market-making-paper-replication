@@ -48,6 +48,23 @@ pytest
 
 Or install pre-commit hooks (done once via `pre-commit install`) to have them run automatically on every commit — this includes `nbstripout` (strips notebook outputs before committing) and `nbqa` (runs black/isort/mypy inside notebooks).
 
+## Notebooks & Reports
+
+Notebooks in `notebooks/` are working files — `nbstripout` strips their outputs before each commit to keep diffs clean and the repo lightweight. This means a freshly cloned notebook will show code only; cells need to be re-run to regenerate charts and results.
+
+To share findings without requiring collaborators to re-run anything, convert a finished notebook to a standalone HTML snapshot and commit it to `reports/`:
+
+```bash
+uv run jupyter nbconvert --to html notebooks/<name>.ipynb --output-dir reports/
+```
+
+This is a manual step, done deliberately once a notebook's results are ready to share — not automated via pre-commit — so half-finished exploratory work doesn't get committed as an "official" snapshot.
+
+| Folder | Contents | Touched by nbstripout? |
+|--------|----------|--------------------------|
+| `notebooks/` | Working `.ipynb` files | ✅ Yes — outputs stripped |
+| `reports/` | Frozen `.html` snapshots | ❌ No — outputs intact |
+
 ## Branch Strategy
 
 - `main` — protected; requires a passing CI and at least 1 approved review to merge.
@@ -56,6 +73,7 @@ Or install pre-commit hooks (done once via `pre-commit install`) to have them ru
 ## Docs
 
 Documentation lives in `docs/` and is built with [MkDocs Material](https://squidfunk.github.io/mkdocs-material/).
+
 It auto-deploys to GitHub Pages on every merge to `main`.
 
 ```bash
@@ -68,21 +86,22 @@ mkdocs serve
 ```
 .
 ├── src/paper_replication/   # Source code (imported by notebooks & tests)
-├── notebooks/               # Jupyter notebooks — exploration & analysis
-├── tests/                   # pytest tests
-├── docs/                    # MkDocs pages
+├── notebooks/                # Jupyter notebooks — exploration & analysis (outputs stripped)
+├── reports/                  # Frozen HTML/PDF snapshots of finished notebooks
+├── tests/                     # pytest tests
+├── docs/                      # MkDocs pages
 │   ├── index.md
 │   ├── paper_overview.md
 │   ├── experiments.md
-│   ├── progress.md          # Overseer-facing progress tracker
+│   ├── progress.md           # Overseer-facing progress tracker
 │   └── api/
 ├── .github/
 │   ├── workflows/
-│   │   ├── ci.yml           # Quality gate on every PR
-│   │   └── docs.yml         # Deploy docs on merge to main
+│   │   ├── ci.yml             # Quality gate on every PR
+│   │   └── docs.yml           # Deploy docs on merge to main
 │   ├── ISSUE_TEMPLATE/
 │   └── pull_request_template.md
-├── pyproject.toml           # All tool config lives here
+├── pyproject.toml             # All tool config lives here
 ├── mkdocs.yml
 └── .pre-commit-config.yaml
 ```
