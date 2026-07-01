@@ -41,6 +41,7 @@ plugins:
 
 nav:
   - Home: index.md
+  - Replication Framework: replication_framework.md
   - Paper Overview: paper_overview.md
   - Experiments: experiments.md
   - Notebooks:
