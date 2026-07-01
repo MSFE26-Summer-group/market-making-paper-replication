@@ -1,0 +1,1540 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the replication of [Paper Title]">
+      
+      
+      
+        <link rel="canonical" href="https://msfe26-summer-group.github.io/market-making-paper-replication/replication_framework/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../paper_overview/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Replication Framework - Paper Replication</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#paper-replication-framework" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Paper Replication" class="md-header__button md-logo" aria-label="Paper Replication" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Paper Replication
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Replication Framework
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/MSFE26-Summer-group/market-making-paper-replication" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MSFE26-Summer-group/market-making-paper-replication
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Replication Framework
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../paper_overview/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Paper Overview
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../experiments/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Experiments
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../notebooks/" class="md-tabs__link">
+          
+  
+  
+  Notebooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../api/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../progress/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Progress
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Paper Replication" class="md-nav__button md-logo" aria-label="Paper Replication" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Paper Replication
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/MSFE26-Summer-group/market-making-paper-replication" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MSFE26-Summer-group/market-making-paper-replication
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Replication Framework
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Replication Framework
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#process-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Process Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-1-summarise-the-paper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 1 — Summarise the Paper
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Stage 1 — Summarise the Paper">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#introductory-paragraph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introductory Paragraph
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#one-paragraph-per-major-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One Paragraph Per Major Point
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusion-paragraph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion Paragraph
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-2-describe-the-hypotheses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 2 — Describe the Hypotheses
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-3-literature-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 3 — Literature Review
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Stage 3 — Literature Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#format-for-each-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Format for Each Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-to-include" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to Include
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#organisation-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Organisation Models
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-4-locate-and-validate-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 4 — Locate and Validate Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Stage 4 — Locate and Validate Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-described-in-the-source-paper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Described in the Source Paper
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-acquisition-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Acquisition Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-quality-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Quality Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-5-build-and-validate-the-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 5 — Build and Validate the Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Stage 5 — Build and Validate the Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#strategy-model-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy Model Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation-at-each-stage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation at Each Stage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-results-contradict-the-paper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When Results Contradict the Paper
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-6-extend-the-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 6 — Extend the Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Stage 6 — Extend the Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#summary-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary Statistics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#more-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        More Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#challenging-simplifying-assumptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Challenging Simplifying Assumptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#similar-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Similar Techniques
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overfitting-and-bias-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overfitting and Bias Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-ai-tools-in-this-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using AI Tools in This Project
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using AI Tools in This Project">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#where-ai-helps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where AI Helps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-ai-does-not-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where AI Does Not Help
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#master-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Master Checklist
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Master Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stage-1-summarise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 1 — Summarise
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stage-2-hypotheses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 2 — Hypotheses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stage-3-literature-review_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 3 — Literature Review
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stage-4-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 4 — Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stage-5-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 5 — Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stage-6-extend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 6 — Extend
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../paper_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Paper Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../experiments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experiments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notebooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../progress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Progress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="paper-replication-framework">Paper Replication Framework</h1>
+<p>This document is a guide for replicating quantitative finance research papers. It is a living document — fill it in as you work through each stage. Nothing is final until the entire project is complete.</p>
+<p>The goal is not to prove the paper right. The goal is to systematically determine whether its claims hold up, and to what degree biases, overfitting, or data issues limit how far the findings generalise.</p>
+<p>!!! note "Write in your own words"
+    Paraphrasing forces deeper understanding than copying. If you must quote directly, cite it precisely. Unintentional plagiarism still has consequences — including in internal research that later gets published or shared.</p>
+<hr />
+<h2 id="process-overview">Process Overview</h2>
+<p>Most paper replications take roughly one week of focused work. The literature review can extend significantly if the territory is unfamiliar. Time budgeting matters — you can chase ideas indefinitely, so be deliberate about how much time you allocate to each stage before moving on.</p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Action</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Summarise the paper</td>
+<td>2–3 page précis document</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Describe the hypotheses</td>
+<td>Structured hypothesis/test pairs</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Literature review</td>
+<td>Annotated bibliography or topic-organised review</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Locate and validate data</td>
+<td>Data log + quality checks + loading code</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Build and validate the model</td>
+<td>Working code + results comparison + documented divergences</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Extend the analysis</td>
+<td>Out-of-sample tests, assumption challenges, similar techniques</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="stage-1-summarise-the-paper">Stage 1 — Summarise the Paper</h2>
+<p>Write a formal 2–3 page summary before doing anything else. The goal is to confirm you understand the paper and its research context — and to surface logical errors or gaps early, when they are cheapest to find.</p>
+<p>A concise summary acts as a road map for every subsequent stage. It will help uncover logical errors or omissions in both the paper and your own reading, and identify early where you will likely have difficulty.</p>
+<h3 id="introductory-paragraph">Introductory Paragraph</h3>
+<p>Write 4–6 declarative sentences structured as follows:</p>
+<ul>
+<li><strong>One sentence</strong> — title, authors, venue, and the thesis of the paper. Use a precise verb: <em>assert, argue, demonstrate, refute, examine, disprove</em>.</li>
+<li><strong>One sentence per major point</strong> (no more than five) — state the technique used and its claimed result.</li>
+<li><strong>One sentence</strong> — what the reader should take away from the paper overall.</li>
+</ul>
+<h3 id="one-paragraph-per-major-point">One Paragraph Per Major Point</h3>
+<p>For each major point identified in the introduction, write one paragraph structured as:</p>
+<ul>
+<li>A declarative sentence restating and paraphrasing the technique or claim</li>
+<li>2–4 sentences covering: the main methods or tests used, key formulas with citation where they add precision, and results from this portion of the paper</li>
+<li>One concluding sentence: the takeaway from this specific point</li>
+</ul>
+<p>Candidates for main points include key assertions or findings, major contributions, and a summary of the main techniques used.</p>
+<h3 id="conclusion-paragraph">Conclusion Paragraph</h3>
+<p>Tie together all main points. Describe the relevance of the work to your specific research interests.</p>
+<hr />
+<h2 id="stage-2-describe-the-hypotheses">Stage 2 — Describe the Hypotheses</h2>
+<p>Extract the hypotheses from the paper explicitly. Do not leave them implicit. Each hypothesis needs to be enumerated, described, and paired with a test before you begin the literature review or model-building.</p>
+<p>For each hypothesis, document:</p>
+<ul>
+<li><strong>Subject</strong> — what is being analysed</li>
+<li><strong>Dependent variable(s)</strong> — the output, result, or prediction</li>
+<li><strong>Independent variables</strong> — the inputs into the model</li>
+<li><strong>Anticipated possible outcomes</strong> — including direction or comparison</li>
+<li><strong>Validation method</strong> — how you will confirm or refute this hypothesis</li>
+</ul>
+<p>!!! warning "Hypotheses may be revised"
+    The literature review in Stage 3 may refute one or more of your initial hypotheses. If it does, document the refutation carefully and revise. Do not silently discard the original hypothesis — the revision itself is part of the record.</p>
+<hr />
+<h2 id="stage-3-literature-review">Stage 3 — Literature Review</h2>
+<p>The literature review confirms you understand the framework your paper sits within, identifies what tools and knowledge you need, and surfaces existing work that supports or challenges the paper's claims.</p>
+<h3 id="format-for-each-reference">Format for Each Reference</h3>
+<p>Follow this structure for every paper you review:</p>
+<ol>
+<li>Full bibliographic entry</li>
+<li>One sentence: the thesis of the work</li>
+<li>2–4 sentences: main points or findings</li>
+<li>One sentence: relevance and relation to this replication project</li>
+</ol>
+<p>The goal is not deep understanding of every paper. The goal is to understand the framework your research fits within and gather the tools needed to proceed — like a chef measuring out ingredients before starting a recipe.</p>
+<h3 id="what-to-include">What to Include</h3>
+<p><strong>Key references from the source paper</strong> — papers that provided starting material or key techniques. Foundational papers cited by many others should be prioritised.</p>
+<p><strong>Similar work</strong> — use Google Scholar's recommendations and keyword searches from the source paper. Review at least a few papers at the top of a literature search on the key topics.</p>
+<p><strong>Implementation references</strong> — hands-on references covering the key analytical techniques to be used in the replication. These should be as practical as possible (e.g. a specific chapter of a textbook that covers the relevant method).</p>
+<p><strong>Refuting evidence</strong> — if the literature search uncovers papers that challenge or contradict the source paper's methods, document these carefully. They are potentially the most valuable part of the review.</p>
+<h3 id="organisation-models">Organisation Models</h3>
+<p>Choose one before you start:</p>
+<p><strong>Annotated bibliography</strong> — organised alphabetically by author. Easier to build from reference manager software. Harder to navigate by topic during model-building.</p>
+<p><strong>Topic-organised</strong> — grouped by the 2–4 main topics of the paper. Faster to locate relevant references during active work. More project-specific, less reusable for future projects.</p>
+<p>!!! note "Always cite everything"
+    Every paper you look up, every formula you borrow, every blog post you consult. You are your own most important future reader. Every properly recorded citation shortens the time to come back up to speed when you return to this project months or years later.</p>
+<hr />
+<h2 id="stage-4-locate-and-validate-data">Stage 4 — Locate and Validate Data</h2>
+<p>Summarise the data described in the source paper first, then document your process for locating equivalent data. The original source data is almost never publicly available.</p>
+<h3 id="data-described-in-the-source-paper">Data Described in the Source Paper</h3>
+<p>Record the following from the paper:</p>
+<ul>
+<li>Data sources named (vendors, databases)</li>
+<li>Time frame used</li>
+<li>Specific instruments or assets</li>
+<li>Any data cleaning or filtering described</li>
+</ul>
+<p>If the data is not published, consider emailing the primary author politely to request it. If they provide it, cite this in your report.</p>
+<h3 id="data-acquisition-order">Data Acquisition Order</h3>
+<p>Work through this sequence:</p>
+<ol>
+<li>Check what data vendors your organisation has access to</li>
+<li>Check if any vendors named in the paper are accessible to you</li>
+<li>If not, list possible alternative sources from what you have available</li>
+<li>Determine which symbols or instruments to request from each source</li>
+<li>If full coverage is not possible, determine if representative data is sufficient to proceed</li>
+</ol>
+<p>Keep notes on every step: the vendor used, symbols requested, download date, and any quirks encountered. This will save significant time if you return to this project later.</p>
+<h3 id="data-quality-checklist">Data Quality Checklist</h3>
+<ul>
+<li>[ ] Is the data complete? Are there gaps in the time series?</li>
+<li>[ ] Do you have all the instruments described in the source paper?</li>
+<li>[ ] Do the time frames match (or reasonably approximate) those in the paper?</li>
+<li>[ ] Can you quickly replicate a chart or table from the paper to sanity-check the data?</li>
+<li>[ ] Are there any obvious outliers that need cleaning?</li>
+<li>[ ] Does the paper describe a specific cleaning mechanism? Have you replicated it?</li>
+<li>[ ] Have you reserved more recent data (beyond the paper's time frame) as a held-out validation set?</li>
+</ul>
+<p>!!! tip "Reserve a validation set"
+    Always request data through to today's date, not just the paper's time frame. The newer data is your out-of-sample validation set. Do not use it until the replication is complete.</p>
+<hr />
+<h2 id="stage-5-build-and-validate-the-model">Stage 5 — Build and Validate the Model</h2>
+<p>This is the hardest stage and the one most likely to contain errors. Work incrementally. Document as you go, including failed attempts — they are part of the record and often valuable.</p>
+<h3 id="strategy-model-type">Strategy Model Type</h3>
+<p>Identify which model type the paper presents before you start building:</p>
+<p><strong>Signal-based strategy</strong> — implements one or more indicators, signals, and rules to generate trades.</p>
+<p><strong>Portfolio strategy</strong> — constructs and rebalances a portfolio of instruments using an optimisation or weighting method.</p>
+<p><strong>Pricing strategy</strong> — may or may not implement a trading strategy; may use a strategy only as an example of the pricing methodology.</p>
+<p>!!! note "You may choose a more realistic method than the paper used"
+    Many papers ignore transaction costs, execution timing, and look-ahead bias. Replicating with a complete indicator-signal-rules model may produce a more useful result even if it diverges from the paper's exact method. Document the choice either way.</p>
+<h3 id="validation-at-each-stage">Validation at Each Stage</h3>
+<p>At each step of the model build, check the following:</p>
+<ul>
+<li>[ ] Does your output match (or come close to) every number published in the paper?</li>
+<li>[ ] Have you documented where results diverge and investigated why?</li>
+<li>[ ] Have you noted any key assumptions or guesses made to fill in missing implementation detail?</li>
+<li>[ ] Are failed attempts left in the document rather than deleted?</li>
+<li>[ ] Have you checked code carefully for bugs, reversed signs, or off-by-one errors?</li>
+<li>[ ] If results contradict the paper: can you replicate from a different source using the same technique?</li>
+<li>[ ] Can you independently validate the maths?</li>
+<li>[ ] Can data differences explain any divergence?</li>
+<li>[ ] Have you run the hypothesis tests identified in Stage 2?</li>
+<li>[ ] Have you included model fit or calibration statistics where applicable?</li>
+</ul>
+<h3 id="when-results-contradict-the-paper">When Results Contradict the Paper</h3>
+<p>If you correctly implement a technique but cannot match the paper's results after careful checking, work through this sequence:</p>
+<ol>
+<li>Check your work carefully for bugs, reversed signs, and indexing errors — this is the most likely cause</li>
+<li>Attempt to replicate the same technique from a different source paper</li>
+<li>Independently validate the maths</li>
+<li>Determine whether data differences or data cleaning choices can explain the divergence</li>
+</ol>
+<p>If after all of this you are confident in your implementation but the results still do not match, document it thoroughly with code and conclusions. A contradictory result is sometimes the most important finding of a replication.</p>
+<hr />
+<h2 id="stage-6-extend-the-analysis">Stage 6 — Extend the Analysis</h2>
+<p>Replication confirms what the paper claims. Extension tests whether those claims generalise — to new data, different instruments, and more realistic assumptions.</p>
+<h3 id="summary-statistics">Summary Statistics</h3>
+<p>Present standard summary statistics for your replication. Some will match what the paper reported, providing further confirmation. Others will be new and may warrant commentary.</p>
+<h3 id="more-data">More Data</h3>
+<p>Extend the analysis using more data in the following order:</p>
+<p><strong>More recent data, same instruments</strong> — the clearest and simplest test of out-of-sample deterioration and overfitting. This should always be part of a replication report.</p>
+<p><strong>Similar instruments</strong> — once the code is working, extension to similar instruments is straightforward. This tests for selection bias and begins to address generalisability.</p>
+<p><strong>Different asset classes</strong> — the furthest extension from the original paper. Usually saved for follow-on work rather than the initial replication.</p>
+<h3 id="challenging-simplifying-assumptions">Challenging Simplifying Assumptions</h3>
+<p>Almost all published papers use simplifying assumptions. Many exist to fit in with prior literature or to make the analysis tractable. In practice they often make a technique unsuitable for use with real data. The most common ones to examine:</p>
+<p><strong>Gaussian assumption</strong> — many papers model volatility, errors, or noise using a Gaussian distribution, often while acknowledging it is inappropriate. What would a better distributional choice look like for your data?</p>
+<p><strong>Sample moments</strong> — widely used because it is easy. Many better estimation methods exist. Does relying on sample moments drive any of the paper's key results?</p>
+<p><strong>Parameter count</strong> — too many parameters suggests overfitting; too few suggests an underspecified model. Papers often choose parameter counts that made publication easier rather than ones that would work on a real portfolio.</p>
+<h3 id="similar-techniques">Similar Techniques</h3>
+<p>If the literature review uncovered similar techniques to those in the source paper, apply them to the same data where feasible. Prioritise cases where:</p>
+<ul>
+<li>The paper claims to improve on a prior technique but reports incomplete results for the original</li>
+<li>A related paper from the literature review extends, clarifies, or refutes claims made in the source paper</li>
+</ul>
+<h3 id="overfitting-and-bias-checklist">Overfitting and Bias Checklist</h3>
+<ul>
+<li>[ ] <strong>Selection bias</strong> — were the instruments, time frame, or parameters chosen in a way that fits the result?</li>
+<li>[ ] <strong>Look-ahead bias</strong> — does the model use information that would not have been available at trade time?</li>
+<li>[ ] <strong>Out-of-sample deterioration</strong> — does performance degrade significantly on the held-out validation set?</li>
+<li>[ ] Have you tested on the reserved validation set (more recent data)?</li>
+</ul>
+<hr />
+<h2 id="using-ai-tools-in-this-project">Using AI Tools in This Project</h2>
+<p>Generative AI is part of modern research workflows. Use it deliberately — as an assistant that makes you faster, not as a shortcut that bypasses understanding.</p>
+<h3 id="where-ai-helps">Where AI Helps</h3>
+<ul>
+<li>Writing boilerplate code: downloading data, loading files, setting up environments</li>
+<li>Early literature search: deep research tools can rapidly surface dozens of references and summarise a field, potentially saving days of early-stage work</li>
+<li>Drafting the literature review: once you have chosen key papers, AI can help structure the write-up — you still need to understand the concepts yourself</li>
+<li>Editing and tone: useful for non-native speakers, but start with your own draft</li>
+</ul>
+<h3 id="where-ai-does-not-help">Where AI Does Not Help</h3>
+<ul>
+<li>Explaining the maths: LLMs are not reliable for nuanced mathematical derivations in advanced or esoteric techniques</li>
+<li>Writing code for specific techniques: the more novel the method, the less reliable the output</li>
+<li>Replacing the analytical work: using AI to do the entire replication produces poor deliverables and leaves you without genuine understanding of whether the paper's claims hold up</li>
+</ul>
+<p>!!! warning "LLMs are research assistants, not replacements"
+    When using AI to generate code, break requests into single functions or small pieces and ask the model to write tests alongside the code. An IDE-integrated tool (Cursor, Claude Code, Copilot) is far more effective than a browser-based chat for this kind of work. The built-in execution environments of browser-based LLMs do not have enough context to reliably test the code they generate.</p>
+<hr />
+<h2 id="master-checklist">Master Checklist</h2>
+<p>Use this to track overall project progress.</p>
+<h3 id="stage-1-summarise">Stage 1 — Summarise</h3>
+<ul>
+<li>[ ] Paper précis written (2–3 pages, formal structure)</li>
+<li>[ ] Summary reviewed and gaps identified</li>
+</ul>
+<h3 id="stage-2-hypotheses">Stage 2 — Hypotheses</h3>
+<ul>
+<li>[ ] All hypotheses extracted and enumerated</li>
+<li>[ ] Each hypothesis paired with a validation test</li>
+</ul>
+<h3 id="stage-3-literature-review_1">Stage 3 — Literature Review</h3>
+<ul>
+<li>[ ] Key references from the source paper reviewed</li>
+<li>[ ] Similar work identified and summarised</li>
+<li>[ ] Implementation references included</li>
+<li>[ ] Any refuting evidence documented</li>
+</ul>
+<h3 id="stage-4-data">Stage 4 — Data</h3>
+<ul>
+<li>[ ] Source data described (vendor, instruments, time frame)</li>
+<li>[ ] Equivalent data located and downloaded</li>
+<li>[ ] Data quality checks completed</li>
+<li>[ ] Validation set (recent data) reserved and untouched</li>
+</ul>
+<h3 id="stage-5-model">Stage 5 — Model</h3>
+<ul>
+<li>[ ] Strategy model type identified</li>
+<li>[ ] Key analytical techniques implemented</li>
+<li>[ ] Results validated against paper at each stage</li>
+<li>[ ] Divergences documented with investigation notes</li>
+<li>[ ] Hypothesis tests run</li>
+</ul>
+<h3 id="stage-6-extend">Stage 6 — Extend</h3>
+<ul>
+<li>[ ] Summary statistics presented</li>
+<li>[ ] Out-of-sample (more recent data) test completed</li>
+<li>[ ] Simplifying assumptions identified and challenged</li>
+<li>[ ] Overfitting and bias checks completed</li>
+<li>[ ] Final conclusions written</li>
+</ul>
+<hr />
+<h2 id="reference">Reference</h2>
+<p>Peterson, B. G. (2016). <em>Reproducible Research</em>, Chapter 4. In <em>Quantitative Trading Strategy Research</em>. Retrieved from <a href="https://quantstrat.io/wp-content/uploads/2026/05/quantstratbook.pdf">https://quantstrat.io/wp-content/uploads/2026/05/quantstratbook.pdf</a></p>
+<p>Additional references cited in the chapter:</p>
+<ul>
+<li>Chang, A. C., &amp; Li, P. (2015). Is Economics Research Replicable? Sixty Published Papers from Thirteen Journals Say "Usually Not". <em>Finance and Economics Discussion Series</em>, Federal Reserve Board.</li>
+<li>Kuhn, M., &amp; Johnson, K. (2013). <em>Applied Predictive Modeling</em>. Springer.</li>
+<li>Levy, Y., &amp; Ellis, T. J. (2006). A Systems Approach to Conduct an Effective Literature Review in Support of Information Systems Research. <em>Informing Science Journal</em>, 9, 181–212.</li>
+<li>Peterson, B. G. (2017). <em>Overfitting and Bias in Quantitative Finance</em>.</li>
+<li>Peterson, B. G., Ulrich, J., Humme, P., et al. (2019). <em>quantstrat: Transaction-oriented infrastructure for constructing trading systems and simulation</em>. R package.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
