@@ -5,7 +5,7 @@
 
 Replication of **[Paper Title]** by [Authors], [Venue Year].
 
-📖 **[Full documentation →](https://<your-org>.github.io/<your-repo>/)**
+📖 **[Full documentation →](https://msfe26-summer-group.github.io/market-making-paper-replication/)**
 
 ---
 
