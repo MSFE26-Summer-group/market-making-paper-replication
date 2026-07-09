@@ -1,6 +1,6 @@
 # Paper Replication
 
-Welcome to the documentation for our replication of **Market Making with Deep Reinforcement Learning from Limit Order Books by Guo, Lin, and Huang, 2023** ([link to paper](docs/papers/Market-Making-with-Deep-Reinforcement-Learning-from-Limit-Order-Books)).
+Welcome to the documentation for our replication of **Market Making with Deep Reinforcement Learning from Limit Order Books by Guo, Lin, and Huang, 2023** ([link to paper](papers/Market-Making-with-Deep-Reinforcement-Learning-from-Limit-Order-Books.pdf)).
 
 ## Goals
 
