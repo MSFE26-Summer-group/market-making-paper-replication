@@ -1,6 +1,6 @@
 # Paper Replication
 
-Welcome to the documentation for our replication of **[Paper Title]** ([link to paper](#)).
+Welcome to the documentation for our replication of **Market Making with Deep Reinforcement Learning from Limit Order Books by Guo, Lin, and Huang, 2023** ([link to paper](docs/papers/Market-Making-with-Deep-Reinforcement-Learning-from-Limit-Order-Books)).
 
 ## Goals
 
@@ -11,24 +11,17 @@ Welcome to the documentation for our replication of **[Paper Title]** ([link to 
 ## Quick Start
 
 ```bash
-# 1. Clone the repo
-git clone https://github.com/<your-org>/<your-repo>.git
-cd <your-repo>
-
-# 2. Install in editable mode with dev tools
-pip install -e ".[dev,docs]"
-
-# 3. Install pre-commit hooks
-pre-commit install
-
-# 4. Run tests
-pytest
+git clone https://github.com/MSFE26-Summer-group/market-making-paper-replication.git
+cd market-making-paper-replication
+pip install uv        # one-time, installs uv globally
+uv sync --extra dev --extra docs
+uv run pre-commit install
 ```
 
 ## Team
 
 | Name | Role |
 |------|------|
-| — | Lead |
-| — | Experiments |
-| — | Documentation |
+| Alberto Munoz | Student |
+| ChiaChun Hsu  | Student |
+| Devminda Abeynayake | Student |
