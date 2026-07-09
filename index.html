@@ -284,6 +284,25 @@
   
   
     <li class="md-tabs__item">
+      <a href="hypotheses/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Hypotheses
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
       <a href="experiments/" class="md-tabs__link">
         
   
@@ -571,6 +590,33 @@
   
   
     <li class="md-nav__item">
+      <a href="hypotheses/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hypotheses
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="experiments/" class="md-nav__link">
         
   
@@ -611,10 +657,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   
@@ -632,8 +678,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -698,10 +744,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -719,8 +765,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -813,7 +859,7 @@
 
 
 <h1 id="paper-replication">Paper Replication</h1>
-<p>Welcome to the documentation for our replication of <strong>[Paper Title]</strong> (<a href="#">link to paper</a>).</p>
+<p>Welcome to the documentation for our replication of <strong>Market Making with Deep Reinforcement Learning from Limit Order Books by Guo, Lin, and Huang, 2023</strong> (<a href="docs/papers/Market-Making-with-Deep-Reinforcement-Learning-from-Limit-Order-Books">link to paper</a>).</p>
 <h2 id="goals">Goals</h2>
 <ul>
 <li>Faithfully reproduce the key experiments and results from the original paper.</li>
@@ -821,18 +867,11 @@
 <li>Document deviations or improvements clearly.</li>
 </ul>
 <h2 id="quick-start">Quick Start</h2>
-<pre><code class="language-bash"># 1. Clone the repo
-git clone https://github.com/&lt;your-org&gt;/&lt;your-repo&gt;.git
-cd &lt;your-repo&gt;
-
-# 2. Install in editable mode with dev tools
-pip install -e &quot;.[dev,docs]&quot;
-
-# 3. Install pre-commit hooks
-pre-commit install
-
-# 4. Run tests
-pytest
+<pre><code class="language-bash">git clone https://github.com/MSFE26-Summer-group/market-making-paper-replication.git
+cd market-making-paper-replication
+pip install uv        # one-time, installs uv globally
+uv sync --extra dev --extra docs
+uv run pre-commit install
 </code></pre>
 <h2 id="team">Team</h2>
 <table>
@@ -844,16 +883,16 @@ pytest
 </thead>
 <tbody>
 <tr>
-<td>—</td>
-<td>Lead</td>
+<td>Alberto Munoz</td>
+<td>Student</td>
 </tr>
 <tr>
-<td>—</td>
-<td>Experiments</td>
+<td>ChiaChun Hsu</td>
+<td>Student</td>
 </tr>
 <tr>
-<td>—</td>
-<td>Documentation</td>
+<td>Devminda Abeynayake</td>
+<td>Student</td>
 </tr>
 </tbody>
 </table>
