@@ -876,8 +876,32 @@
 <p>Although the proposed framework demonstrates strong performance, several limitations remain. First, the experiments are conducted on only three Chinese equities, making it difficult to assess the model's generalizability across different markets and asset classes. Second, the evaluation is performed in a historical simulation that does not fully capture real-world market impact, latency, or competition with other market participants. Finally, the paper evaluates the model over relatively short trading episodes of approximately three to five minutes, leaving its long-term performance and robustness under different market regimes largely unexplored.</p>
 <h2 id="key-claims-to-replicate">Key Claims to Replicate</h2>
 <ol>
-<li><strong>Claim 1</strong> — Description</li>
-<li><strong>Claim 2</strong> — Description</li>
+<li><strong>Automatic LOB representation learning improves market making.</strong></li>
+<li>
+<p>Reinforcement learning agents using Attn-LOB should outperform agents relying on handcrafted market features.</p>
+</li>
+<li>
+<p><strong>Continuous action spaces outperform discrete action spaces.</strong></p>
+</li>
+<li>
+<p>A PPO agent using continuous quote placement should outperform a Dueling DQN agent operating in a discrete action space.</p>
+</li>
+<li>
+<p><strong>Hybrid rewards improve profitability while controlling inventory.</strong></p>
+</li>
+<li>
+<p>Combining trading PnL, dampened holding PnL and inventory penalties should achieve higher profitability while maintaining lower inventory risk.</p>
+</li>
+<li>
+<p><strong>Attn-LOB is the primary driver of performance.</strong></p>
+</li>
+<li>
+<p>Removing the learned LOB representation or replacing Attn-LOB with a simple MLP should significantly reduce market-making performance.</p>
+</li>
+<li>
+<p><strong>The attention mechanism learns adaptive temporal dependencies.</strong></p>
+</li>
+<li>Attention visualizations should demonstrate that the model dynamically adjusts the historical information it uses under different market conditions.</li>
 </ol>
 <h2 id="datasets">Datasets</h2>
 <table>
@@ -890,14 +914,15 @@
 </thead>
 <tbody>
 <tr>
-<td>—</td>
-<td>—</td>
-<td>—</td>
+<td>High-frequency Limit Order Book data</td>
+<td>Chinese A-share market</td>
+<td>Three equities: Ping An Bank, Wuliangye Yibin, and Hikvision. Training and testing follow the split described in the paper.</td>
 </tr>
 </tbody>
 </table>
 <h2 id="deviations-from-original">Deviations from Original</h2>
-<p>Document any intentional or forced differences here as the replication progresses.</p>
+<p>None at the beginning of the project.</p>
+<p>This section will be updated throughout the replication to document any differences from the original implementation, including software versions, data preprocessing, hyperparameter changes, implementation details, or computational constraints.</p>
 
 
 
