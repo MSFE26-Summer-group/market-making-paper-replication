@@ -18,6 +18,11 @@ pip install uv        # one-time, installs uv globally
 uv sync --extra dev --extra docs
 uv run pre-commit install
 ```
+## Running Pre commit hooks
+Run this before you commit to ensure all checks have passed
+```bash
+uv run pre-commit run --all-files
+```
 
 ## Running Tests
 
