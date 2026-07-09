@@ -1,9 +1,9 @@
-# [Paper Title] — Replication
+# Market Making with Deep Reinforcement Learning from Limit Order Books — Replication
 
-[![CI](https://github.com/<your-org>/<your-repo>/actions/workflows/ci.yml/badge.svg)](https://github.com/<your-org>/<your-repo>/actions/workflows/ci.yml)
-[![Docs](https://github.com/<your-org>/<your-repo>/actions/workflows/docs.yml/badge.svg)](https://<your-org>.github.io/<your-repo>/)
+[![CI](https://github.com/msfe26-summer-group/market-making-paper-replication/actions/workflows/ci.yml/badge.svg)](https://github.com/<your-org>/<your-repo>/actions/workflows/ci.yml)
+[![Docs](https://github.com/msfe26-summer-group/market-making-paper-replication/actions/workflows/docs.yml/badge.svg)](https://<your-org>.github.io/<your-repo>/)
 
-Replication of **[Paper Title]** by [Authors], [Venue Year].
+Replication of **Market Making with Deep Reinforcement Learning from Limit Order Books** by Guo, Lin, and Huang, 2023.
 
 📖 **[Full documentation →](https://msfe26-summer-group.github.io/market-making-paper-replication/)**
 
