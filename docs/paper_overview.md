@@ -26,15 +26,29 @@ Although the proposed framework demonstrates strong performance, several limitat
 
 ## Key Claims to Replicate
 
-1. **Claim 1** — Description
-2. **Claim 2** — Description
+1. **Automatic LOB representation learning improves market making.**
+   - Reinforcement learning agents using Attn-LOB should outperform agents relying on handcrafted market features.
+
+2. **Continuous action spaces outperform discrete action spaces.**
+   - A PPO agent using continuous quote placement should outperform a Dueling DQN agent operating in a discrete action space.
+
+3. **Hybrid rewards improve profitability while controlling inventory.**
+   - Combining trading PnL, dampened holding PnL and inventory penalties should achieve higher profitability while maintaining lower inventory risk.
+
+4. **Attn-LOB is the primary driver of performance.**
+   - Removing the learned LOB representation or replacing Attn-LOB with a simple MLP should significantly reduce market-making performance.
+
+5. **The attention mechanism learns adaptive temporal dependencies.**
+   - Attention visualizations should demonstrate that the model dynamically adjusts the historical information it uses under different market conditions.
 
 ## Datasets
 
 | Dataset | Source | Notes |
 |---------|--------|-------|
-| — | — | — |
+| High-frequency Limit Order Book data | Chinese A-share market | Three equities: Ping An Bank, Wuliangye Yibin, and Hikvision. Training and testing follow the split described in the paper. |
 
 ## Deviations from Original
 
-Document any intentional or forced differences here as the replication progresses.
+None at the beginning of the project.
+
+This section will be updated throughout the replication to document any differences from the original implementation, including software versions, data preprocessing, hyperparameter changes, implementation details, or computational constraints.
