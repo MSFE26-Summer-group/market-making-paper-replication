@@ -2,6 +2,7 @@ from typing import Dict
 
 import numpy.log as log
 
+
 class AvellanedaStoikovAgent:
     def __init__(
         self,
@@ -79,4 +80,3 @@ class AvellanedaStoikovAgent:
     # Mark-to-Market wealth
     def get_wealth(self, mid_price: float) -> float:
         return self.cash + self.inventory * mid_price
-
