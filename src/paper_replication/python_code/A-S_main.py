@@ -1,21 +1,23 @@
 # Load sources
 import importlib
+
 import rpy2.robjects as ro
 from rpy2.robjects.packages import importr
+
 # from matplotlib.pyplot import plot
 strat = importlib.import_module("A-S_strategy")
 test = importlib.import_module("test_strategy")
-hf = importr('highfrequency')
+hf = importr("highfrequency")
 
 # load data
 # use sample data from highfrequency package
-data = ro.r['data']
-sampleTData = data("sampleTData", package = "highfrequency")
-sampleQData = data("sampleQData", package = "highfrequency")
+data = ro.r["data"]
+sampleTData = data("sampleTData", package="highfrequency")
+sampleQData = data("sampleQData", package="highfrequency")
 
 # take a subset (e.g., one trading day) to speed up demo
-#t_subset <- sampleTData["2018-01-03",]
-#q_subset <- sampleQData["2018-01-03",]
+# t_subset <- sampleTData["2018-01-03",]
+# q_subset <- sampleQData["2018-01-03",]
 t_subset = sampleTData
 q_subset = sampleQData
 
@@ -30,12 +32,12 @@ params = strat.estimate_parameters(t_subset, q_subset)
 # normalize T_session to 1.0 to match the standard AS formula inputs
 # gamma is the risk aversion knob
 agent = strat.AvellanedaStoikovAgent(
-  gamma = 0.05,
-  sigma = params.sigma,
-  kappa = params.kappa,
-  A = params.A,
-  T_session = 1.0,
-  initial_cash = 100000
+    gamma=0.05,
+    sigma=params.sigma,
+    kappa=params.kappa,
+    A=params.A,
+    T_session=1.0,
+    initial_cash=100000,
 )
 
 # run backtest
@@ -86,4 +88,3 @@ results = strat.run_simulation(agent, t_subset, q_subset)
 #
 # setwd(wd)
 #
-
