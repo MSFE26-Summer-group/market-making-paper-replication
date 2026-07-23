@@ -12,3 +12,5 @@ site/          # mkdocs build output
 .env
 *.ipynb_checkpoints
 data/
+results/
+*.log

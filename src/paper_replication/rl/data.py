@@ -31,7 +31,14 @@ LOB_COLS = [
 PRICE_COLS = [c for c in LOB_COLS if "price" in c]
 SIZE_COLS = [c for c in LOB_COLS if "size" in c]
 
-AUX_COLS = ["mid_price", "max_trade_price", "min_trade_price", "lob_imbalance"]
+AUX_COLS = [
+    "mid_price",
+    "max_trade_price",
+    "min_trade_price",
+    "lob_imbalance",
+    "best_bid",
+    "best_ask",
+]
 
 
 @dataclass
@@ -43,8 +50,13 @@ class LOBDataset:
     trade_max: np.ndarray  # (N,) highest trade price in the 10s interval
     trade_min: np.ndarray  # (N,) lowest trade price in the interval
     imbalance: np.ndarray  # (N,) LOB imbalance, the paper's OSI analogue
+    spread: np.ndarray  # (N,) best ask - best bid, for ND-PnL metric
     size_mean: np.ndarray  # (40-20,) train-split stats, kept for reuse
     size_std: np.ndarray
+    # Side-aware fill prices derived from the tick tape (None -> the env
+    # falls back to the coarser all-trades min/max above).
+    sell_min: np.ndarray | None = None  # min price of seller-initiated trades
+    buy_max: np.ndarray | None = None  # max price of buyer-initiated trades
 
 
 def load_lob(path: str) -> pd.DataFrame:
@@ -84,12 +96,46 @@ def build_dataset(
     states = feats[idx]
 
     off = window - 1  # first row with a full lookback window
-    return LOBDataset(
+    best_bid = df["best_bid"].to_numpy(dtype=np.float64)
+    best_ask = df["best_ask"].to_numpy(dtype=np.float64)
+    ds = LOBDataset(
         states=states,
         mid=mid[off:],
         trade_max=df["max_trade_price"].to_numpy(dtype=np.float64)[off:],
         trade_min=df["min_trade_price"].to_numpy(dtype=np.float64)[off:],
         imbalance=df["lob_imbalance"].to_numpy(dtype=np.float64)[off:],
+        spread=(best_ask - best_bid)[off:],
         size_mean=size_mean,
         size_std=size_std,
     )
+    if "tick_sell_min" in df.columns:
+        ds.sell_min = df["tick_sell_min"].to_numpy(dtype=np.float64)[off:]
+        ds.buy_max = df["tick_buy_max"].to_numpy(dtype=np.float64)[off:]
+    return ds
+
+
+def attach_tick_fills(df: pd.DataFrame, ticks_path: str) -> pd.DataFrame:
+    """Add side-aware fill columns to the snapshot frame from the tick tape.
+
+    For each snapshot interval (t_{i-1}, t_i] we record:
+    - tick_sell_min: lowest price among seller-initiated trades (side=-1).
+      A resting bid can only be hit by sellers, so this is the price our
+      bid must beat to fill.
+    - tick_buy_max: highest price among buyer-initiated trades (side=+1),
+      the analogue for our resting ask.
+
+    NaN means no trades of that side in the interval (quote cannot fill).
+    """
+    ticks = pd.read_parquet(ticks_path, columns=["timestamp", "price", "side"])
+    ts = df["timestamp"].to_numpy(dtype=np.float64)
+    # Assign each tick to the snapshot row whose interval contains it.
+    idx = np.searchsorted(ts, ticks["timestamp"].to_numpy(), side="left")
+    valid = (idx > 0) & (idx < len(ts))
+    ticks = ticks.iloc[valid].assign(row=idx[valid])
+
+    sell = ticks[ticks["side"] == -1].groupby("row")["price"].min()
+    buy = ticks[ticks["side"] == 1].groupby("row")["price"].max()
+    out = df.copy()
+    out["tick_sell_min"] = out.index.map(sell)
+    out["tick_buy_max"] = out.index.map(buy)
+    return out

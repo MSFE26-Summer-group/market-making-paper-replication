@@ -44,7 +44,7 @@ class ActorCritic(nn.Module):
     def __init__(
         self,
         n_features: int = 40,
-        n_aux: int = 2,
+        n_aux: int = 3,
         d_model: int = 64,
         n_actions: int = 2,
     ) -> None:
