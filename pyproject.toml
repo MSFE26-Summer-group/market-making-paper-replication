@@ -7,7 +7,17 @@ name = "paper-replication"
 version = "0.1.0"
 description = "Replication of [Paper Title]"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "boto3>=1.43.52",
+    "duckdb>=1.5.4",
+    "pandas>=2.3.3",
+    "polars>=1.42.1",
+    "pyarrow>=25.0.0",
+    "pyreadr>=0.5.6",
+    "python-dotenv>=1.2.2",
+    "rdata>=0.11.2",
+    "s3fs>=0.4.2",
+]
 
 [project.optional-dependencies]
 dev = [
@@ -22,6 +32,7 @@ dev = [
     "jupyter>=1.0",
     "ipykernel>=6.0",
     "pre-commit>=3.0",
+    "matplotlib>=3.8",
 ]
 docs = [
     "mkdocs>=1.6",
@@ -55,3 +66,6 @@ addopts = "--cov=src --cov-report=term-missing --cov-fail-under=70"
 [tool.ruff]
 line-length = 88
 select = ["E", "F", "W", "I"]
+
+[tool.ruff.isort]
+known-first-party = ["paper_replication"]
