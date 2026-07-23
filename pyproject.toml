@@ -52,8 +52,13 @@ profile = "black"
 line_length = 88
 
 # ── mypy ──────────────────────────────────────────────────────────────────────
+# python_version intentionally unset: mypy defaults to the version of the
+# interpreter actually running it, which keeps it in sync with whatever
+# Python `uv sync` resolves (no `.python-version` pin in this repo). Pinning
+# this to our minimum-supported 3.10 caused CI failures once numpy's bundled
+# stubs started using PEP 695 `type` statement syntax, which mypy only
+# accepts when targeting Python 3.12+.
 [tool.mypy]
-python_version = "3.10"
 strict = true
 ignore_missing_imports = true
 

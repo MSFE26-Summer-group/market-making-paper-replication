@@ -11,6 +11,7 @@ htmlcov/
 site/          # mkdocs build output
 .env
 *.ipynb_checkpoints
+.claude/
 
 # Raw and processed datasets are too large to version (parquet/rds source
 # files, cached feature-engineering outputs, etc).
