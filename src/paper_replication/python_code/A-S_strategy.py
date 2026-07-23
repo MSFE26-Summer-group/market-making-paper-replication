@@ -1,6 +1,6 @@
 from typing import Dict
 
-import numpy.log as log
+from numpy import log
 
 
 class AvellanedaStoikovAgent:
