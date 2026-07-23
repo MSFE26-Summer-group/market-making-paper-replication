@@ -50,3 +50,55 @@ Env: eta=0.5, zeta=0.01, max_inv=10, bias<=5bps, half-spread 0.5-10bps.
 4. Next: tick-based side-aware fills (bid fills only on seller-initiated
    prints) should reduce the adverse-selection artifact and make the
    comparison meaningful. Then re-run and compare.
+
+---
+
+## Run 2 — C-PPO vs benchmarks, tick-based side-aware fills (2026-07-23)
+
+Same setup as Run 1 except fills: a bid fills only when a
+seller-initiated trade prints at/below it, an ask only when a
+buyer-initiated trade prints at/above it (derived from the 69M-row
+tick tape). Training: 500 updates, 838s wall-clock.
+
+| Strategy | PnL/ep | Sharpe | PnLMAP | ND-PnL | Fills/ep | Mean inv |
+|---|---|---|---|---|---|---|
+| Fixed tight (0.5bps) | +250.8 | 0.57 | 55.2 | 426.5 | 543.7 | 4.54 |
+| Fixed mid (5bps) | +175.3 | 0.33 | 46.7 | 298.1 | 89.8 | 3.75 |
+| Fixed wide (10bps) | +99.9 | 0.28 | 50.6 | 169.8 | 22.0 | 1.97 |
+| A-S (calibrated) | +94.1 | **0.99** | **189.8** | 160.1 | 446.9 | **0.50** |
+| C-PPO (trained) | +36.5 | 0.24 | 47.1 | 62.0 | 3.5 | 0.78 |
+| Random | -157.2 | -0.37 | -34.4 | -267.3 | 137.7 | 4.57 |
+
+**Findings**
+1. Under realistic side-aware fills, market making IS profitable —
+   every non-random strategy flips to positive PnL. This confirms
+   Run 1's losses were an artifact of the fill-at-touch model, not a
+   property of the market.
+2. A-S is now the best risk-adjusted strategy (Sharpe 0.99, PnLMAP
+   189.8) with the smallest inventory (0.50): its inventory-skewing
+   mechanism works exactly as the theory promises. A strong baseline,
+   consistent with the paper's finding that "AS is good at inventory
+   controlling".
+3. Our lightweight C-PPO is profitable but under-trades (3.5 fills/ep)
+   — it carried over the conservative style learned under a hostile
+   reward landscape and did not discover aggressive spread capture in
+   500 updates. In the paper, C-PPO's edge came with Attn-LOB
+   pre-training; their own ablation shows performance collapses
+   without learned LOB representations. Our result is consistent:
+   without pre-training, RL does not beat the classical formula.
+4. Next steps, in order of expected value: (a) mid-price direction
+   pre-training of the encoder (tests H1/H4 directly), (b) longer
+   training / entropy schedule so the agent explores tighter quoting,
+   (c) volume-aware fills (queue position) as a further realism step.
+
+**Fill-model sensitivity (Run 1 vs Run 2, same strategies)**
+
+| Strategy | PnL/ep (snapshot fills) | PnL/ep (tick fills) |
+|---|---|---|
+| Fixed tight | -678.6 | +250.8 |
+| A-S | -713.1 | +94.1 |
+| C-PPO | -13.1 | +36.5 |
+
+The fill assumption alone swings results by ~900 USD/episode —
+methodologically, simulator fidelity dominates strategy choice at
+this data frequency.
