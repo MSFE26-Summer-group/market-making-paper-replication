@@ -45,6 +45,7 @@ nav:
   - Paper Overview: paper_overview.md
   - Hypotheses: hypotheses.md
   - Experiments: experiments.md
+  - Feature Engineering: feature_engineering.md
   - Notebooks:
       - Overview: notebooks/index.md
   - API Reference:
