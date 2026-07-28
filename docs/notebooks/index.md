@@ -15,3 +15,4 @@ They are rendered here automatically via `mkdocs-jupyter`.
 | Notebook | Description |
 |----------|-------------|
 | `01_data_exploration.ipynb` | Initial look at the dataset |
+| `02_feature_engineering.ipynb` | Builds and sanity-checks the Attn-LOB pretraining dataset — see [Feature Engineering Pipeline](../feature_engineering.md) |
