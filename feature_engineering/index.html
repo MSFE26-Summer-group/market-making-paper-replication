@@ -1,0 +1,1337 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the replication of [Paper Title]">
+      
+      
+      
+        <link rel="canonical" href="https://msfe26-summer-group.github.io/market-making-paper-replication/feature_engineering/">
+      
+      
+        <link rel="prev" href="../experiments/">
+      
+      
+        <link rel="next" href="../notebooks/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Feature Engineering - Paper Replication</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#feature-engineering-pipeline-attn-lob-pretraining" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Paper Replication" class="md-header__button md-logo" aria-label="Paper Replication" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Paper Replication
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Feature Engineering
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/MSFE26-Summer-group/market-making-paper-replication" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MSFE26-Summer-group/market-making-paper-replication
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../replication_framework/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Replication Framework
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../paper_overview/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Paper Overview
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../hypotheses/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Hypotheses
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../experiments/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Experiments
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Feature Engineering
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../notebooks/" class="md-tabs__link">
+          
+  
+  
+  Notebooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../api/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../progress/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Progress
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Paper Replication" class="md-nav__button md-logo" aria-label="Paper Replication" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Paper Replication
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/MSFE26-Summer-group/market-making-paper-replication" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MSFE26-Summer-group/market-making-paper-replication
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../replication_framework/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Replication Framework
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../paper_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Paper Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hypotheses/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hypotheses
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../experiments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experiments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature Engineering
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature Engineering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#in-plain-english" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In plain English
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-our-version-differs-from-the-paper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why our version differs from the paper
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-pipeline-step-by-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The pipeline, step by step
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configpy-the-dials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config.py — the dials
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lob_statepy-the-raw-order-book-movie" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lob_state.py — the raw order book "movie"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#labelspy-the-answer-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        labels.py — the answer key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_statepy-the-markets-mood" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_state.py — the market's "mood"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#datasetpy-putting-it-all-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dataset.py — putting it all together
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-limitations-read-before-trusting-the-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Known limitations (read before trusting the numbers)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-things-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where things live
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notebooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../progress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Progress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="feature-engineering-pipeline-attn-lob-pretraining">Feature Engineering Pipeline (Attn-LOB Pretraining)</h1>
+<p>This page documents <code>paper_replication.features</code> — the code that turns the raw
+BTC/USDT limit order book (LOB) snapshots into a labeled dataset ready to
+train the Attn-LOB model from the paper (Section III-A / III-B). See
+<code>notebooks/02_feature_engineering.ipynb</code> (listed on the
+<a href="../notebooks/">Notebooks page</a>) for a runnable walkthrough on the real
+data, and the <a href="../api/">API Reference</a> for the full auto-generated
+docstrings.</p>
+<h2 id="in-plain-english">In plain English</h2>
+<p>The paper's model doesn't look at the order book once — it looks at a short
+<em>movie</em> of the order book (the last 50 snapshots) and tries to guess whether
+the price is about to go up, down, or stay flat. Before any of that can
+happen, the raw data needs to be cut into overlapping clips, put on a
+comparable scale (a $19{,}000 price and a 0.001 BTC size can't sit in the
+same neural network input un-adjusted), paired with some slower-moving
+"mood of the market" signals (how volatile is it right now, is the market
+predominantly buying or selling), and given an answer key (what actually
+happened to the price afterwards).</p>
+<p>That's the whole pipeline in one sentence: <strong>slice the order book into
+overlapping windows, put every window on the same scale, compute a handful
+of market-mood indicators, and label each window with what the price did
+next.</strong></p>
+<h2 id="why-our-version-differs-from-the-paper">Why our version differs from the paper</h2>
+<p>The paper's data is one row per <em>event</em> (a new order, a cancellation, a
+trade — anything that changes the book), arriving roughly every 60-150ms.
+Ours (<code>data/btc_usdt_20221019_20221030_lob.parquet</code>) is one row every ~10
+seconds instead — a fixed-interval snapshot, not an event log. That single
+difference cascades through the whole pipeline:</p>
+<table>
+<thead>
+<tr>
+<th>Paper</th>
+<th>This replication</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>T=50</code> events of context (~a few seconds)</td>
+<td><code>T=50</code> rows of context (~8 minutes)</td>
+<td>Row-count kept the same as the paper; wall-clock time is ~100x longer because our rows are ~100x further apart</td>
+</tr>
+<tr>
+<td><code>k=10</code> events ahead for the label</td>
+<td><code>k=10</code> rows ahead (~100 seconds)</td>
+<td>Same idea — same row count, very different real time</td>
+</tr>
+<tr>
+<td><code>alpha=1e-5</code> (fixed)</td>
+<td><code>alpha</code> auto-calibrated per run</td>
+<td>The paper's threshold was tuned to a different asset's tick-level noise and doesn't transfer numerically to 10s BTC bars</td>
+</tr>
+<tr>
+<td>OSI over 3 event categories (new market orders, new limit orders, cancellations)</td>
+<td>OSI restricted to the trade category only</td>
+<td>This dataset has no order-book event log — only executed trades and periodic snapshots, so the other two categories can't be reconstructed at all</td>
+</tr>
+</tbody>
+</table>
+<p>None of this is hidden — every module below says explicitly, in its
+docstrings and in the notes here, exactly where it diverges from the paper
+and why.</p>
+<h2 id="the-pipeline-step-by-step">The pipeline, step by step</h2>
+<pre><code class="language-text">LOB parquet (88,727 rows, 10 levels, ~10s apart)
+        │
+        ▼
+1. load_lob_snapshot()        sort by time, pull the columns we need
+        │
+        ▼
+2. lob_state_matrix()          the 40 raw price/size numbers per row
+   + rolling_windows()         cut into overlapping 50-row clips
+   + normalize_lob_state()     rescale each clip so the network can use it
+        │                                           │
+        ▼                                           ▼
+3. realized_volatility()         4. compute_l_t()
+   relative_strength_index()        + calibrate_alpha()
+   order_strength_index_proxy()     + direction_labels()
+   (&quot;what mood is the market in&quot;)   (&quot;what did price do next&quot;)
+        │                                           │
+        └───────────────┬───────────────────────────┘
+                         ▼
+              5. build_feature_dataset()
+         aligns windows + mood features + labels
+         on the same row, drops incomplete edges
+                         │
+                         ▼
+              6. chronological_split()
+         train / val / test, in time order, no shuffling
+                         │
+                         ▼
+              AttnLOBDataset  (ready for the model)
+</code></pre>
+<p>Every stage below is one module in <code>src/paper_replication/features/</code>.</p>
+<hr />
+<h2 id="configpy-the-dials"><code>config.py</code> — the dials</h2>
+<p><strong>In simple terms:</strong> one settings object, <code>FeatureConfig</code>, that holds every
+number the rest of the pipeline needs: how many order book levels to use,
+how long a "clip" is, how far ahead to check the price, and so on. Change a
+number here instead of hunting through the code.</p>
+<p><strong>Technical details:</strong></p>
+<ul>
+<li><code>n_levels = 10</code> — number of bid/ask levels to use (this dataset has 10 available).</li>
+<li><code>window_T = 50</code> — rows per LOB-state window (paper Eq. 1's rolling window length <code>T</code>).</li>
+<li><code>horizon_k = 10</code> — rows of look-back/look-ahead used to build the direction label (paper Eq. 5-7's <code>k</code>).</li>
+<li><code>label_alpha: float | None = None</code> — the label's dead-zone threshold. <code>None</code> means "calibrate it from the data" (see <code>labels.py</code> below); set a float to pin it manually.</li>
+<li><code>label_target_balance = 1/3</code> — used only when <code>label_alpha</code> is <code>None</code>; the calibration aims for this fraction of samples in each of the up/down classes.</li>
+<li><code>osi_windows_seconds</code>, <code>rv_windows_seconds</code>, <code>rsi_windows_seconds</code> — trailing windows (in real seconds) for the three dynamic features, matching the paper's 10s/60s/300s (OSI) and 5min/10min/30min (RV, RSI).</li>
+<li><code>use_real_osi = False</code> — stays proxy-mode by default; see <code>dynamic_state.py</code> for what flipping it does.</li>
+</ul>
+<hr />
+<h2 id="lob_statepy-the-raw-order-book-movie"><code>lob_state.py</code> — the raw order book "movie"</h2>
+<p><strong>In simple terms:</strong> loads the order book columns from the parquet file, cuts
+the long time series into overlapping short clips (like a sliding window
+over a video), and rescales each clip so prices and sizes are on comparable
+footing — otherwise a model would mostly just learn "BTC costs about
+$19,000" instead of anything useful about the book's shape.</p>
+<p><strong>Technical details:</strong></p>
+<ul>
+<li><code>level_column_names(symbol, n_levels)</code> — builds the column name list
+  <code>[ask_price_1, ask_size_1, bid_price_1, bid_size_1, ask_price_2, ...]</code>,
+  matching the paper's LOB state vector ordering (Eq. 1).</li>
+<li><code>load_lob_snapshot(parquet_path, symbol, n_levels)</code> — pulls those columns
+  plus <code>timestamp</code>, <code>mid_price</code>, <code>net_trade_sign</code>, <code>trade_count</code>, <code>ema_ofi</code>
+  (the last three feed <code>dynamic_state.py</code>) via DuckDB, sorted and
+  de-duplicated by timestamp.</li>
+<li><code>lob_state_matrix(df, symbol, n_levels)</code> — returns the raw
+  <code>(n_rows, 4 * n_levels)</code> matrix, i.e. <code>(88727, 40)</code> for this dataset.</li>
+<li><code>rolling_windows(matrix, window_T)</code> — turns <code>(n_rows, F)</code> into
+  <code>(n_rows - window_T + 1, window_T, F)</code> overlapping windows via
+  <code>numpy.lib.stride_tricks.sliding_window_view</code> (no copying until the
+  normalization step). Window <code>i</code>'s last row is source row <code>i + window_T - 1</code>
+  — this offset is what <code>dataset.py</code> uses to line windows back up with
+  labels and dynamic features.</li>
+<li><code>normalize_lob_state(windows, n_levels)</code> — <strong>per window</strong>, z-normalizes
+  the price columns (<code>(x - mean) / std</code>) and max-normalizes the volume
+  columns (<code>x / max</code>), matching the paper's description (Section III-B2):
+  <em>"we perform z-norm to the stationary price sequence and max-norm for
+  the volume sequence."</em> Normalizing per-window rather than globally means
+  the model only ever sees relative price movement within a clip, not the
+  absolute BTC price level — which is what makes clips from October 19th
+  and October 30th comparable even though BTC's price drifted between them.</li>
+</ul>
+<hr />
+<h2 id="labelspy-the-answer-key"><code>labels.py</code> — the answer key</h2>
+<p><strong>In simple terms:</strong> for every point in time, look a little bit into the
+future and a little bit into the past, and decide: did the price mostly go
+up, mostly go down, or stay flat? That decision becomes the label the model
+is trained to predict.</p>
+<p><strong>Technical details:</strong></p>
+<ul>
+<li><code>compute_l_t(mid_price, k)</code> computes, for each row <code>t</code>,
+  <code>l_t = (future_mean(t) - past_mean(t)) / past_mean(t)</code>, where
+  <code>past_mean(t)</code> is the average of the <code>k</code> rows ending at <code>t</code> and
+  <code>future_mean(t)</code> is the average of the <code>k</code> rows immediately after <code>t</code>
+  (paper Eq. 6-7). We follow the standard DeepLOB formulation the paper
+  cites as its source ([23], Zhang &amp; Zohren) rather than the paper's own
+  ambiguous <code>t∓i</code> notation, since the paper explicitly borrows the labeling
+  method from there.</li>
+<li><code>direction_labels(l_t, alpha)</code> turns <code>l_t</code> into <code>{-1, 0, +1}</code> (down /
+  stationary / up) via a dead-zone threshold <code>alpha</code> (paper Eq. 5):
+  <code>l_t &gt; alpha → up</code>, <code>l_t &lt; -alpha → down</code>, otherwise <code>stationary</code>.</li>
+<li><code>calibrate_alpha(l_t, target_balance)</code> picks <code>alpha</code> empirically so each
+  of the up/down classes gets roughly <code>target_balance</code> of the samples,
+  instead of reusing the paper's <code>alpha=1e-5</code> (which was tuned to a
+  different asset's tick-level noise and doesn't transfer to 10s BTC bars).
+  It does this by taking the <code>(1 - 2 * target_balance)</code> quantile of <code>|l_t|</code>.</li>
+<li>Both functions return/accept plain <code>numpy</code> arrays with <code>NaN</code> at the
+  series' edges, where there isn't enough history or lookahead to compute
+  a label — <code>dataset.py</code> drops those rows.</li>
+</ul>
+<hr />
+<h2 id="dynamic_statepy-the-markets-mood"><code>dynamic_state.py</code> — the market's "mood"</h2>
+<p><strong>In simple terms:</strong> the order book snapshot alone doesn't say much about
+<em>momentum</em> — whether the market has been trending, how choppy it's been
+recently, or whether buyers or sellers have had the upper hand. This module
+adds three such signals, each computed over a few different time windows
+(fast/medium/slow), the same way you'd glance at a 1-minute, 1-hour, and
+1-day chart before making a call.</p>
+<p><strong>Technical details</strong> — three signals, three functions each:</p>
+<ul>
+<li><code>realized_volatility(df, windows_seconds)</code> — <strong>RV</strong>, paper Eq. 3:
+  <code>sqrt(sum of squared log-returns)</code> of <code>mid_price</code> over each trailing
+  time window (default 5/10/30 minutes). Time-based (<code>pandas</code> <code>.rolling("Ns")</code>
+  on a <code>DatetimeIndex</code>), so it's correct even though rows aren't evenly
+  spaced (10s vs 20s gaps in this dataset).</li>
+<li><code>relative_strength_index(df, windows_seconds)</code> — <strong>RSI</strong>, paper Eq. 4,
+  implemented exactly as the paper writes it: <code>Gain / (Gain + Loss)</code>,
+  bounded <code>[0, 1]</code>. Note this is <em>not</em> the textbook Wilder RSI (which
+  rescales to 0-100) — we replicate the paper's own (nonstandard) formula.</li>
+<li><code>order_strength_index_proxy(df, windows_seconds)</code> — <strong>OSI</strong>, paper Eq. 2,
+  restricted to what this dataset can actually support. The paper defines
+  OSI over three event categories (new market orders, new limit orders,
+  cancellations); this dataset only records trade prints and periodic book
+  snapshots, so only the trade category is reconstructable at all —
+  wired into <code>osi_n_*</code> (count-based, from <code>net_trade_sign</code> / <code>trade_count</code>,
+  a genuine replication of the paper's "number of orders" OSI restricted to
+  trades) and <code>osi_v_*</code> (volume-based; since the snapshot file has no
+  buy/sell split for <code>trade_volume</code>, this substitutes the pipeline's
+  existing <code>ema_ofi</code> order-flow-imbalance column as a stand-in).</li>
+<li><code>order_strength_index_from_ticks(df, ticks_parquet_path, windows_seconds)</code>
+  — the faithful version of OSI, computed directly from raw per-trade
+  side + volume in <code>ticks.parquet</code> (~69M rows) via a DuckDB range join.
+  <strong>Not called by the default pipeline</strong> — set
+  <code>FeatureConfig(use_real_osi=True)</code> and pass <code>ticks_parquet_path</code> to
+  <code>build_feature_dataset</code> to enable it. It's unit-tested and correct, just
+  expensive (naive range join, one per window), so it's opt-in rather than
+  the default.</li>
+</ul>
+<hr />
+<h2 id="datasetpy-putting-it-all-together"><code>dataset.py</code> — putting it all together</h2>
+<p><strong>In simple terms:</strong> this is the conductor. It calls every piece above,
+lines everything up so that "clip ending at row 500", "market mood at row
+500", and "what happened after row 500" all refer to the exact same moment,
+throws away the handful of rows at the very start/end where a full clip or
+a full label isn't available, and hands back one tidy bundle. It also
+splits that bundle into train/validation/test periods in time order — never
+shuffled, so the model is never accidentally trained on the future and
+tested on the past.</p>
+<p><strong>Technical details:</strong></p>
+<ul>
+<li><code>AttnLOBDataset</code> — the output dataclass:<ul>
+<li><code>lob_state</code>: <code>(n_samples, window_T, 4 * n_levels)</code>, normalized.</li>
+<li><code>dynamic_state</code>: <code>(n_samples, n_dynamic_features)</code> — RV + RSI + OSI concatenated.</li>
+<li><code>dynamic_feature_names</code>: column names for the array above (e.g. <code>rv_300s</code>, <code>osi_n_10s</code>, ...).</li>
+<li><code>labels</code>: <code>(n_samples,)</code> <code>int8</code> in <code>{-1, 0, 1}</code>.</li>
+<li><code>timestamps</code>: <code>(n_samples,)</code> — the snapshot timestamp of each window's <em>last</em> row.</li>
+<li><code>alpha_used</code>: the (possibly auto-calibrated) label threshold actually used.</li>
+</ul>
+</li>
+<li><code>build_feature_dataset(lob_parquet_path, config, symbol, ticks_parquet_path=None)</code>:<ol>
+<li>Loads the snapshot file and builds the raw/normalized LOB-state windows.</li>
+<li>Computes RV, RSI, and OSI (proxy by default, real-from-ticks if <code>config.use_real_osi=True</code>).</li>
+<li>Computes <code>l_t</code>, resolves <code>alpha</code> (calibrated or fixed), and derives labels.</li>
+<li>Aligns everything on the row index of each window's <em>last</em> row, restricted to rows where a full window, a full label, and finite dynamic features all exist — <code>[max(window_T - 1, horizon_k - 1), n - 1 - (horizon_k - 1)]</code>. Any remaining <code>NaN</code> rows (e.g. from the earliest dynamic-feature windows, before there's enough time history) are dropped.</li>
+</ol>
+</li>
+<li><code>chronological_split(dataset, test_frac=0.5, val_frac_of_train=0.2)</code> —
+  slices the (already time-ordered) dataset into train/val/test by index,
+  no shuffling. Mirrors the paper's split (first half of the month for
+  train+val, second half for test), scaled to however much history the
+  dataset covers.</li>
+</ul>
+<hr />
+<h2 id="known-limitations-read-before-trusting-the-numbers">Known limitations (read before trusting the numbers)</h2>
+<ul>
+<li><strong>Wall-clock mismatch</strong>: <code>window_T</code> and <code>horizon_k</code> are event-count
+  parameters borrowed unchanged from the paper, but our "events" are ~10s
+  snapshots instead of ~100ms order-book events. A window that was a few
+  seconds of context in the paper is ~8 minutes here.</li>
+<li><strong><code>alpha</code> isn't the paper's <code>alpha</code></strong>: it's recalibrated per run from the
+  data (see <code>labels.py</code>), so exact numeric comparisons to the paper's
+  reported threshold aren't meaningful — only the resulting class balance is.</li>
+<li><strong>OSI is trade-only</strong>: two of the paper's three OSI event categories
+  (new limit orders, cancellations) cannot be reconstructed from this
+  dataset at all, in either the proxy or real-from-ticks path.</li>
+<li><strong>Per-split class balance drifts</strong>: <code>alpha</code> is calibrated globally, but
+  11 days of BTC/USDT isn't stationary — the train split (mid-October) came
+  out more "stationary"-heavy, the test split (late October) more trending.
+  This is a real property of the data, not a bug, and is worth remembering
+  when interpreting pretraining accuracy on the test split.</li>
+<li><strong>Single asset</strong>: the paper validates across three stocks in different
+  sectors; this replication currently has one instrument (BTC/USDT), so
+  cross-sectional generalization can't be tested the same way.</li>
+</ul>
+<h2 id="where-things-live">Where things live</h2>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Feature engineering code</td>
+<td><code>src/paper_replication/features/</code></td>
+</tr>
+<tr>
+<td>Unit tests</td>
+<td><code>tests/test_features_*.py</code></td>
+</tr>
+<tr>
+<td>Runnable walkthrough on real data</td>
+<td><code>notebooks/02_feature_engineering.ipynb</code></td>
+</tr>
+<tr>
+<td>Cached output of a full run</td>
+<td><code>data/processed/attn_lob_pretrain.npz</code> (git-ignored — regenerate via the notebook)</td>
+</tr>
+<tr>
+<td>Auto-generated API docs</td>
+<td><a href="../api/">API Reference</a></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
