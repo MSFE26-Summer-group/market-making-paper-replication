@@ -17,6 +17,7 @@ dependencies = [
     "python-dotenv>=1.2.2",
     "rdata>=0.11.2",
     "s3fs>=0.4.2",
+    "torch>=2.13.0",
 ]
 
 [project.optional-dependencies]
