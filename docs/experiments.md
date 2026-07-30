@@ -125,3 +125,20 @@ gets systematically filled at prices that never printed. Corrected
 claim: simulator fidelity dominates via INPUT DATA INTEGRITY ($900/ep);
 side-awareness is a small correctness refinement. Confirming the
 precomputed columns' definition with Brian is now a priority question.
+
+### External validation vs Binance official klines (2026-07-30)
+
+Sample window 2022-10-20 00:00-01:00 UTC, 60 one-minute klines from
+the Binance REST API as independent ground truth:
+
+| Source | Low exact | High exact | Trades/min |
+|---|---|---|---|
+| Binance klines (referee) | — | — | 4,699 |
+| Our ticks parquet | 100% (median dev $0.00) | 100% | 4,699 (exact) |
+| Precomputed trade columns | 5% (median dev $1.95) | 2% | 436 (~9%) |
+
+The ticks parquet IS the full Binance BTCUSDT tape; the precomputed
+min/max/count columns trace to a ~10x sparser source with ~1bp median
+range deviation — the scale that drove Run 1's phantom fills. Rounding
+ruled out (tolerance sweep). Question for Brian: what feed/sampling
+produced these columns?
