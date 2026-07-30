@@ -102,3 +102,26 @@ tick tape). Training: 500 updates, 838s wall-clock.
 The fill assumption alone swings results by ~900 USD/episode —
 methodologically, simulator fidelity dominates strategy choice at
 this data frequency.
+
+---
+
+## Attribution follow-up — what actually caused the Run 1 → Run 2 flip (2026-07-30)
+
+Run 1 → Run 2 changed two things at once (fill-price source AND side
+filter) — a confound. Decisive test: same benchmarks, same 73 episodes,
+three fill variants:
+
+| Fill variant | Fixed tight | A-S | Random |
+|---|---|---|---|
+| A: precomputed min/max cols, no side filter (=Run 1) | -678.6 | -713.1 | -347.5 |
+| B: true tick tape, no side filter | +257.6 | +98.2 | -201.9 |
+| C: true tick tape, side-aware (=Run 2) | +250.8 | +94.1 | -180.9 |
+
+**The flip is A→B (data source), not B→C (side filter, ~2% effect).**
+The precomputed min/max_trade_price columns leave "phantom fill" room
+(price below the interval's true low) in 17.7% of intervals, median
+0.36 bps — the same order as a tight half-spread, so tight quoting
+gets systematically filled at prices that never printed. Corrected
+claim: simulator fidelity dominates via INPUT DATA INTEGRITY ($900/ep);
+side-awareness is a small correctness refinement. Confirming the
+precomputed columns' definition with Brian is now a priority question.
