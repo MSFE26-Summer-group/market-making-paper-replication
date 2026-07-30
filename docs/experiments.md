@@ -142,3 +142,25 @@ min/max/count columns trace to a ~10x sparser source with ~1bp median
 range deviation — the scale that drove Run 1's phantom fills. Rounding
 ruled out (tolerance sweep). Question for Brian: what feed/sampling
 produced these columns?
+
+### Finding 3 — quote-information timing dominates at 10s cadence (2026-07-30)
+
+Concrete case: LOB row 58953 (label 2022-10-27 06:49:20 UTC) carries
+mid 20,714.84 / min_trade 20,713.90 — but the tape only reaches those
+prices in the NEXT interval (06:49:20-30, crash to 20,709). Snapshot
+content can lead its own label on fast intervals (collection lag:
+median 0.9s, max 3.6s on the calm 10/20 rds sample; larger in fast
+markets). Robustness bracket on the 73 test episodes:
+
+| Quote basis | Fixed tight | A-S |
+|---|---|---|
+| Row-t mid (Run 2 as-run, zero-latency-or-better) | +250.8 (SR 0.57) | +94.1 (SR 0.99) |
+| Previous-row mid (10s-stale, guaranteed no peek) | -622.8 (SR -0.90) | -647.6 (SR -1.56) |
+
+Interpretation: absolute profitability at 10s cadence is fragile —
+bracketed by information timing; relative comparisons under a fixed
+regime remain meaningful. This is partly genuine latency sensitivity
+(stale quoting at tight spreads loses regardless of data quality) and
+partly snapshot clock provenance, which must be confirmed with Brian:
+(1) what feed produced the trade-stat columns; (2) which clock stamps
+the snapshot rows (exchange time vs database_time vs schedule label).
