@@ -164,3 +164,16 @@ regime remain meaningful. This is partly genuine latency sensitivity
 partly snapshot clock provenance, which must be confirmed with Brian:
 (1) what feed produced the trade-stat columns; (2) which clock stamps
 the snapshot rows (exchange time vs database_time vs schedule label).
+
+### Root cause identified — trade-stat columns cover (t, t+lag], not (t-10s, t] (2026-07-31)
+
+Decisive test: taking each row's claimed trade_count and grabbing the
+first `count` trades AFTER the row's label reproduces the claimed
+min AND max exactly in 34% of rows; the implied window span has
+median 0.96s — matching the rds database_time-minus-time lag (median
+0.94s). Neighboring-window check shows claimed max often equals the
+NEXT interval's tape max exactly. Conclusion: the columns were
+computed over the collection-lag window after the schedule label
+(~1s, ~10% of trades), not the trailing 10s interval. Run 1 therefore
+judged fills against a sparse, forward-shifted price sample.
+Question for Brian is now concrete: confirm the computation window.
