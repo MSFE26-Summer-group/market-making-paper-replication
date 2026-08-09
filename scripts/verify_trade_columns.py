@@ -20,15 +20,27 @@ args = ap.parse_args()
 
 lob = pd.read_parquet(args.lob, columns=["timestamp", "mid_price",
     "min_trade_price", "max_trade_price", "trade_count"])
-ticks = pd.read_parquet(args.ticks, columns=["timestamp", "price"]).sort_values("timestamp")
+ticks = pd.read_parquet(
+    args.ticks, columns=["timestamp", "price", "amount", "side"]
+).sort_values("timestamp")
 tks, tkp = ticks["timestamp"].to_numpy(), ticks["price"].to_numpy()
 
-# EXHIBIT — one concrete row, no interpretation
+# EXHIBIT — the raw records themselves, no interpretation
 r = lob.loc[195]
-w = tkp[(tks > lob.loc[194, "timestamp"]) & (tks <= r.timestamp)]
-print("EXHIBIT  row 195 (2022-10-20 00:33:50 UTC), same 10s interval:")
-print(f"  column claims min {r.min_trade_price:.2f}   |   tape's true min {w.min():.2f}"
-      f"   ->  ${w.min()-r.min_trade_price:.2f} apart, no such trade exists\n")
+t0 = lob.loc[194, "timestamp"]
+print("EXHIBIT  the raw records, same 10s interval (2022-10-20 00:33:40 -> 00:33:50 UTC)")
+print("-" * 74)
+show = lob.loc[[195]].copy()
+show["timestamp"] = show["timestamp"].map("{:.0f}".format)
+print("snapshot file, row 195 (as stored):")
+print(show.to_string(index=True))
+w = ticks[(ticks.timestamp > t0) & (ticks.timestamp <= r.timestamp)]
+low3 = w.nsmallest(3, "price").copy()
+low3["timestamp"] = low3["timestamp"].map("{:.3f}".format)
+print(f"\ntick file, same interval — {len(w)} trades; the 3 LOWEST actually printed:")
+print(low3.to_string(index=False))
+print(f"\n  -> column claims min {r.min_trade_price:.2f}, but the tape's lowest print is "
+      f"{w.price.min():.2f} (${w.price.min()-r.min_trade_price:.2f} apart)\n")
 
 # STEP 0 — external referee
 kl = None
