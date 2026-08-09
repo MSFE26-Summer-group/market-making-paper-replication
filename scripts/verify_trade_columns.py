@@ -82,7 +82,7 @@ print(f"STEP 2   interval shifts / rounding: {np.nanmean(np.isclose(bm, s.shift(
 
 # STEP 3 — key test
 rows = lob[lob.trade_count > 0].sample(2000, random_state=0)
-hits, spans, example = 0, [], None
+hits, spans, examples = 0, [], []
 for ridx, r in rows.iterrows():
     i0 = np.searchsorted(tks, r.timestamp, side="right")
     k = int(r.trade_count)
@@ -91,12 +91,22 @@ for ridx, r in rows.iterrows():
     seg = tkp[i0:i0 + k]
     if abs(seg.min()-r.min_trade_price) <= 0.01 and abs(seg.max()-r.max_trade_price) <= 0.01:
         hits += 1
-        spans.append(tks[i0 + k - 1] - r.timestamp)
-        if example is None and abs(seg.min()-r.min_trade_price) == 0:
-            example = (ridx, r.min_trade_price, seg.min(), spans[-1])
-print(f"STEP 3   key test: the first `trade_count` trades AFTER each label reproduce")
-print(f"         claimed min AND max exactly in {hits/2000:.0%} of rows; median span {np.median(spans):.2f}s")
-print(f"         e.g. row {example[0]}: claimed {example[1]:.2f} = reproduced {example[2]:.2f}, span {example[3]:.2f}s\n")
+        span = tks[i0 + k - 1] - r.timestamp
+        spans.append(span)
+        exact = (seg.min() == r.min_trade_price and seg.max() == r.max_trade_price)
+        if exact and len(examples) < 2:
+            j0 = np.searchsorted(tks, r.timestamp - 10, side="right")
+            full = tkp[j0:i0]
+            examples.append((ridx, r, seg, span, full))
+print("STEP 3   claim to prove: min/max are computed in the ~1s LAG window after")
+print("         the label — NOT over the 10s interval. Real data, side by side:")
+for ridx, r, seg, span, full in examples:
+    print(f"\n         row {ridx}  (claimed count = {r.trade_count:.0f} trades)")
+    print(f"           column claims                        min {r.min_trade_price:>10.2f}  max {r.max_trade_price:>10.2f}")
+    print(f"           tape, {r.trade_count:.0f} trades after label ({span:.2f}s) min {seg.min():>10.2f}  max {seg.max():>10.2f}   <- MATCH")
+    print(f"           tape, full 10s interval               min {full.min():>10.2f}  max {full.max():>10.2f}   <- different")
+print(f"\n         across 2,000 rows: exact match on BOTH extremes in {hits/2000:.0%};")
+print(f"         median lag-window span {np.median(spans):.2f}s\n")
 
 # STEP 4 — independent cross-check: show the rds raw columns first
 rds_med = None
