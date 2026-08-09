@@ -11,12 +11,17 @@ Evidence chain:
   Step 4  cross-check vs rds database-write lag (cited)
 """
 
+import argparse
+
 import numpy as np
 import pandas as pd
 import requests
 
-LOB = "data/btc_usdt_20221019_20221030_lob.parquet"
-TICKS = "data/btc_usdt_20221019_20221030_ticks.parquet"
+ap = argparse.ArgumentParser()
+ap.add_argument("--lob", default="data/btc_usdt_20221019_20221030_lob.parquet")
+ap.add_argument("--ticks", default="data/btc_usdt_20221019_20221030_ticks.parquet")
+args = ap.parse_args()
+LOB, TICKS = args.lob, args.ticks
 
 lob = pd.read_parquet(
     LOB,
