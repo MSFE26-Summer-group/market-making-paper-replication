@@ -39,6 +39,13 @@ plugins:
       execute: false          # don't re-run on build; use stripped outputs
       include_source: true
 
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
 nav:
   - Home: index.md
   - Replication Framework: replication_framework.md
@@ -46,6 +53,7 @@ nav:
   - Hypotheses: hypotheses.md
   - Experiments: experiments.md
   - Feature Engineering: feature_engineering.md
+  - Attn-LOB Model: attn_lob_model.md
   - Notebooks:
       - Overview: notebooks/index.md
   - API Reference:

@@ -24,7 +24,7 @@ def _trailing_leading_means(
     NaN outside the valid range [k-1, n-1-k].
     """
     n = len(mid_price)
-    csum: FloatArray = np.concatenate(([0.0], np.cumsum(mid_price)))
+    csum: FloatArray = np.concatenate((np.zeros(1), np.cumsum(mid_price)))
 
     past_mean = np.full(n, np.nan)
     valid_past = np.arange(k - 1, n)
