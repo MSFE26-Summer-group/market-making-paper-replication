@@ -16,7 +16,7 @@
         <link rel="prev" href="../experiments/">
       
       
-        <link rel="next" href="../notebooks/">
+        <link rel="next" href="../attn_lob_model/">
       
       
         
@@ -331,6 +331,25 @@
     
   
   Feature Engineering
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../attn_lob_model/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Attn-LOB Model
 
       </a>
     </li>
@@ -768,6 +787,33 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../attn_lob_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attn-LOB Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     
     
     
@@ -782,10 +828,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
             
   
   
@@ -803,8 +849,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -869,10 +915,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
         
           
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
             
   
   
@@ -890,8 +936,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1046,7 +1092,7 @@ difference cascades through the whole pipeline:</p>
 docstrings and in the notes here, exactly where it diverges from the paper
 and why.</p>
 <h2 id="the-pipeline-step-by-step">The pipeline, step by step</h2>
-<pre><code class="language-text">LOB parquet (88,727 rows, 10 levels, ~10s apart)
+<div class="highlight"><pre><span></span><code>LOB parquet (88,727 rows, 10 levels, ~10s apart)
         │
         ▼
 1. load_lob_snapshot()        sort by time, pull the columns we need
@@ -1074,7 +1120,7 @@ and why.</p>
                          │
                          ▼
               AttnLOBDataset  (ready for the model)
-</code></pre>
+</code></pre></div>
 <p>Every stage below is one module in <code>src/paper_replication/features/</code>.</p>
 <hr />
 <h2 id="configpy-the-dials"><code>config.py</code> — the dials</h2>

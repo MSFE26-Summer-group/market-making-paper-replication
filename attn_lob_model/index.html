@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://msfe26-summer-group.github.io/market-making-paper-replication/notebooks/">
+        <link rel="canonical" href="https://msfe26-summer-group.github.io/market-making-paper-replication/attn_lob_model/">
       
       
-        <link rel="prev" href="../attn_lob_model/">
+        <link rel="prev" href="../feature_engineering/">
       
       
-        <link rel="next" href="../api/">
+        <link rel="next" href="../notebooks/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Overview - Paper Replication</title>
+        <title>Attn-LOB Model - Paper Replication</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#notebooks" class="md-skip">
+        <a href="#attn-lob-model" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              Attn-LOB Model
             
           </span>
         </div>
@@ -339,9 +339,11 @@
   
   
   
+    
   
-    <li class="md-tabs__item">
-      <a href="../attn_lob_model/" class="md-tabs__link">
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
         
   
   
@@ -358,13 +360,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../notebooks/" class="md-tabs__link">
           
   
   
@@ -628,90 +628,6 @@
       
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../attn_lob_model/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Attn-LOB Model
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Notebooks
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_8">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Notebooks
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
     
   
   
@@ -731,7 +647,7 @@
   <span class="md-ellipsis">
     
   
-    Overview
+    Attn-LOB Model
   
 
     
@@ -749,7 +665,7 @@
   <span class="md-ellipsis">
     
   
-    Overview
+    Attn-LOB Model
   
 
     
@@ -775,10 +691,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#conventions" class="md-nav__link">
+  <a href="#in-plain-english" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Conventions
+        In plain English
       
     </span>
   </a>
@@ -786,10 +702,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#index" class="md-nav__link">
+  <a href="#architecture-diagram" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Index
+        Architecture diagram
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-our-version-differs-from-the-paper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why our version differs from the paper
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-things-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where things live
       
     </span>
   </a>
@@ -800,6 +749,85 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notebooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -946,52 +974,164 @@
   
 
 
-<h1 id="notebooks">Notebooks</h1>
-<p>Exploratory notebooks live in the <code>notebooks/</code> folder at the repo root.
-They are rendered here automatically via <code>mkdocs-jupyter</code>.</p>
-<h2 id="conventions">Conventions</h2>
-<ul>
-<li>Notebooks call into <code>src/paper_replication</code> — keep heavy logic there, not in cells.</li>
-<li><strong>Never commit cell outputs.</strong> <code>nbstripout</code> runs as a pre-commit hook and strips them automatically.</li>
-<li>Name notebooks with a number prefix so they sort logically: <code>01_data_exploration.ipynb</code>, <code>02_baseline.ipynb</code>, etc.</li>
-<li>Add a Markdown cell at the top of each notebook with a title and one-line description.</li>
-</ul>
-<h2 id="index">Index</h2>
+<h1 id="attn-lob-model">Attn-LOB Model</h1>
+<p>This page documents <code>paper_replication.models.attn_lob</code> — the CNN-Attention
+network from the paper (Section III-B3, Fig. 1) that turns a window of raw
+limit order book snapshots into a prediction of where the mid-price is
+headed next. See
+<a href="../notebooks/">notebooks/04_attn_lob_model.ipynb</a> for a runnable
+walkthrough that builds this model and runs it on real data, and the
+<a href="../api/">API Reference</a> for the full auto-generated docstrings.</p>
+<p><strong>The model is not trained anywhere in this repo yet.</strong> Everything here is
+the architecture and a forward-pass sanity check — no optimizer, no
+training loop.</p>
+<h2 id="in-plain-english">In plain English</h2>
+<p>Feed the model a short "movie" of the order book — the last 50 snapshots,
+40 numbers each (10 price levels x ask/bid x price/size) — and it has to
+guess whether the price is about to go up, down, or stay flat.</p>
+<p>It does this in three stages, each answering a different question:</p>
+<ol>
+<li><strong>"What does this one snapshot look like?"</strong> A stack of convolutions
+   scans across the 40 numbers in each snapshot and compresses them down
+   to a compact 32-number summary, one per snapshot. This is the same idea
+   as running a filter across nearby pixels in an image, except here the
+   "image" is the order book's price levels.</li>
+<li><strong>"What's changed recently, at different time scales?"</strong> An Inception
+   module looks at the sequence of 32-number summaries with three filters
+   of different widths in parallel — a quick glance, a medium look-back,
+   and a longer one — and stacks their answers together into a richer
+   192-number-per-snapshot representation.</li>
+<li><strong>"Which of the last 50 moments actually matters most right now?"</strong> A
+   self-attention layer lets the model weigh every snapshot in the window
+   against every other one, then the model keeps the "most informed"
+   version of the <em>last</em> snapshot as a single 192-number summary of the
+   whole window. That summary is fed into a small classifier that outputs
+   three numbers: how likely the price is going down, staying flat, or
+   going up.</li>
+</ol>
+<p>That's the whole model: <strong>compress each snapshot, look at it across
+multiple time scales, let the model decide which recent moments matter, and
+classify.</strong></p>
+<h2 id="architecture-diagram">Architecture diagram</h2>
+<pre class="mermaid"><code>flowchart TD
+    A["LOB state window&lt;br/&gt;batch x 50 x 40"] --&gt; B["unsqueeze channel&lt;br/&gt;batch x 1 x 50 x 40"]
+
+    subgraph ConvStack["Width-collapsing conv stack, paper Fig. 1"]
+        direction TB
+        B --&gt; C1["Conv2d 1 to 32, kernel 1x2, stride 1x2&lt;br/&gt;LeakyReLU + BatchNorm&lt;br/&gt;width 40 to 20"]
+        C1 --&gt; C2["Conv2d 32 to 32, kernel 1x5, stride 1x5&lt;br/&gt;LeakyReLU + BatchNorm&lt;br/&gt;width 20 to 4"]
+        C2 --&gt; C3["Conv2d 32 to 32, kernel 1x4&lt;br/&gt;LeakyReLU + BatchNorm&lt;br/&gt;width 4 to 1"]
+    end
+
+    C3 --&gt; D["squeeze width axis&lt;br/&gt;batch x 32 x 50"]
+
+    subgraph Inception["Inception module, DeepLOB [23]"]
+        direction TB
+        D --&gt; E1["Branch 1&lt;br/&gt;Conv1x1 to 64&lt;br/&gt;Conv3x1 to 64"]
+        D --&gt; E2["Branch 2&lt;br/&gt;Conv1x1 to 64&lt;br/&gt;Conv5x1 to 64"]
+        D --&gt; E3["Branch 3&lt;br/&gt;MaxPool3x1&lt;br/&gt;Conv1x1 to 64"]
+        E1 --&gt; F["Concatenate&lt;br/&gt;batch x 192 x 50"]
+        E2 --&gt; F
+        E3 --&gt; F
+    end
+
+    F --&gt; G["permute&lt;br/&gt;batch x 50 x 192"]
+    G --&gt; H["Multi-head self-attention, 4 heads&lt;br/&gt;residual + LayerNorm"]
+    H --&gt; I["take last time step&lt;br/&gt;batch x 192 -- forward_features output"]
+    I --&gt; J["Linear 192 to 3"]
+    J --&gt; K(["logits: down / stationary / up"])
+    I -.-&gt; L["reserved for a future RL head:&lt;br/&gt;concat dynamic state + agent state"]</code></pre>
+<h2 id="why-our-version-differs-from-the-paper">Why our version differs from the paper</h2>
+<p>The paper's Fig. 1 is a figure extracted from a scanned PDF, so it's not
+fully specified in text — a few details had to be filled in with a
+documented, standard choice rather than a guess at unstated internals:</p>
 <table>
 <thead>
 <tr>
-<th>Notebook</th>
-<th>Description</th>
+<th>Detail</th>
+<th>Paper</th>
+<th>This implementation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>01_data_exploration.ipynb</code></td>
-<td>Initial look at the dataset</td>
+<td>Attention head count</td>
+<td>Not stated</td>
+<td>4 heads (192 is evenly divisible: 48/head)</td>
 </tr>
 <tr>
-<td><code>02_feature_engineering.ipynb</code></td>
-<td>Builds and sanity-checks the Attn-LOB pretraining dataset — see <a href="../feature_engineering/">Feature Engineering Pipeline</a></td>
+<td>Residual + LayerNorm around attention</td>
+<td>Not shown in Fig. 1</td>
+<td>Added — standard transformer-block practice</td>
 </tr>
 <tr>
-<td><code>04_attn_lob_model.ipynb</code></td>
-<td>Builds the Attn-LOB model and runs one forward pass on real data — architecture wiring check only, no training</td>
+<td>Pooling the attention output</td>
+<td>Fig. 1 shows a "1 x 192" shape feeding the pretrain head, but doesn't say how</td>
+<td>Take the <em>last</em> time step's output — the natural analogue of "take the final hidden state," which is what the LSTM-based architecture ([19], [23]) this paper modifies would have done</td>
 </tr>
 <tr>
-<td><code>05_attn_lob_training.ipynb</code></td>
-<td>Trains the Attn-LOB pretrain head on real data, plots loss curves, evaluates on the held-out test split, and saves/reloads a checkpoint</td>
+<td>Model scope</td>
+<td>Fig. 1 also shows a "Concatenate" box combining LOB state + dynamic state + agent state, feeding an "Action Space MLP" (for the RL phase)</td>
+<td>Not built yet — this implementation is only the pretrain-task backbone + classification head (Table I: LOB state only, input 50x40). <code>forward_features()</code> exposes the pooled 192-dim vector so the RL head can be added later without touching this module</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-code">The code</h2>
+<p><strong><code>AttnLOBConfig</code></strong> — a frozen dataclass holding the architecture's
+hyperparameters (<code>n_levels</code>, <code>conv_hidden_dim</code>, <code>inception_channels</code>,
+<code>attn_heads</code>, <code>num_classes</code>). <code>embed_dim</code> is a derived property
+(<code>3 * inception_channels</code>, i.e. 192 by default) rather than a separate
+field, so it can never drift out of sync with <code>inception_channels</code>.</p>
+<p><code>n_levels=10</code> is the paper's own setup, and what our
+<a href="../feature_engineering/">feature engineering pipeline</a> produces by default.
+The conv stack's final layer collapses width <code>4*n_levels</code> down to <code>1</code>, which
+requires <code>n_levels</code> to be a multiple of 5 (<code>ConvBlock</code> raises <code>ValueError</code>
+otherwise, rather than silently building a mismatched architecture) — other
+multiples of 5 are supported for depth ablations that deviate from the
+paper, e.g. <code>n_levels=50</code> in
+<a href="../experiments/#exp-3-attn-lob-lob-depth-ablation-btcusdt-2022-10-20-only">Exp 3</a>.</p>
+<p><strong><code>AttnLOB</code></strong> — the <code>torch.nn.Module</code>:</p>
+<ul>
+<li><code>forward_features(lob_state)</code> — <code>(batch, T, 4*n_levels) -&gt; (batch, embed_dim)</code>.
+  Runs the conv stack, Inception module, and self-attention block; returns
+  the pooled 192-dim backbone representation. This is the method a future
+  RL-phase head would call.</li>
+<li><code>forward(lob_state)</code> — <code>(batch, T, 4*n_levels) -&gt; (batch, num_classes)</code>.
+  Calls <code>forward_features</code> and applies the pretrain classification head
+  (<code>Linear(192, 3)</code>) on top.</li>
+</ul>
+<p>With the default config: <strong>197,987 parameters</strong> (paper reports 176,320 for
+their Attn-LOB in Table I — same order of magnitude; ours doesn't match
+exactly since BatchNorm adds parameters and a few Fig. 1 details, like
+attention heads, aren't specified precisely enough to reproduce bit-for-bit).</p>
+<h2 id="where-things-live">Where things live</h2>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model code</td>
+<td><code>src/paper_replication/models/attn_lob.py</code></td>
 </tr>
 <tr>
-<td><code>06_attn_lob_hyperparameter_search.ipynb</code></td>
-<td>Searches dropout/weight_decay/learning_rate against <code>val_loss</code> only, then evaluates the winner on <code>test</code> exactly once — see <a href="../experiments/#exp-1b-attn-lob-pretrain-classification-tuned-btcusdt">Exp 1b</a></td>
+<td>Unit tests (shapes, gradient flow, config validation)</td>
+<td><code>tests/test_models_attn_lob.py</code></td>
 </tr>
 <tr>
-<td><code>07_baseline_comparison.ipynb</code></td>
-<td>Trains AttnLOB, FCLOB, ConvLOB, and DeepLOB on identical data with identical untuned defaults and compares all four against the paper's Table I — see <a href="../experiments/#exp-2-baseline-comparison-attnlob-vs-fclob-vs-convlob-vs-deeplob-btcusdt">Exp 2</a></td>
+<td>Runnable walkthrough on real data</td>
+<td><code>notebooks/04_attn_lob_model.ipynb</code></td>
 </tr>
 <tr>
-<td><code>08_lob_depth_ablation.ipynb</code></td>
-<td>Builds a deeper (<code>n_levels=50</code>) LOB snapshot from <code>rds_transformed.parquet</code>'s full order-book depth and compares Attn-LOB at <code>n_levels=10</code> vs. <code>n_levels=50</code> on the same single-day data/split/hyperparameters — see <a href="../experiments/#exp-3-attn-lob-lob-depth-ablation-btcusdt-2022-10-20-only">Exp 3</a></td>
+<td>Feature pipeline that produces the model's input</td>
+<td><a href="../feature_engineering/">Feature Engineering Pipeline</a></td>
+</tr>
+<tr>
+<td>Auto-generated API docs</td>
+<td><a href="../api/">API Reference</a></td>
 </tr>
 </tbody>
 </table>

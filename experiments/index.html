@@ -342,6 +342,25 @@
   
   
   
+    <li class="md-tabs__item">
+      <a href="../attn_lob_model/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Attn-LOB Model
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
     
     
       <li class="md-tabs__item">
@@ -640,6 +659,50 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#exp-1-attn-lob-pretrain-classification-btcusdt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exp 1 — Attn-LOB Pretrain Classification (BTC/USDT)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exp-1b-attn-lob-pretrain-classification-tuned-btcusdt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exp 1b — Attn-LOB Pretrain Classification, Tuned (BTC/USDT)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exp-2-baseline-comparison-attnlob-vs-fclob-vs-convlob-vs-deeplob-btcusdt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exp 2 — Baseline Comparison: AttnLOB vs. FCLOB vs. ConvLOB vs. DeepLOB (BTC/USDT)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exp-3-attn-lob-lob-depth-ablation-btcusdt-2022-10-20-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exp 3 — Attn-LOB LOB-Depth Ablation (BTC/USDT, 2022-10-20 only)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#notes-observations" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -691,6 +754,33 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../attn_lob_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attn-LOB Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     
     
     
@@ -705,10 +795,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
             
   
   
@@ -726,8 +816,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -792,10 +882,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
         
           
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
             
   
   
@@ -813,8 +903,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -908,8 +998,8 @@
 
 <h1 id="experiments">Experiments</h1>
 <h2 id="running-experiments">Running Experiments</h2>
-<pre><code class="language-bash">python -m paper_replication.experiments.exp1
-</code></pre>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>paper_replication.experiments.exp1
+</code></pre></div>
 <h2 id="results">Results</h2>
 <table>
 <thead>
@@ -923,16 +1013,245 @@
 </thead>
 <tbody>
 <tr>
-<td>Exp 1</td>
+<td>Exp 1 — Attn-LOB Pretrain Classification</td>
+<td>Precision</td>
+<td>0.7663</td>
+<td>0.4966</td>
+<td>−0.2697</td>
+</tr>
+<tr>
+<td>Exp 1 — Attn-LOB Pretrain Classification</td>
+<td>Recall</td>
+<td>0.7019</td>
+<td>0.4943</td>
+<td>−0.2076</td>
+</tr>
+<tr>
+<td>Exp 1 — Attn-LOB Pretrain Classification</td>
+<td>F1</td>
+<td>0.7284</td>
+<td>0.4948</td>
+<td>−0.2336</td>
+</tr>
+<tr>
+<td>Exp 1 — Attn-LOB Pretrain Classification</td>
+<td>Accuracy</td>
+<td>— (not reported)</td>
+<td>0.5166</td>
 <td>—</td>
+</tr>
+<tr>
+<td>Exp 1b — Attn-LOB Pretrain Classification (tuned)</td>
+<td>Precision</td>
+<td>0.7663</td>
+<td>0.5231</td>
+<td>−0.2432</td>
+</tr>
+<tr>
+<td>Exp 1b — Attn-LOB Pretrain Classification (tuned)</td>
+<td>Recall</td>
+<td>0.7019</td>
+<td>0.5224</td>
+<td>−0.1795</td>
+</tr>
+<tr>
+<td>Exp 1b — Attn-LOB Pretrain Classification (tuned)</td>
+<td>F1</td>
+<td>0.7284</td>
+<td>0.5224</td>
+<td>−0.2060</td>
+</tr>
+<tr>
+<td>Exp 1b — Attn-LOB Pretrain Classification (tuned)</td>
+<td>Accuracy</td>
+<td>— (not reported)</td>
+<td>0.5465</td>
 <td>—</td>
+</tr>
+<tr>
+<td>Exp 2 — Baseline Comparison — AttnLOB</td>
+<td>F1</td>
+<td>0.7284</td>
+<td>0.4963</td>
+<td>−0.2321</td>
+</tr>
+<tr>
+<td>Exp 2 — Baseline Comparison — FCLOB</td>
+<td>F1</td>
+<td>0.5660</td>
+<td>0.5199</td>
+<td>−0.0461</td>
+</tr>
+<tr>
+<td>Exp 2 — Baseline Comparison — ConvLOB</td>
+<td>F1</td>
+<td>0.4984</td>
+<td>0.5425</td>
+<td>+0.0441</td>
+</tr>
+<tr>
+<td>Exp 2 — Baseline Comparison — DeepLOB</td>
+<td>F1</td>
+<td>0.7118</td>
+<td>0.5392</td>
+<td>−0.1726</td>
+</tr>
+<tr>
+<td>Exp 3 — Attn-LOB Depth Ablation — n_levels=10 (Oct-20 only)</td>
+<td>F1</td>
+<td>— (not a paper config)</td>
+<td>0.4411</td>
 <td>—</td>
+</tr>
+<tr>
+<td>Exp 3 — Attn-LOB Depth Ablation — n_levels=50 (Oct-20 only)</td>
+<td>F1</td>
+<td>— (not a paper config)</td>
+<td>0.4679</td>
 <td>—</td>
 </tr>
 </tbody>
 </table>
+<h2 id="exp-1-attn-lob-pretrain-classification-btcusdt">Exp 1 — Attn-LOB Pretrain Classification (BTC/USDT)</h2>
+<p>Supports <a href="../hypotheses/#h1-automatic-lob-representation-learning-improves-market-making">H1</a> as a precursor step: before Attn-LOB's learned representation can be evaluated on trading performance (ND-PnL/PnLMAP/Sharpe), it first needs to work as a mid-price direction classifier (paper Table I). This experiment is that classification benchmark, not a direct test of H1 itself.</p>
+<p><strong>Reproduce:</strong> <code>notebooks/05_attn_lob_training.ipynb</code> (architecture: <a href="../attn_lob_model/">Attn-LOB Model</a>; dataset: <a href="../feature_engineering/">Feature Engineering Pipeline</a>).</p>
+<p><strong>Setup:</strong> BTC/USDT, <code>window_T=50</code>, <code>n_levels=10</code>, chronological train/val/test split (35,467 / 8,867 / 44,334 samples), Adam (<code>lr=1e-3</code>), <code>batch_size=256</code>, early stopping (<code>patience=5</code>) — stopped at epoch 8, kept epoch 3's weights (lowest val_loss). No learning-rate schedule, no weight_decay/dropout, no hyperparameter search. Paper's row above is their Attn-LOB result on Ping An Bank Co. (Table I); for scale, their weakest baseline (Conv-LOB) scored F1=0.4984 and their strongest (their own Attn-LOB) scored F1=0.7284.</p>
+<p><strong>Reading the gap:</strong> our F1 (0.4948) landed just below the paper's <em>weakest</em> baseline, about 0.23 below their Attn-LOB. Three things are conflated in that gap and this run doesn't separate them:</p>
+<ol>
+<li><strong>Untuned hyperparameters</strong> — no LR schedule, no regularization, no search over batch size/learning rate, a handful of early-stopped epochs. This is the one an actual tuning pass would address.</li>
+<li><strong>Different asset/data structure</strong> — BTC/USDT crypto vs. their Chinese equities, and critically our data is a ~10s snapshot grid rather than raw ~60-150ms order-book events (see <a href="../feature_engineering/#why-our-version-differs-from-the-paper">Feature Engineering Pipeline</a>). <code>window_T=50</code> is therefore ~8 minutes of context here vs. a few seconds in the paper — a structurally different prediction problem, not just a harder version of the same one.</li>
+<li><strong>Auto-calibrated label threshold</strong> — our <code>alpha</code> is fit from the data to balance classes (see <a href="../feature_engineering/#labelspy-the-answer-key">labels.py</a>) rather than reusing the paper's <code>alpha=1e-5</code>, which doesn't transfer across assets anyway.</li>
+</ol>
+<p>(1) is fixable by tuning. (2) and (3) are not — they're consequences of what data is actually available to this replication, and tuning won't close that part of the gap.</p>
+<h2 id="exp-1b-attn-lob-pretrain-classification-tuned-btcusdt">Exp 1b — Attn-LOB Pretrain Classification, Tuned (BTC/USDT)</h2>
+<p>Direct follow-up to Exp 1's three-way gap breakdown: this run addresses (1) — untuned hyperparameters — and leaves (2) and (3) untouched, to see how much of the gap was actually hyperparameters.</p>
+<p><strong>Reproduce:</strong> <code>notebooks/06_attn_lob_hyperparameter_search.ipynb</code>.</p>
+<p><strong>Setup:</strong> same data/split as Exp 1. An 8-candidate search over <code>dropout</code> (0/0.1/0.3), <code>weight_decay</code> (0/1e-4/1e-3), and one lower learning rate (5e-4 vs. 1e-3), each selected on <code>val_loss</code> only via <code>paper_replication.training.search.run_search</code> — the test split was never touched during the search, only once at the end for the winning candidate. <code>baseline</code> (the search's own re-run of Exp 1's exact config) reproduced val_loss=0.9749, close to Exp 1's own run — a useful sanity check that the search harness itself isn't the source of any difference below.</p>
+<p><strong>Result:</strong> winner was <code>dropout_0.3</code> (<code>lr=1e-3</code>, <code>weight_decay=0</code>, <code>dropout=0.3</code>), val_loss=0.9316 vs. baseline's 0.9749. Every regularized or lower-LR candidate beat the baseline; dropout alone at a fairly high rate outperformed every combination that also used weight_decay or a lower learning rate.</p>
+<p>Test-set F1 moved from 0.4948 (Exp 1) to 0.5224 (Exp 1b) — a consistent ~2.5-3 point improvement across precision/recall/F1/accuracy, confirming untuned hyperparameters were genuinely <em>part</em> of the gap to the paper (0.7284), but a modest part. The remaining ~0.21 F1 points align with Exp 1's (2) and (3) — asset/sampling-grid differences and the auto-calibrated label threshold — which this tuning pass was never going to touch, by design.</p>
+<h2 id="exp-2-baseline-comparison-attnlob-vs-fclob-vs-convlob-vs-deeplob-btcusdt">Exp 2 — Baseline Comparison: AttnLOB vs. FCLOB vs. ConvLOB vs. DeepLOB (BTC/USDT)</h2>
+<p>Directly tests <a href="../hypotheses/#h1-automatic-lob-representation-learning-improves-market-making">H1</a>'s premise that Attn-LOB's learned representation outperforms the alternative architectures the paper compares it against (Table I). All four models — <a href="../attn_lob_model/">Attn-LOB</a>, FC-LOB, Conv-LOB, DeepLOB (see each model's module docstring for architecture details and paper-fidelity notes) — trained on identical data/split with identical <em>untuned</em> defaults, so differences reflect architecture, not who got a better hyperparameter search. Deliberately compared against Exp 1's untuned Attn-LOB number, not Exp 1b's tuned one — tuning only one of the four would stack the deck.</p>
+<p><strong>Reproduce:</strong> <code>notebooks/07_baseline_comparison.ipynb</code>.</p>
+<p><strong>Setup:</strong> same data/split as Exp 1/1b. Each model's own default config; shared <code>TrainConfig</code> (<code>batch_size=256</code>, <code>lr=1e-3</code>, <code>weight_decay=0</code>, <code>patience=5</code>, <code>seed=0</code>, device auto-selected).</p>
+<p><strong>Result:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Params</th>
+<th>Epochs</th>
+<th>Best val_loss</th>
+<th>Test F1</th>
+<th>Paper F1</th>
+<th>Delta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ConvLOB</td>
+<td>20,035</td>
+<td>12</td>
+<td>0.9051</td>
+<td>0.5425</td>
+<td>0.4984</td>
+<td>+0.0441</td>
+</tr>
+<tr>
+<td>DeepLOB</td>
+<td>115,043</td>
+<td>7</td>
+<td>0.8990</td>
+<td>0.5392</td>
+<td>0.7118</td>
+<td>−0.1726</td>
+</tr>
+<tr>
+<td>FCLOB</td>
+<td>2,328,067</td>
+<td>8</td>
+<td>0.9279</td>
+<td>0.5199</td>
+<td>0.5660</td>
+<td>−0.0461</td>
+</tr>
+<tr>
+<td>AttnLOB</td>
+<td>197,987</td>
+<td>9</td>
+<td>0.9762</td>
+<td>0.4963</td>
+<td>0.7284</td>
+<td>−0.2321</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The ordering is completely inverted from the paper.</strong> Paper: AttnLOB &gt; DeepLOB &gt; FCLOB &gt; ConvLOB. Ours: ConvLOB &gt; DeepLOB &gt; FCLOB &gt; AttnLOB. The paper's best-reported architecture is our worst performer; its worst-reported baseline (Conv-LOB, by far the smallest model here at 20K params) is our best.</p>
+<p>This isn't noise, and it isn't arbitrary either: <code>AttnLOB</code>'s <code>dropout</code> defaults to <code>0.0</code> (the paper's Fig. 1 doesn't specify a value), and Exp 1b already showed <code>dropout=0.3</code> alone moves its F1 from 0.4948 to 0.5224 on this exact data. None of the other three baselines received any equivalent regularization pass here either, but self-attention is the highest-capacity, most overfitting-prone component of the four architectures, so it's the one that suffers most from having none. Conv-LOB's causal dilated-residual stack, at a fifth of DeepLOB's parameter count and a hundredth of FC-LOB's, simply has far less room to overfit 35K training samples in the first place — plausibly why it wins here, not because it's a categorically "better" architecture.</p>
+<p><strong>What this does and doesn't show:</strong></p>
+<ul>
+<li><strong>Not evidence against the paper's finding.</strong> The paper's numbers presumably came from tuned models; this is untuned-vs-untuned. The one model we <em>have</em> tuned so far (AttnLOB, Exp 1b) already closed a meaningful chunk of its gap to the others with nothing but dropout.</li>
+<li><strong>Not a fully stable ranking.</strong> Best-val_loss ordering (DeepLOB &lt; ConvLOB &lt; FCLOB &lt; AttnLOB) and best-test-F1 ordering (same, reading ascending) already disagree slightly on DeepLOB vs. ConvLOB — expected single-split noise, not a red flag.</li>
+<li><strong>Directly fails one of this replication's stated success criteria</strong> (<a href="../replication_framework/">Replication Framework</a>'s "reproduced metrics follow the same relative ordering reported by the authors") — at least in this untuned form. Worth stating plainly rather than downplaying.</li>
+</ul>
+<p><strong>Natural next step</strong>, if worth the compute: repeat this comparison with an equivalent tuning pass (dropout/weight_decay/LR search, matching Exp 1b's methodology) applied to all four models before ranking them. That would distinguish "the paper's ordering re-emerges once every model gets a fair shot" from "this dataset structurally favors simpler architectures regardless of tuning."</p>
+<h2 id="exp-3-attn-lob-lob-depth-ablation-btcusdt-2022-10-20-only">Exp 3 — Attn-LOB LOB-Depth Ablation (BTC/USDT, 2022-10-20 only)</h2>
+<p>Follow-up to Exp 2's gap: could Attn-LOB close some of the distance to the paper with <strong>more data</strong>? We checked <code>rds_transformed.parquet</code> and its source R2 bucket as a way to extend training data specifically for Attn-LOB.</p>
+<p><strong>Finding: no more data exists.</strong> <code>rds_transformed.parquet</code> (and the R2 bucket it came from) covers only 2022-10-20 — 8,127 snapshots — and that day is already the <em>first</em> day inside <code>btc_usdt_20221019_20221030_lob.parquet</code>, the file every prior experiment already trains on. Confirmed directly: <code>BTCUSDT.ask_price_1..10</code> in the existing multi-day file matches <code>rds_transformed.parquet</code>'s best bid/ask row-for-row across all 8,127 rows. There is no new <em>time</em> available in this data, in the repo, or in the R2 bucket (whose full listing has exactly two objects, both for this same day).</p>
+<p>What that file <em>does</em> have that's never been used: full order-book depth (thousands of price levels per side vs. the 10 our pipeline has always used). So this experiment tests depth instead of volume: does giving Attn-LOB the top 50 levels instead of top 10, on the exact same single day/samples/split/hyperparameters, change anything? A required side effect: <code>layers.ConvBlock</code> (shared by AttnLOB and DeepLOB) previously hard-required <code>n_levels=10</code> (<code>NotImplementedError</code> otherwise) — generalized to support any <code>n_levels</code> that's a multiple of 5, so this ablation is possible. <code>n_levels=50</code> is a deliberate deviation from the paper's Fig. 1, used only for this ablation.</p>
+<p><strong>Reproduce:</strong> <code>notebooks/08_lob_depth_ablation.ipynb</code>.</p>
+<p><strong>Setup:</strong> both arms use the identical 8,068 windowed samples from 2022-10-20 (<code>window_T=50</code>, <code>horizon_k=10</code>, auto-calibrated <code>alpha</code>), chronological split (train=3,227 / val=807 / test=4,034), and Exp 1b's winning hyperparameters (<code>dropout=0.3</code>, <code>lr=1e-3</code>, <code>weight_decay=0</code>, <code>batch_size=256</code>, <code>patience=5</code>, <code>seed=0</code>) — <code>n_levels</code> is the only thing that differs between arms.</p>
+<p><strong>Result:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Arm</th>
+<th>Params</th>
+<th>Epochs</th>
+<th>Best val_loss</th>
+<th>Test Precision</th>
+<th>Test Recall</th>
+<th>Test F1</th>
+<th>Test Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n_levels=10</td>
+<td>197,987</td>
+<td>10</td>
+<td>1.1104</td>
+<td>0.5072</td>
+<td>0.4543</td>
+<td>0.4411</td>
+<td>0.4487</td>
+</tr>
+<tr>
+<td>n_levels=50</td>
+<td>214,371</td>
+<td>8</td>
+<td>1.0444</td>
+<td>0.5073</td>
+<td>0.4697</td>
+<td>0.4679</td>
+<td>0.4695</td>
+</tr>
+</tbody>
+</table>
+<p>Depth-50 vs. depth-10: val_loss improved (1.1104 → 1.0444) and test F1 improved (0.4411 → 0.4679, <strong>+0.0269</strong>), consistently in the same direction on both the selection metric and the held-out metric. The gain came entirely from recall/accuracy — precision was flat (0.5072 vs. 0.5073).</p>
+<p><strong>But sample count dominates depth by a wide margin.</strong> Both arms here (3,227 train samples, one day) land well below Exp 1b's F1=0.5224, which used the <em>same</em> <code>n_levels=10</code> architecture but eleven days (35,467 train samples). Depth alone bought about six points of relative F1 improvement; the missing ten days of data cost far more than that.</p>
+<p><strong>What this does and doesn't show:</strong></p>
+<ul>
+<li>Answers the original "more data" question, just not the way expected: there isn't any more BTC/USDT LOB history available (repo or R2 bucket) beyond the eleven days already in use. This depth ablation is the closest available proxy for "give the model more information about what we have," and the answer is: it helps, modestly.</li>
+<li>Not a claim that <code>n_levels=50</code> is a better architecture in general — it's a deviation from the paper's own Fig. 1, used here only to answer this specific question. Not used anywhere else in this replication.</li>
+<li>Single split, single seed per arm — like Exp 1/1b/2, this is one run, not error-barred, though the consistent direction across val_loss and test F1 makes it unlikely to be pure noise.</li>
+<li>Natural next step, if worth the compute: an intermediate depth (e.g. <code>n_levels=20</code> or <code>30</code>) to see whether the F1 gain scales roughly linearly with depth or saturates quickly.</li>
+</ul>
 <h2 id="notes-observations">Notes &amp; Observations</h2>
 <p><em>Document surprises, dead ends, and hyperparameter choices here.</em></p>
+<ul>
+<li><strong>Config drift bug (found while building Exp 2):</strong> <code>TrainConfig.patience</code> had silently drifted to <code>10</code> in code while its own docstring, every notebook, and this file's Exp 1/1b writeups all said <code>5</code>. Nothing caught it until an unrelated rename-only re-run of notebook 05 produced quietly different numbers than what was documented. Root cause unclear (no single edit is implicated), but the practical lesson: a mismatch between a docstring and its own default value is exactly the kind of thing that survives silently unless something asserts on it. Fixed to <code>5</code> and pinned with a regression test (<code>test_default_patience_matches_documented_value</code>); Exp 1 and Exp 1b were both re-run under the corrected value and every number in this file reflects that re-run, not the original one. The qualitative findings (dropout delays overfitting, tuning buys a modest but real improvement, most of the gap to the paper is structural) held up across the fix — only the exact numbers and, notably, Exp 1b's <em>winning</em> candidate changed (<code>lower_lr_light</code> → <code>dropout_0.3</code>).</li>
+<li>Exp 1b: regularization's effect was entirely on <em>how much better</em> the best val_loss got, not primarily on how many epochs it took to get there (8 vs. 9 epochs across every candidate, barely different) — a different pattern than what the pre-fix run suggested (dropout mainly buying more epochs). Worth re-examining if patience is tuned differently in a future search.</li>
+</ul>
 
 
 
