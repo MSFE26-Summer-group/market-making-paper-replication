@@ -18,24 +18,13 @@ pip install uv        # one-time, installs uv globally
 uv sync --extra dev --extra docs
 uv run pre-commit install
 ```
+
 ## Running Pre commit hooks
+
 Run this before you commit to ensure all checks have passed
+
 ```bash
 uv run pre-commit run --all-files
-```
-
-## Inspecting Data
-
-To inspect the newly created Parquet file:
-
-```bash
-python3 inspect_monthly_data.py
-```
-
-or via `uv`:
-
-```bash
-uv run python inspect_monthly_data.py
 ```
 
 ## Running Tests
@@ -48,13 +37,13 @@ pytest
 
 All PRs to `main` must pass:
 
-| Tool | Purpose | Hard block? |
-|------|---------|-------------|
-| `black` | Formatting | ✅ Yes |
-| `isort` | Import order | ✅ Yes |
-| `mypy` | Type checking | ✅ Yes |
-| `pytest` | Tests + 70% coverage | ✅ Yes |
-| `ruff` | Linting | ⚠️ Reported only |
+| Tool     | Purpose              | Hard block?      |
+| -------- | -------------------- | ---------------- |
+| `black`  | Formatting           | ✅ Yes           |
+| `isort`  | Import order         | ✅ Yes           |
+| `mypy`   | Type checking        | ✅ Yes           |
+| `pytest` | Tests + 70% coverage | ✅ Yes           |
+| `ruff`   | Linting              | ⚠️ Reported only |
 
 Run all checks locally before pushing:
 
@@ -79,10 +68,10 @@ uv run jupyter nbconvert --to html notebooks/<name>.ipynb --output-dir reports/
 
 This is a manual step, done deliberately once a notebook's results are ready to share — not automated via pre-commit — so half-finished exploratory work doesn't get committed as an "official" snapshot.
 
-| Folder | Contents | Touched by nbstripout? |
-|--------|----------|--------------------------|
-| `notebooks/` | Working `.ipynb` files | ✅ Yes — outputs stripped |
-| `reports/` | Frozen `.html` snapshots | ❌ No — outputs intact |
+| Folder       | Contents                 | Touched by nbstripout?    |
+| ------------ | ------------------------ | ------------------------- |
+| `notebooks/` | Working `.ipynb` files   | ✅ Yes — outputs stripped |
+| `reports/`   | Frozen `.html` snapshots | ❌ No — outputs intact    |
 
 ## Branch Strategy
 
