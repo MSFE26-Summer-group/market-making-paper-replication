@@ -24,6 +24,20 @@ Run this before you commit to ensure all checks have passed
 uv run pre-commit run --all-files
 ```
 
+## Inspecting Data
+
+To inspect the newly created Parquet file:
+
+```bash
+python3 inspect_monthly_data.py
+```
+
+or via `uv`:
+
+```bash
+uv run python inspect_monthly_data.py
+```
+
 ## Running Tests
 
 ```bash
