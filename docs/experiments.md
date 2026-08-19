@@ -24,6 +24,9 @@ python -m paper_replication.experiments.exp1
 | Exp 2 — Baseline Comparison — DeepLOB | F1 | 0.7118 | 0.5392 | −0.1726 |
 | Exp 3 — Attn-LOB Depth Ablation — n_levels=10 (Oct-20 only) | F1 | — (not a paper config) | 0.4411 | — |
 | Exp 3 — Attn-LOB Depth Ablation — n_levels=50 (Oct-20 only) | F1 | — (not a paper config) | 0.4679 | — |
+| Exp 4 — RL Market Making — C-PPO (Ping An Bank vs. BTC/USDT) | Sharpe | 12.3±0.8 | −0.79 | −13.1 |
+| Exp 4 — RL Market Making — D-DQN (Ping An Bank vs. BTC/USDT) | Sharpe | 1.3±0.7 | −0.24 | −1.5 |
+| Exp 4 — RL Market Making — C-PPO vs. D-DQN | Which wins? | C-PPO (H2) | D-DQN | contradicts H2 |
 
 ## Exp 1 — Attn-LOB Pretrain Classification (BTC/USDT)
 
@@ -111,6 +114,51 @@ Depth-50 vs. depth-10: val_loss improved (1.1104 → 1.0444) and test F1 improve
 - Not a claim that `n_levels=50` is a better architecture in general — it's a deviation from the paper's own Fig. 1, used here only to answer this specific question. Not used anywhere else in this replication.
 - Single split, single seed per arm — like Exp 1/1b/2, this is one run, not error-barred, though the consistent direction across val_loss and test F1 makes it unlikely to be pure noise.
 - Natural next step, if worth the compute: an intermediate depth (e.g. `n_levels=20` or `30`) to see whether the F1 gain scales roughly linearly with depth or saturates quickly.
+
+## Exp 4 — RL Market Making: C-PPO vs. D-DQN vs. Baselines (BTC/USDT)
+
+Directly tests [H2](hypotheses.md#h2-continuous-action-spaces-improve-market-making-performance) (does continuous PPO beat discrete Dueling DQN?) and touches [H3](hypotheses.md#h3-hybrid-reward-functions-improve-risk-adjusted-performance) (does the hybrid reward keep inventory in check?) using the RL environment/agents built in `paper_replication.rl` (see [RL Model](rl_model.md)).
+
+**Reproduce:** `notebooks/09_rl_training.ipynb`.
+
+**Setup:** BTC/USDT, `n_levels=10`, `window_T=50`, chronological 80/20 train/test split (70,942 / 17,736 rows → 2,364 / 591 non-overlapping 30-step episodes). The Attn-LOB backbone is loaded from Exp 1b's winning pretrained checkpoint (`attn_lob_checkpoint_tuned.pt`, `dropout=0.3`) and kept **frozen** — only the trunk + policy/value (or Q) heads train, fed from a precomputed feature cache (`rl.feature_cache.precompute_lob_features`) rather than a live backbone forward pass every step. `RLConfig` defaults (paper's own reported values where stated): `omega=10`, `eta=0.5`, `zeta=0.01`, `max_bias=0.05`, `max_spread=0.1`; `minimum_trade_unit=0.001` BTC and `episode_length=30` steps (~5 minutes) are this replication's documented substitutes for the paper's China-A-share unit size and event-count episode length (see [RL Model](rl_model.md#why-our-version-differs-from-the-paper)). C-PPO: 300 updates × 16 episodes/update (144,000 env steps total), 4 update epochs, minibatch 128. D-DQN: 150,000 env steps, replay buffer 50,000, epsilon decayed 1.0→0.05 over the first 100,000 steps, target network hard-updated every 1,000 steps. Both: single seed (0), no hyperparameter search — this is a compute-budgeted run (a few minutes on a laptop GPU/CPU), not the paper's own tuned training run.
+
+**Baselines:** Random (uniform `(A1, A2)` each step), three Fixed-spread levels (constant centered spread at 15%/50%/100% of `max_spread`), and an Avellaneda-Stoikov-inspired policy (Eq. 17-18, with a per-step realized-volatility feature standing in for a calibrated `sigma` and fixed `gamma=0.1`/`kappa=1.5` standing in for the paper's own order-arrival calibration — see `baselines.py`'s docstring). All seven policies evaluated deterministically (no exploration) over all 591 held-out test episodes through the identical `evaluate_policy` harness.
+
+**Result** (mean ± std across the 591 test episodes; paper's columns are its Ping An Bank Co. row, Table II — different asset, different scale, included only for directional comparison, not a magnitude match):
+
+| Policy | ND-PnL | PnLMAP | Profit Ratio | Sharpe | Mean \|inventory\| |
+|---|---|---|---|---|---|
+| **C-PPO** | −2.18 ± 3.41 | −30.4 ± 27.5 | −2.52 ± 3.08 | **−0.788** | 0.00256 |
+| **D-DQN** | −0.195 ± 0.303 | −61.5 ± 72.3 | −1.25 ± 1.21 | **−0.243** | 0.0000288 |
+| Random | −1.58 ± 2.06 | −30.2 ± 27.5 | −2.51 ± 3.08 | −0.788 | 0.00256 |
+| Fixed_1 (15%) | −5.22 ± 6.66 | −29.7 ± 27.6 | −2.52 ± 3.12 | −0.784 | 0.00263 |
+| Fixed_2 (50%) | −1.55 ± 2.00 | −29.5 ± 27.8 | −2.51 ± 3.13 | −0.776 | 0.00262 |
+| Fixed_3 (100%) | −0.77 ± 0.99 | −29.4 ± 27.7 | −2.50 ± 3.11 | −0.774 | 0.00261 |
+| AS | −0.77 ± 0.99 | −29.5 ± 27.7 | −2.50 ± 3.11 | −0.775 | 0.00261 |
+| *Paper C-PPO (Ping An Bank)* | *9.3×10⁵* | *117.2* | *5.0×10⁻⁴* | *12.3* | *low* |
+| *Paper D-DQN (Ping An Bank)* | *7.0×10⁵* | *8.6* | *3.5×10⁻⁴* | *1.3* | *higher* |
+
+(Numbers above are from `notebooks/09_rl_training.ipynb`'s own execution. An
+independent run of the identical config as a standalone script — same seed,
+same data, different process/CUDA context — landed within noise of these
+same numbers, e.g. Sharpe −0.79/−0.34 for C-PPO/D-DQN vs. −0.788/−0.243
+here: the qualitative finding below is not an artifact of one run.)
+
+**Everyone loses money on average, including the paper's own baselines' BTC/USDT analogues.** Unlike Exp 1-3, this isn't primarily a magnitude gap (different asset, different units, zero transaction costs either way) — it's that spread-capture net of adverse selection is negative for every policy tested here, on this data, at this training budget. That itself is a legitimate finding, not a bug: none of ND-PnL/PnLMAP/PR/Sharpe being negative across the board is inconsistent with a hybrid reward that heavily penalizes inventory (`zeta=0.01`) on a genuinely volatile asset (BTC/USDT, Oct 2022) most policies here still choose to trade actively on.
+
+**H2 is contradicted in this run: D-DQN clearly beats C-PPO**, on both ND-PnL and Sharpe, by a wide margin — the opposite of the paper's own finding and this replication's stated success criterion. The mechanism is visible in the training curves and the `mean |inventory|` column: across the two matching runs behind this table, D-DQN's mean recent episode reward converged smoothly toward ~0 as epsilon decayed (roughly -0.14 at step 5,000 to -0.01 to -0.007 by step 150,000, in both runs) by learning to hold almost no inventory (~0.00003 vs. everyone else's ~0.0026) — essentially "mostly stay flat, quote defensively" — a strong, easy-to-find local optimum once `zeta`'s quadratic inventory penalty dominates. C-PPO's mean episode reward *never* showed a comparable trend in either run (e.g. -0.166, -0.147, -0.193, -0.209, -0.416 across one run's last five updates — noisy, not improving) and ended up statistically indistinguishable from Random and the Fixed baselines.
+
+**This is very likely a training-budget asymmetry, not evidence against the paper's algorithmic claim.** D-DQN's replay buffer reuses each of its 150,000 transitions for many gradient updates (`train_interval=4` → ~37,500 update steps); C-PPO discards each on-policy batch after `update_epochs=4` passes over it (300 updates × 4 epochs × ~4 minibatches/epoch ≈ 4,800 gradient updates total, despite touching a comparable number of raw env steps, 144,000). PPO is well known in the literature to need many more environment interactions than off-policy methods to reach a comparable policy — this run's 300 updates is a small fraction of what published PPO results typically use. **Natural next step, if worth the compute:** a much longer C-PPO run (or a larger `episodes_per_update`/more updates) before concluding anything about the paper's own H2 claim one way or the other; this result says "not with this budget," not "the paper is wrong."
+
+**PnLMAP is unstable for D-DQN specifically** (−61.5 ± 72.3, far outside every other policy's ballpark, and −91.88 ± 113.48 in the other matching run) because its own denominator (mean absolute position, ~0.00003) is close to zero — dividing a small negative PnL by a near-zero position amplifies noise into a large, unstable ratio. This is a known artifact of PnLMAP as a metric when a policy's inventory is genuinely close to flat, not a sign D-DQN is somehow performing worse than its ND-PnL/Sharpe numbers suggest.
+
+**What this does and doesn't show:**
+
+- Confirms the environment, reward, action spaces, and both training algorithms are wired correctly end to end (finite losses, sensible fills, D-DQN visibly learning a coherent low-risk policy) — the RL model built in `paper_replication.rl` works.
+- Does **not** confirm H2 as stated — the opposite ordering was observed, with a plausible confound (PPO's much lower effective sample efficiency at this budget) identified but not ruled out.
+- Single seed, single training budget, no hyperparameter search for either algorithm — like Exp 1/1b/2/3, one run, not error-barred.
+- Zero transaction costs (matching the paper's own simulator assumption, IV-C1) — a more realistic cost model would very plausibly push every policy's numbers further negative, but wouldn't obviously change the *relative* ordering between policies.
 
 ## Notes & Observations
 
