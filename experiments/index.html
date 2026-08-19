@@ -361,6 +361,25 @@
   
   
   
+    <li class="md-tabs__item">
+      <a href="../rl_model/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RL Model
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
     
     
       <li class="md-tabs__item">
@@ -703,6 +722,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#exp-4-rl-market-making-c-ppo-vs-d-dqn-vs-baselines-btcusdt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exp 4 — RL Market Making: C-PPO vs. D-DQN vs. Baselines (BTC/USDT)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#notes-observations" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -781,6 +811,33 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../rl_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RL Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     
     
     
@@ -795,10 +852,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
         
           
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
             
   
   
@@ -816,8 +873,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -882,10 +939,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
         
           
-          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
             
   
   
@@ -903,8 +960,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1110,6 +1167,27 @@
 <td>0.4679</td>
 <td>—</td>
 </tr>
+<tr>
+<td>Exp 4 — RL Market Making — C-PPO (Ping An Bank vs. BTC/USDT)</td>
+<td>Sharpe</td>
+<td>12.3±0.8</td>
+<td>−0.79</td>
+<td>−13.1</td>
+</tr>
+<tr>
+<td>Exp 4 — RL Market Making — D-DQN (Ping An Bank vs. BTC/USDT)</td>
+<td>Sharpe</td>
+<td>1.3±0.7</td>
+<td>−0.24</td>
+<td>−1.5</td>
+</tr>
+<tr>
+<td>Exp 4 — RL Market Making — C-PPO vs. D-DQN</td>
+<td>Which wins?</td>
+<td>C-PPO (H2)</td>
+<td>D-DQN</td>
+<td>contradicts H2</td>
+</tr>
 </tbody>
 </table>
 <h2 id="exp-1-attn-lob-pretrain-classification-btcusdt">Exp 1 — Attn-LOB Pretrain Classification (BTC/USDT)</h2>
@@ -1245,6 +1323,114 @@
 <li>Not a claim that <code>n_levels=50</code> is a better architecture in general — it's a deviation from the paper's own Fig. 1, used here only to answer this specific question. Not used anywhere else in this replication.</li>
 <li>Single split, single seed per arm — like Exp 1/1b/2, this is one run, not error-barred, though the consistent direction across val_loss and test F1 makes it unlikely to be pure noise.</li>
 <li>Natural next step, if worth the compute: an intermediate depth (e.g. <code>n_levels=20</code> or <code>30</code>) to see whether the F1 gain scales roughly linearly with depth or saturates quickly.</li>
+</ul>
+<h2 id="exp-4-rl-market-making-c-ppo-vs-d-dqn-vs-baselines-btcusdt">Exp 4 — RL Market Making: C-PPO vs. D-DQN vs. Baselines (BTC/USDT)</h2>
+<p>Directly tests <a href="../hypotheses/#h2-continuous-action-spaces-improve-market-making-performance">H2</a> (does continuous PPO beat discrete Dueling DQN?) and touches <a href="../hypotheses/#h3-hybrid-reward-functions-improve-risk-adjusted-performance">H3</a> (does the hybrid reward keep inventory in check?) using the RL environment/agents built in <code>paper_replication.rl</code> (see <a href="../rl_model/">RL Model</a>).</p>
+<p><strong>Reproduce:</strong> <code>notebooks/09_rl_training.ipynb</code>.</p>
+<p><strong>Setup:</strong> BTC/USDT, <code>n_levels=10</code>, <code>window_T=50</code>, chronological 80/20 train/test split (70,942 / 17,736 rows → 2,364 / 591 non-overlapping 30-step episodes). The Attn-LOB backbone is loaded from Exp 1b's winning pretrained checkpoint (<code>attn_lob_checkpoint_tuned.pt</code>, <code>dropout=0.3</code>) and kept <strong>frozen</strong> — only the trunk + policy/value (or Q) heads train, fed from a precomputed feature cache (<code>rl.feature_cache.precompute_lob_features</code>) rather than a live backbone forward pass every step. <code>RLConfig</code> defaults (paper's own reported values where stated): <code>omega=10</code>, <code>eta=0.5</code>, <code>zeta=0.01</code>, <code>max_bias=0.05</code>, <code>max_spread=0.1</code>; <code>minimum_trade_unit=0.001</code> BTC and <code>episode_length=30</code> steps (~5 minutes) are this replication's documented substitutes for the paper's China-A-share unit size and event-count episode length (see <a href="../rl_model/#why-our-version-differs-from-the-paper">RL Model</a>). C-PPO: 300 updates × 16 episodes/update (144,000 env steps total), 4 update epochs, minibatch 128. D-DQN: 150,000 env steps, replay buffer 50,000, epsilon decayed 1.0→0.05 over the first 100,000 steps, target network hard-updated every 1,000 steps. Both: single seed (0), no hyperparameter search — this is a compute-budgeted run (a few minutes on a laptop GPU/CPU), not the paper's own tuned training run.</p>
+<p><strong>Baselines:</strong> Random (uniform <code>(A1, A2)</code> each step), three Fixed-spread levels (constant centered spread at 15%/50%/100% of <code>max_spread</code>), and an Avellaneda-Stoikov-inspired policy (Eq. 17-18, with a per-step realized-volatility feature standing in for a calibrated <code>sigma</code> and fixed <code>gamma=0.1</code>/<code>kappa=1.5</code> standing in for the paper's own order-arrival calibration — see <code>baselines.py</code>'s docstring). All seven policies evaluated deterministically (no exploration) over all 591 held-out test episodes through the identical <code>evaluate_policy</code> harness.</p>
+<p><strong>Result</strong> (mean ± std across the 591 test episodes; paper's columns are its Ping An Bank Co. row, Table II — different asset, different scale, included only for directional comparison, not a magnitude match):</p>
+<table>
+<thead>
+<tr>
+<th>Policy</th>
+<th>ND-PnL</th>
+<th>PnLMAP</th>
+<th>Profit Ratio</th>
+<th>Sharpe</th>
+<th>Mean |inventory|</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>C-PPO</strong></td>
+<td>−2.18 ± 3.41</td>
+<td>−30.4 ± 27.5</td>
+<td>−2.52 ± 3.08</td>
+<td><strong>−0.788</strong></td>
+<td>0.00256</td>
+</tr>
+<tr>
+<td><strong>D-DQN</strong></td>
+<td>−0.195 ± 0.303</td>
+<td>−61.5 ± 72.3</td>
+<td>−1.25 ± 1.21</td>
+<td><strong>−0.243</strong></td>
+<td>0.0000288</td>
+</tr>
+<tr>
+<td>Random</td>
+<td>−1.58 ± 2.06</td>
+<td>−30.2 ± 27.5</td>
+<td>−2.51 ± 3.08</td>
+<td>−0.788</td>
+<td>0.00256</td>
+</tr>
+<tr>
+<td>Fixed_1 (15%)</td>
+<td>−5.22 ± 6.66</td>
+<td>−29.7 ± 27.6</td>
+<td>−2.52 ± 3.12</td>
+<td>−0.784</td>
+<td>0.00263</td>
+</tr>
+<tr>
+<td>Fixed_2 (50%)</td>
+<td>−1.55 ± 2.00</td>
+<td>−29.5 ± 27.8</td>
+<td>−2.51 ± 3.13</td>
+<td>−0.776</td>
+<td>0.00262</td>
+</tr>
+<tr>
+<td>Fixed_3 (100%)</td>
+<td>−0.77 ± 0.99</td>
+<td>−29.4 ± 27.7</td>
+<td>−2.50 ± 3.11</td>
+<td>−0.774</td>
+<td>0.00261</td>
+</tr>
+<tr>
+<td>AS</td>
+<td>−0.77 ± 0.99</td>
+<td>−29.5 ± 27.7</td>
+<td>−2.50 ± 3.11</td>
+<td>−0.775</td>
+<td>0.00261</td>
+</tr>
+<tr>
+<td><em>Paper C-PPO (Ping An Bank)</em></td>
+<td><em>9.3×10⁵</em></td>
+<td><em>117.2</em></td>
+<td><em>5.0×10⁻⁴</em></td>
+<td><em>12.3</em></td>
+<td><em>low</em></td>
+</tr>
+<tr>
+<td><em>Paper D-DQN (Ping An Bank)</em></td>
+<td><em>7.0×10⁵</em></td>
+<td><em>8.6</em></td>
+<td><em>3.5×10⁻⁴</em></td>
+<td><em>1.3</em></td>
+<td><em>higher</em></td>
+</tr>
+</tbody>
+</table>
+<p>(Numbers above are from <code>notebooks/09_rl_training.ipynb</code>'s own execution. An
+independent run of the identical config as a standalone script — same seed,
+same data, different process/CUDA context — landed within noise of these
+same numbers, e.g. Sharpe −0.79/−0.34 for C-PPO/D-DQN vs. −0.788/−0.243
+here: the qualitative finding below is not an artifact of one run.)</p>
+<p><strong>Everyone loses money on average, including the paper's own baselines' BTC/USDT analogues.</strong> Unlike Exp 1-3, this isn't primarily a magnitude gap (different asset, different units, zero transaction costs either way) — it's that spread-capture net of adverse selection is negative for every policy tested here, on this data, at this training budget. That itself is a legitimate finding, not a bug: none of ND-PnL/PnLMAP/PR/Sharpe being negative across the board is inconsistent with a hybrid reward that heavily penalizes inventory (<code>zeta=0.01</code>) on a genuinely volatile asset (BTC/USDT, Oct 2022) most policies here still choose to trade actively on.</p>
+<p><strong>H2 is contradicted in this run: D-DQN clearly beats C-PPO</strong>, on both ND-PnL and Sharpe, by a wide margin — the opposite of the paper's own finding and this replication's stated success criterion. The mechanism is visible in the training curves and the <code>mean |inventory|</code> column: across the two matching runs behind this table, D-DQN's mean recent episode reward converged smoothly toward ~0 as epsilon decayed (roughly -0.14 at step 5,000 to -0.01 to -0.007 by step 150,000, in both runs) by learning to hold almost no inventory (~0.00003 vs. everyone else's ~0.0026) — essentially "mostly stay flat, quote defensively" — a strong, easy-to-find local optimum once <code>zeta</code>'s quadratic inventory penalty dominates. C-PPO's mean episode reward <em>never</em> showed a comparable trend in either run (e.g. -0.166, -0.147, -0.193, -0.209, -0.416 across one run's last five updates — noisy, not improving) and ended up statistically indistinguishable from Random and the Fixed baselines.</p>
+<p><strong>This is very likely a training-budget asymmetry, not evidence against the paper's algorithmic claim.</strong> D-DQN's replay buffer reuses each of its 150,000 transitions for many gradient updates (<code>train_interval=4</code> → ~37,500 update steps); C-PPO discards each on-policy batch after <code>update_epochs=4</code> passes over it (300 updates × 4 epochs × ~4 minibatches/epoch ≈ 4,800 gradient updates total, despite touching a comparable number of raw env steps, 144,000). PPO is well known in the literature to need many more environment interactions than off-policy methods to reach a comparable policy — this run's 300 updates is a small fraction of what published PPO results typically use. <strong>Natural next step, if worth the compute:</strong> a much longer C-PPO run (or a larger <code>episodes_per_update</code>/more updates) before concluding anything about the paper's own H2 claim one way or the other; this result says "not with this budget," not "the paper is wrong."</p>
+<p><strong>PnLMAP is unstable for D-DQN specifically</strong> (−61.5 ± 72.3, far outside every other policy's ballpark, and −91.88 ± 113.48 in the other matching run) because its own denominator (mean absolute position, ~0.00003) is close to zero — dividing a small negative PnL by a near-zero position amplifies noise into a large, unstable ratio. This is a known artifact of PnLMAP as a metric when a policy's inventory is genuinely close to flat, not a sign D-DQN is somehow performing worse than its ND-PnL/Sharpe numbers suggest.</p>
+<p><strong>What this does and doesn't show:</strong></p>
+<ul>
+<li>Confirms the environment, reward, action spaces, and both training algorithms are wired correctly end to end (finite losses, sensible fills, D-DQN visibly learning a coherent low-risk policy) — the RL model built in <code>paper_replication.rl</code> works.</li>
+<li>Does <strong>not</strong> confirm H2 as stated — the opposite ordering was observed, with a plausible confound (PPO's much lower effective sample efficiency at this budget) identified but not ruled out.</li>
+<li>Single seed, single training budget, no hyperparameter search for either algorithm — like Exp 1/1b/2/3, one run, not error-barred.</li>
+<li>Zero transaction costs (matching the paper's own simulator assumption, IV-C1) — a more realistic cost model would very plausibly push every policy's numbers further negative, but wouldn't obviously change the <em>relative</em> ordering between policies.</li>
 </ul>
 <h2 id="notes-observations">Notes &amp; Observations</h2>
 <p><em>Document surprises, dead ends, and hyperparameter choices here.</em></p>

@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://msfe26-summer-group.github.io/market-making-paper-replication/notebooks/">
       
       
-        <link rel="prev" href="../attn_lob_model/">
+        <link rel="prev" href="../rl_model/">
       
       
         <link rel="next" href="../api/">
@@ -358,6 +358,25 @@
   
   
   
+  
+    <li class="md-tabs__item">
+      <a href="../rl_model/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RL Model
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
     
   
   
@@ -655,6 +674,33 @@
       
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../rl_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RL Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -676,10 +722,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
         
           
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
             
   
   
@@ -697,8 +743,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_8">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -832,10 +878,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
         
           
-          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
             
   
   
@@ -853,8 +899,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -992,6 +1038,10 @@ They are rendered here automatically via <code>mkdocs-jupyter</code>.</p>
 <tr>
 <td><code>08_lob_depth_ablation.ipynb</code></td>
 <td>Builds a deeper (<code>n_levels=50</code>) LOB snapshot from <code>rds_transformed.parquet</code>'s full order-book depth and compares Attn-LOB at <code>n_levels=10</code> vs. <code>n_levels=50</code> on the same single-day data/split/hyperparameters — see <a href="../experiments/#exp-3-attn-lob-lob-depth-ablation-btcusdt-2022-10-20-only">Exp 3</a></td>
+</tr>
+<tr>
+<td><code>09_rl_training.ipynb</code></td>
+<td>Trains C-PPO and D-DQN (<code>paper_replication.rl</code>) on a frozen pretrained Attn-LOB backbone, evaluates both plus Random/Fixed/AS baselines on held-out episodes — see <a href="../rl_model/">RL Model</a> and <a href="../experiments/#exp-4-rl-market-making-c-ppo-vs-d-dqn-vs-baselines-btcusdt">Exp 4</a></td>
 </tr>
 </tbody>
 </table>
