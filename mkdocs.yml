@@ -54,6 +54,7 @@ nav:
   - Experiments: experiments.md
   - Feature Engineering: feature_engineering.md
   - Attn-LOB Model: attn_lob_model.md
+  - RL Model: rl_model.md
   - Notebooks:
       - Overview: notebooks/index.md
   - API Reference:
