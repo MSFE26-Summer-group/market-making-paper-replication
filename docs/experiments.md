@@ -282,3 +282,33 @@ Question for Brian is now concrete: confirm the computation window.
 
 - **Config drift bug (found while building Exp 2):** `TrainConfig.patience` had silently drifted to `10` in code while its own docstring, every notebook, and this file's Exp 1/1b writeups all said `5`. Nothing caught it until an unrelated rename-only re-run of notebook 05 produced quietly different numbers than what was documented. Root cause unclear (no single edit is implicated), but the practical lesson: a mismatch between a docstring and its own default value is exactly the kind of thing that survives silently unless something asserts on it. Fixed to `5` and pinned with a regression test (`test_default_patience_matches_documented_value`); Exp 1 and Exp 1b were both re-run under the corrected value and every number in this file reflects that re-run, not the original one. The qualitative findings (dropout delays overfitting, tuning buys a modest but real improvement, most of the gap to the paper is structural) held up across the fix — only the exact numbers and, notably, Exp 1b's *winning* candidate changed (`lower_lr_light` → `dropout_0.3`).
 - Exp 1b: regularization's effect was entirely on *how much better* the best val_loss got, not primarily on how many epochs it took to get there (8 vs. 9 epochs across every candidate, barely different) — a different pattern than what the pre-fix run suggested (dropout mainly buying more epochs). Worth re-examining if patience is tuned differently in a future search.
+
+---
+
+## Experiment 4 — independent reproduction (2026-08-21)
+
+The report's Exp 4 code was not in the repository, so we re-implemented
+it from the report's Section 9 spec (src/paper_replication/rl/exp4.py,
+scripts/run_exp4.py) and re-ran end to end: Attn-LOB pretrained fresh
+with Exp 1b's winning config (41s on MPS; val_loss 0.9399 vs report's
+0.9316; splits 35,467/8,867 match exactly), then C-PPO + D-DQN + five
+baselines on the identical 2,364/591 episode grid (113s).
+
+| Policy | Sharpe (report) | Sharpe (ours) |
+|---|---|---|
+| C-PPO | -0.788 | **-0.785** |
+| D-DQN | -0.243 | **-0.094** |
+| Random | -0.788 | -0.785 |
+| Fixed 15% | -0.784 | -0.779 |
+| Fixed 50% | -0.776 | -0.771 |
+| Fixed 100% | -0.774 | -0.769 |
+| AS | -0.775 | -0.772 |
+
+All four headline findings reproduce independently: (1) every policy
+loses; (2) D-DQN separates from the pack and beats C-PPO (H2
+contradicted at this budget; D-DQN's exact number is seed-noisy, as in
+the report's own re-run); (3) C-PPO is statistically indistinguishable
+from random/fixed; (4) AS tracks Fixed(100%) — consistent with the
+volatility-scaled spread pinning at the cap. PnLMAP magnitudes match
+(~-30); D-DQN's PnLMAP is unstable in both runs (near-zero-inventory
+denominator). Artifacts in results/exp4/.
