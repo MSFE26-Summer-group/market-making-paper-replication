@@ -14,7 +14,7 @@ from paper_replication.features.dataset import (
     chronological_split,
 )
 from paper_replication.models.attn_lob import AttnLOB, AttnLOBConfig
-from paper_replication.rl.exp4 import run_exp4
+from paper_replication.rl.tickfill.exp4 import run_exp4
 from paper_replication.training.config import TrainConfig
 from paper_replication.training.loop import train_model
 

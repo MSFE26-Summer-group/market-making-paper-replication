@@ -5,10 +5,10 @@ import pandas as pd
 import pytest
 import torch
 
-from paper_replication.rl.data import LOB_COLS, LOBDataset, build_dataset
-from paper_replication.rl.env import EnvConfig, MarketMakingEnv, StepResult
-from paper_replication.rl.model import ActorCritic, AttnLOB
-from paper_replication.rl.train import (
+from paper_replication.rl.tickfill.data import LOB_COLS, LOBDataset, build_dataset
+from paper_replication.rl.tickfill.env import EnvConfig, MarketMakingEnv, StepResult
+from paper_replication.rl.tickfill.model import ActorCritic, AttnLOB
+from paper_replication.rl.tickfill.train import (
     PPOConfig,
     as_policy,
     collect_rollout,
@@ -18,7 +18,7 @@ from paper_replication.rl.train import (
     ppo_update,
     random_policy,
 )
-from paper_replication.rl.train import test_starts as eval_starts
+from paper_replication.rl.tickfill.train import test_starts as eval_starts
 
 
 def make_dataset(n: int = 500, window: int = 10) -> LOBDataset:

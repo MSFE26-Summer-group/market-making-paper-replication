@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from paper_replication.rl.exp4 import (
+from paper_replication.rl.tickfill.exp4 import (
     DQN_ACTIONS,
     EPISODE_LEN,
     OMEGA,

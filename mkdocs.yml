@@ -52,8 +52,11 @@ nav:
   - Paper Overview: paper_overview.md
   - Hypotheses: hypotheses.md
   - Experiments: experiments.md
+  - Pipeline Audit: pipeline_audit.md
+  - Run 2 Baseline Spec: run2_baseline_spec.md
   - Feature Engineering: feature_engineering.md
   - Attn-LOB Model: attn_lob_model.md
+  - RL Model: rl_model.md
   - Notebooks:
       - Overview: notebooks/index.md
   - API Reference:

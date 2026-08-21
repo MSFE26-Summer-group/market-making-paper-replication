@@ -2,12 +2,12 @@
 
 Train (tick-based fills, 500 updates), then evaluate on the test split:
 
-    PYTHONPATH=src uv run --no-sync python -m paper_replication.rl.train \
+    PYTHONPATH=src uv run --no-sync python -m paper_replication.rl.tickfill.train \
         --updates 500 --fills tick --out results/run_tick
 
 Evaluate benchmark strategies only (no training):
 
-    PYTHONPATH=src uv run --no-sync python -m paper_replication.rl.train \
+    PYTHONPATH=src uv run --no-sync python -m paper_replication.rl.tickfill.train \
         --benchmarks-only --out results/benchmarks
 
 The first 70% of snapshots are the training segment (episode starts are
@@ -28,14 +28,14 @@ import numpy as np
 import torch
 from torch import Tensor
 
-from paper_replication.rl.data import (
+from paper_replication.rl.tickfill.data import (
     LOBDataset,
     attach_tick_fills,
     build_dataset,
     load_lob,
 )
-from paper_replication.rl.env import EnvConfig, MarketMakingEnv, StepResult
-from paper_replication.rl.model import ActorCritic
+from paper_replication.rl.tickfill.env import EnvConfig, MarketMakingEnv, StepResult
+from paper_replication.rl.tickfill.model import ActorCritic
 
 TRAIN_FRAC = 0.7
 
