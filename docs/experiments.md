@@ -360,3 +360,30 @@ from random/fixed; (4) AS tracks Fixed(100%) — consistent with the
 volatility-scaled spread pinning at the cap. PnLMAP magnitudes match
 (~-30); D-DQN's PnLMAP is unstable in both runs (near-zero-inventory
 denominator). Artifacts in results/exp4/.
+
+### Exp 4 single-variable rerun — fills switched to tick side-aware (2026-08-27)
+
+Identical to the Exp 4 reproduction in every respect (30-step episodes,
+591 test episodes, frozen pretrained backbone, paper reward, USD caps,
+same budgets and seed); ONLY the fill referee changes from
+quote-through endpoints to tick-tape side-aware fills. Runtime 129s.
+
+| Policy | Sharpe (quote-through) | Sharpe (tick fills) | PnL$/ep (tick) |
+|---|---|---|---|
+| C-PPO | -0.785 | **+0.201** | +0.0009 |
+| D-DQN | -0.094 | **+1.207** | +0.0023 |
+| Random | -0.785 | **+0.207** | +0.0009 |
+| Fixed 15% | -0.779 | -0.044 | -0.0002 |
+| Fixed 50% | -0.771 | **+0.198** | +0.0009 |
+| Fixed 100% | -0.769 | **+0.385** | +0.0021 |
+| AS | -0.772 | **+0.385** | +0.0021 |
+
+Findings: (1) six of seven policies flip from negative to positive
+Sharpe with everything else held fixed — the all-negative headline of
+Exp 4 is a property of the endpoint fill model, not of the asset or
+the strategies; (2) absolute levels remain economically tiny
+(~$0.001/ep) because the $0.10 spread cap bounds earnings — the USD
+cap transfer issue is a separate, additive distortion; (3) AS remains
+exactly equal to Fixed(100%) under both referees, confirming the
+gamma-unit degeneracy is referee-independent; (4) D-DQN leads under
+both referees. Artifacts in results/exp4_tick/.

@@ -70,6 +70,8 @@ class Exp4Data:
     best_ask: FloatArray
     train_episode_starts: list[int]
     test_episode_starts: list[int]
+    sell_min: FloatArray | None = None  # per-interval seller-initiated min (tick fills)
+    buy_max: FloatArray | None = None  # per-interval buyer-initiated max
 
 
 def build_exp4_data(
@@ -78,6 +80,7 @@ def build_exp4_data(
     device: str = "cpu",
     n_levels: int = 10,
     window_T: int = 50,
+    ticks_parquet: str | None = None,
 ) -> Exp4Data:
     """Load snapshots, run the frozen backbone once, and form episode grids."""
     df = load_lob_snapshot(lob_parquet, symbol="BTCUSDT", n_levels=n_levels)
@@ -110,7 +113,26 @@ def build_exp4_data(
     n_train_rows = int(n * 0.8)
     train_starts = list(range(0, n_train_rows - EPISODE_LEN, EPISODE_LEN))
     test_starts = list(range(n_train_rows, n - EPISODE_LEN, EPISODE_LEN))
-    return Exp4Data(feats, mid, bb, ba, train_starts, test_starts)
+
+    sell_min = buy_max = None
+    if ticks_parquet is not None:
+        import pandas as pd
+
+        ticks = pd.read_parquet(
+            ticks_parquet, columns=["timestamp", "price", "side"]
+        ).sort_values("timestamp")
+        ts_all = df["timestamp"].to_numpy()
+        idx = np.searchsorted(ts_all, ticks["timestamp"].to_numpy(), side="left")
+        valid = (idx > 0) & (idx < len(ts_all))
+        t = ticks.iloc[valid].assign(row=idx[valid])
+        smin = t[t["side"] == -1].groupby("row")["price"].min()
+        bmax = t[t["side"] == 1].groupby("row")["price"].max()
+        sell_min = np.full(len(ts_all), np.nan)
+        buy_max = np.full(len(ts_all), np.nan)
+        sell_min[smin.index] = smin.to_numpy()
+        buy_max[bmax.index] = bmax.to_numpy()
+        sell_min, buy_max = sell_min[off:], buy_max[off:]
+    return Exp4Data(feats, mid, bb, ba, train_starts, test_starts, sell_min, buy_max)
 
 
 # --------------------------------------------------------------------------
@@ -119,7 +141,10 @@ def build_exp4_data(
 class QuoteThroughEnv:
     """30-step episodic market-making env on the cached feature grid."""
 
-    def __init__(self, data: Exp4Data) -> None:
+    def __init__(self, data: Exp4Data, fill_mode: str = "quote_through") -> None:
+        if fill_mode == "tick" and data.sell_min is None:
+            raise ValueError("tick fill_mode requires ticks_parquet in build_exp4_data")
+        self.fill_mode = fill_mode
         self.d = data
         self.t = 0
         self.start = 0
@@ -171,12 +196,19 @@ class QuoteThroughEnv:
             bid = p_r - spread / 2
             ask = p_r + spread / 2
 
-            if self.d.best_ask[nxt] <= bid and self.inv < OMEGA:
+            if self.fill_mode == "tick":
+                sm, bm = self.d.sell_min[nxt], self.d.buy_max[nxt]
+                bid_hit = sm == sm and sm <= bid  # NaN-safe
+                ask_hit = bm == bm and bm >= ask
+            else:
+                bid_hit = self.d.best_ask[nxt] <= bid
+                ask_hit = self.d.best_bid[nxt] >= ask
+            if bid_hit and self.inv < OMEGA:
                 self.inv += 1
                 self.cash -= TRADE_UNIT * bid
                 tp += TRADE_UNIT * (self.d.mid[nxt] - bid)
                 volume += TRADE_UNIT * bid
-            if self.d.best_bid[nxt] >= ask and self.inv > -OMEGA:
+            if ask_hit and self.inv > -OMEGA:
                 self.inv -= 1
                 self.cash += TRADE_UNIT * ask
                 tp += TRADE_UNIT * (ask - self.d.mid[nxt])
@@ -252,11 +284,15 @@ DQN_ACTIONS: list[tuple[float, float] | None] = [
 
 
 def train_cppo(
-    data: Exp4Data, seed: int = 0, updates: int = 300, episodes_per_update: int = 16
+    data: Exp4Data,
+    seed: int = 0,
+    updates: int = 300,
+    episodes_per_update: int = 16,
+    fill_mode: str = "quote_through",
 ) -> BetaActorCritic:
     torch.manual_seed(seed)
     rng = np.random.default_rng(seed)
-    env = QuoteThroughEnv(data)
+    env = QuoteThroughEnv(data, fill_mode)
     obs_dim = data.features.shape[1] + 2
     model = BetaActorCritic(obs_dim)
     optim = torch.optim.Adam(model.parameters(), lr=3e-4)
@@ -320,11 +356,14 @@ def train_cppo(
 
 
 def train_ddqn(
-    data: Exp4Data, seed: int = 0, total_steps: int = 150_000
+    data: Exp4Data,
+    seed: int = 0,
+    total_steps: int = 150_000,
+    fill_mode: str = "quote_through",
 ) -> DuelingQNet:
     torch.manual_seed(seed)
     rng = np.random.default_rng(seed)
-    env = QuoteThroughEnv(data)
+    env = QuoteThroughEnv(data, fill_mode)
     obs_dim = data.features.shape[1] + 2
     q = DuelingQNet(obs_dim)
     q_target = DuelingQNet(obs_dim)
@@ -380,8 +419,10 @@ def train_ddqn(
 Policy = Callable[[FloatArray, QuoteThroughEnv], tuple[float, float, bool]]
 
 
-def evaluate_policy(data: Exp4Data, policy: Policy) -> dict[str, float]:
-    env = QuoteThroughEnv(data)
+def evaluate_policy(
+    data: Exp4Data, policy: Policy, fill_mode: str = "quote_through"
+) -> dict[str, float]:
+    env = QuoteThroughEnv(data, fill_mode)
     pnls, nd, pmap, pr = [], [], [], []
     for start in data.test_episode_starts:
         obs = env.reset(start)
@@ -478,22 +519,29 @@ def make_policies(
 
 
 def run_exp4(
-    lob_parquet: str, checkpoint: str, out_dir: str, device: str = "cpu"
+    lob_parquet: str,
+    checkpoint: str,
+    out_dir: str,
+    device: str = "cpu",
+    fill_mode: str = "quote_through",
+    ticks_parquet: str | None = None,
 ) -> dict[str, dict[str, float]]:
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
-    data = build_exp4_data(lob_parquet, checkpoint, device=device)
+    data = build_exp4_data(
+        lob_parquet, checkpoint, device=device, ticks_parquet=ticks_parquet
+    )
     print(
         f"data ready: {len(data.features)} rows, "
         f"{len(data.train_episode_starts)} train / {len(data.test_episode_starts)} test episodes",
         flush=True,
     )
-    cppo = train_cppo(data)
+    cppo = train_cppo(data, fill_mode=fill_mode)
     print("C-PPO trained", flush=True)
-    ddqn = train_ddqn(data)
+    ddqn = train_ddqn(data, fill_mode=fill_mode)
     print("D-DQN trained", flush=True)
     results = {
-        name: evaluate_policy(data, pol)
+        name: evaluate_policy(data, pol, fill_mode)
         for name, pol in make_policies(data, cppo, ddqn).items()
     }
     (out / "exp4_metrics.json").write_text(json.dumps(results, indent=2))
