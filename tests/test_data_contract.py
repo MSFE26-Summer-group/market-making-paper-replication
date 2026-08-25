@@ -53,9 +53,7 @@ class TestTickTapeIsTheFillReferee:
         valid = (idx > 0) & (idx < len(ts))
         t = ticks.iloc[valid].assign(row=idx[valid])
         last = lob.index.map(t.groupby("row")["price"].last())
-        bps = (
-            np.abs(last - lob["mid_price"]) / lob["mid_price"] * 1e4
-        )
+        bps = np.abs(last - lob["mid_price"]) / lob["mid_price"] * 1e4
         assert np.nanmedian(bps) < 1.0  # tape and book on the same market/clock
 
     def test_trade_stat_columns_are_not_interval_ranges(self, frames):

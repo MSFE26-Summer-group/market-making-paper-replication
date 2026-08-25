@@ -197,9 +197,10 @@ class QuoteThroughEnv:
             ask = p_r + spread / 2
 
             if self.fill_mode == "tick":
+                assert self.d.sell_min is not None and self.d.buy_max is not None
                 sm, bm = self.d.sell_min[nxt], self.d.buy_max[nxt]
-                bid_hit = sm == sm and sm <= bid  # NaN-safe
-                ask_hit = bm == bm and bm >= ask
+                bid_hit = bool(sm == sm and sm <= bid)  # NaN-safe
+                ask_hit = bool(bm == bm and bm >= ask)
             else:
                 bid_hit = self.d.best_ask[nxt] <= bid
                 ask_hit = self.d.best_bid[nxt] >= ask
