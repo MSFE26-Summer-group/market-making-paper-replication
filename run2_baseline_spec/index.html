@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://msfe26-summer-group.github.io/market-making-paper-replication/api/">
+        <link rel="canonical" href="https://msfe26-summer-group.github.io/market-making-paper-replication/run2_baseline_spec/">
       
       
-        <link rel="prev" href="../notebooks/">
+        <link rel="prev" href="../pipeline_audit/">
       
       
-        <link rel="next" href="../progress/">
+        <link rel="next" href="../feature_engineering/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Overview - Paper Replication</title>
+        <title>Run 2 Baseline Spec - Paper Replication</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#api-reference" class="md-skip">
+        <a href="#run-2-baseline-specification-ablation-row-zero" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              Run 2 Baseline Spec
             
           </span>
         </div>
@@ -339,9 +339,11 @@
   
   
   
+    
   
-    <li class="md-tabs__item">
-      <a href="../run2_baseline_spec/" class="md-tabs__link">
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
         
   
   
@@ -435,13 +437,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../api/" class="md-tabs__link">
           
   
   
@@ -685,10 +685,37 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../run2_baseline_spec/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run 2 Baseline Spec
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -704,6 +731,114 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reward
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simulator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulator
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training &amp; evaluation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tally-roadmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tally &amp; roadmap
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -880,31 +1015,26 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
         
           
-          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
             
   
   
@@ -922,7 +1052,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_12">
             <span class="md-nav__icon md-icon"></span>
             
@@ -937,37 +1067,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
         
   
   
@@ -983,37 +1086,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#paper_replication" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        paper_replication
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1073,46 +1145,301 @@
   
 
 
-<h1 id="api-reference">API Reference</h1>
-<p>Auto-generated from source docstrings.</p>
-
-
-<div class="doc doc-object doc-module">
-
-
-
-<a id="paper_replication"></a>
-    <div class="doc doc-contents first">
-
-        <p>Paper replication package.</p>
-
-
-
-
-
-
-
-
-
-
-<div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-    </div>
-
-</div>
+<h1 id="run-2-baseline-specification-ablation-row-zero">Run 2 Baseline Specification — ablation row zero</h1>
+<p>Run 2 (tick-based side-aware fills, 500 PPO updates) is the frozen
+baseline every future upgrade is compared against, on the identical
+73 held-out episodes. This document records every difference vs
+Guo, Lin &amp; Huang (2023) so that no deviation is silent.</p>
+<p>Status legend: ALIGNED / ADAPTED (justified deviation) / GAP (roadmap).</p>
+<h2 id="data">Data</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Paper</th>
+<th>Ours</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Market</td>
+<td>Shenzhen A-shares, 3 stocks</td>
+<td>Binance BTC-USDT, 1 pair</td>
+<td>ADAPTED (contribution)</td>
+</tr>
+<tr>
+<td>Data type</td>
+<td>event-by-event LOB</td>
+<td>10s snapshots + tick tape</td>
+<td>ADAPTED (root of most items below)</td>
+</tr>
+<tr>
+<td>Period</td>
+<td>Nov 2019, 21 days, ~5M events</td>
+<td>Oct 20-30 2022, 11 days, 88,678 snaps</td>
+<td>ADAPTED</td>
+</tr>
+<tr>
+<td>Sessions</td>
+<td>stable intraday hours only</td>
+<td>24/7</td>
+<td>ADAPTED (incl. overnight regimes)</td>
+</tr>
+<tr>
+<td>Split</td>
+<td>10d train (20% val) / 11d test</td>
+<td>70/30 chronological, no val set</td>
+<td>ADAPTED (no validation set)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="state">State</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Paper</th>
+<th>Ours</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Levels n / window T</td>
+<td>10 / 50</td>
+<td>10 / 50</td>
+<td>ALIGNED</td>
+</tr>
+<tr>
+<td>Price transform</td>
+<td>ref[18] p/mid-1, then z-norm</td>
+<td>same (bps), no 2nd z-norm</td>
+<td>ALIGNED (minor)</td>
+</tr>
+<tr>
+<td>Size normalization</td>
+<td>max-norm</td>
+<td>log1p + z-score (train stats)</td>
+<td>ADAPTED (heavy tails)</td>
+</tr>
+<tr>
+<td>Mid-change feature (ref[18])</td>
+<td>yes</td>
+<td>missing</td>
+<td>GAP</td>
+</tr>
+<tr>
+<td>Dynamic state</td>
+<td>24 dims (OSI18+RV3+RSI3)</td>
+<td>1 dim (lob_imbalance)</td>
+<td>GAP (largest state gap)</td>
+</tr>
+<tr>
+<td>Agent state</td>
+<td>inventory + remaining time</td>
+<td>+ imbalance</td>
+<td>ALIGNED+</td>
+</tr>
+</tbody>
+</table>
+<h2 id="model">Model</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Paper</th>
+<th>Ours</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Encoder</td>
+<td>Conv2D + Inception + MHA</td>
+<td>Conv1d x2 + MHA, d=64</td>
+<td>ADAPTED (lightweight)</td>
+</tr>
+<tr>
+<td>Pre-training</td>
+<td>mid-price direction task</td>
+<td>none</td>
+<td>GAP (H1/H4, top priority)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="action">Action</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Paper</th>
+<th>Ours</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Continuous (bias, spread)</td>
+<td>yes</td>
+<td>yes</td>
+<td>ALIGNED</td>
+</tr>
+<tr>
+<td>Bias direction</td>
+<td>Sign(inventory) forced</td>
+<td>signed, learned</td>
+<td>ADAPTED (more freedom)</td>
+</tr>
+<tr>
+<td>Caps</td>
+<td>0.05 / 0.1 CNY</td>
+<td>5bps bias, 0.5-10bps half</td>
+<td>ADAPTED (scale mapping)</td>
+</tr>
+<tr>
+<td>Trade unit</td>
+<td>100 shares</td>
+<td>1 unit</td>
+<td>ADAPTED (equivalent)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reward">Reward</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Paper</th>
+<th>Ours</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>eta / zeta / omega</td>
+<td>0.5 / 0.01 / 10</td>
+<td>same</td>
+<td>ALIGNED</td>
+</tr>
+<tr>
+<td>Formula</td>
+<td>R = DP+TP-IP (DP dampens total)</td>
+<td>TP + dampened(holding) - IP</td>
+<td>ADAPTED (minor, same intent)</td>
+</tr>
+<tr>
+<td>TP mid reference</td>
+<td>at transaction time</td>
+<td>bar-end mid</td>
+<td>ADAPTED (bar data)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="simulator">Simulator</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Paper</th>
+<th>Ours</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Decision frequency</td>
+<td>per event (~0.1s)</td>
+<td>per 10s</td>
+<td>ADAPTED (data-driven)</td>
+</tr>
+<tr>
+<td>Episode</td>
+<td>2000 events (3-5 min)</td>
+<td>360 steps (1 h)</td>
+<td>ADAPTED (redesigned)</td>
+</tr>
+<tr>
+<td>Fills</td>
+<td>exact event replay</td>
+<td>side-aware tick fills, &lt;=1 unit/side/step, no queue/volume</td>
+<td>ADAPTED (optimistic)</td>
+</tr>
+<tr>
+<td>Fees / impact</td>
+<td>0 / ignored</td>
+<td>same</td>
+<td>ALIGNED (same simplification)</td>
+</tr>
+<tr>
+<td>Episode-end liquidation</td>
+<td>yes</td>
+<td>yes</td>
+<td>ALIGNED</td>
+</tr>
+<tr>
+<td>Known data risk</td>
+<td>-</td>
+<td>snapshot clock ~1s lag (timing bracket measured)</td>
+<td>ADAPTED (documented)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="training-evaluation">Training &amp; evaluation</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Paper</th>
+<th>Ours</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C-PPO</td>
+<td>yes</td>
+<td>yes (hyperparams ours; paper silent)</td>
+<td>ALIGNED</td>
+</tr>
+<tr>
+<td>D-DQN</td>
+<td>yes</td>
+<td>missing</td>
+<td>GAP (H2)</td>
+</tr>
+<tr>
+<td>Metrics</td>
+<td>ND-PnL, PnLMAP, PR, Sharpe</td>
+<td>all but PR (fees=0)</td>
+<td>ADAPTED</td>
+</tr>
+<tr>
+<td>Baselines</td>
+<td>AS, Random, Fixed1-3, Inv-RL, LOB-RL</td>
+<td>AS (calibrated), Random, Fixed x3</td>
+<td>ADAPTED (2 legacy RL missing)</td>
+</tr>
+<tr>
+<td>Latency experiment</td>
+<td>yes</td>
+<td>no</td>
+<td>GAP (low priority)</td>
+</tr>
+<tr>
+<td>Ablation + attention viz</td>
+<td>yes</td>
+<td>no</td>
+<td>GAP (H5, after pre-training)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tally-roadmap">Tally &amp; roadmap</h2>
+<p>ALIGNED 11 / ADAPTED 15 / GAP 6.
+Gap priority: (1) pre-training [H1/H4] -&gt; (2) dynamic state 3-&gt;27 dims
+-&gt; (3) D-DQN [H2] -&gt; (4) mid-change feature -&gt; (5) ablation &amp; attention
+viz [H5] -&gt; (6) latency. Each upgrade: one variable, same 73 episodes,
+report delta-Sharpe vs this baseline (C-PPO SR 0.24; A-S SR 0.99).</p>
 
 
 

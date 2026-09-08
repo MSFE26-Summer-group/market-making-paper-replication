@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://msfe26-summer-group.github.io/market-making-paper-replication/api/">
+        <link rel="canonical" href="https://msfe26-summer-group.github.io/market-making-paper-replication/pipeline_audit/">
       
       
-        <link rel="prev" href="../notebooks/">
+        <link rel="prev" href="../experiments/">
       
       
-        <link rel="next" href="../progress/">
+        <link rel="next" href="../run2_baseline_spec/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Overview - Paper Replication</title>
+        <title>Pipeline Audit - Paper Replication</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#api-reference" class="md-skip">
+        <a href="#pipeline-audit-consolidated-results" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              Pipeline Audit
             
           </span>
         </div>
@@ -320,9 +320,11 @@
   
   
   
+    
   
-    <li class="md-tabs__item">
-      <a href="../pipeline_audit/" class="md-tabs__link">
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
         
   
   
@@ -435,13 +437,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../api/" class="md-tabs__link">
           
   
   
@@ -658,10 +658,37 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../pipeline_audit/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Audit
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -677,6 +704,98 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#correctness-checks-all-programmatically-verified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correctness checks (all programmatically verified)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paper-alignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paper alignment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-data-caveat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Known data caveat
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consolidated-results-73-held-out-1h-episodes-btc-usdt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consolidated results (73 held-out 1h episodes, BTC-USDT)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Consolidated results (73 held-out 1h episodes, BTC-USDT)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run-2-tick-based-side-aware-fills-trusted-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run 2 — tick-based side-aware fills (trusted run)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-1-snapshot-fill-at-touch-kept-for-the-methodology-finding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run 1 — snapshot fill-at-touch (kept for the methodology finding)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -880,31 +999,26 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
         
           
-          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
             
   
   
@@ -922,7 +1036,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_12">
             <span class="md-nav__icon md-icon"></span>
             
@@ -937,37 +1051,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
         
   
   
@@ -983,37 +1070,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#paper_replication" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        paper_replication
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1073,46 +1129,256 @@
   
 
 
-<h1 id="api-reference">API Reference</h1>
-<p>Auto-generated from source docstrings.</p>
-
-
-<div class="doc doc-object doc-module">
-
-
-
-<a id="paper_replication"></a>
-    <div class="doc doc-contents first">
-
-        <p>Paper replication package.</p>
-
-
-
-
-
-
-
-
-
-
-<div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-    </div>
-
-</div>
+<h1 id="pipeline-audit-consolidated-results">Pipeline Audit &amp; Consolidated Results</h1>
+<p>Audit date: 2026-07-24 · branch <code>feature/rl-sample-model</code></p>
+<h2 id="correctness-checks-all-programmatically-verified">Correctness checks (all programmatically verified)</h2>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Look-ahead in states</td>
+<td>PASS — <code>states[i]</code> ends at snapshot i by construction</td>
+</tr>
+<tr>
+<td>Fill timing</td>
+<td>PASS — quote uses <code>mid[t]</code>, fills use interval (t, t+1] only</td>
+</tr>
+<tr>
+<td>Tick fill coverage</td>
+<td>PASS — 0% intervals missing either side (BTC is dense)</td>
+</tr>
+<tr>
+<td>Train/test separation</td>
+<td>PASS — last train episode ends at 62,073 &lt; first test start 62,074</td>
+</tr>
+<tr>
+<td>Test episode design</td>
+<td>PASS — 73 non-overlapping 1h episodes, identical across policies</td>
+</tr>
+<tr>
+<td>Normalization leakage</td>
+<td>PASS — size stats from first 70% only</td>
+</tr>
+<tr>
+<td>Test suite</td>
+<td>PASS — 16 tests, 79% coverage, mypy clean</td>
+</tr>
+</tbody>
+</table>
+<h2 id="paper-alignment">Paper alignment</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Paper</th>
+<th>Ours</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LOB levels n / window T</td>
+<td>10 / 50</td>
+<td>10 / 50</td>
+<td>aligned</td>
+</tr>
+<tr>
+<td>Price stationarity transform</td>
+<td>ref [18]: p/p_mid − 1</td>
+<td>same (×1e4, bps)</td>
+<td>aligned</td>
+</tr>
+<tr>
+<td>Volume normalization</td>
+<td>max-norm</td>
+<td>log1p + z-score (train stats)</td>
+<td>deviation (heavy-tailed crypto sizes)</td>
+</tr>
+<tr>
+<td>Agent state</td>
+<td>inventory, remaining time</td>
+<td>+ lob_imbalance</td>
+<td>aligned+</td>
+</tr>
+<tr>
+<td>Action space</td>
+<td>continuous (bias, spread), A1 magnitude with Sign(inv)</td>
+<td>signed bias learned directly</td>
+<td>deviation (more freedom)</td>
+</tr>
+<tr>
+<td>eta / zeta / omega</td>
+<td>0.5 / 0.01 / 10</td>
+<td>0.5 / 0.01 / 10</td>
+<td>aligned</td>
+</tr>
+<tr>
+<td>Reward (eq 16)</td>
+<td>R = DP + TP − IP, where DP dampens total ΔPnL and TP is added on top</td>
+<td>TP + dampened(holding) − IP; trading PnL counted once, dampening applied to holding only</td>
+<td>minor deviation, same intent — flagged for discussion</td>
+</tr>
+<tr>
+<td>Fill simulation</td>
+<td>event-by-event exact</td>
+<td>side-aware tick fills (price crosses; no queue/volume)</td>
+<td>approximation</td>
+</tr>
+<tr>
+<td>Episode</td>
+<td>2000 events (3–5 min)</td>
+<td>360 steps (1 h)</td>
+<td>redesigned (event clock ≠ wall clock; BTC ≈ 67 trades/s)</td>
+</tr>
+<tr>
+<td>Pre-training (Attn-LOB)</td>
+<td>mid-price direction task</td>
+<td>not yet</td>
+<td>pending — next milestone (H1/H4)</td>
+</tr>
+<tr>
+<td>D-DQN baseline</td>
+<td>yes</td>
+<td>not yet</td>
+<td>pending (H2)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="known-data-caveat">Known data caveat</h2>
+<p><code>min/max_trade_price</code> columns in the LOB parquet match tick-derived
+per-interval extremes in only 10–21% of rows under any alignment —
+their exact window/definition needs confirmation from Brian. Run 2
+derives fills directly from the tick tape and is unaffected.</p>
+<h2 id="consolidated-results-73-held-out-1h-episodes-btc-usdt">Consolidated results (73 held-out 1h episodes, BTC-USDT)</h2>
+<p>Training: 500 PPO updates × 4 episodes/update.
+Machine: Apple Silicon (CPU only).
+Run 1 training time: 833 s. Run 2 training time: 838 s.</p>
+<h3 id="run-2-tick-based-side-aware-fills-trusted-run">Run 2 — tick-based side-aware fills (trusted run)</h3>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>PnL/ep (USD/unit)</th>
+<th>Sharpe</th>
+<th>PnLMAP</th>
+<th>ND-PnL</th>
+<th>Fills/ep</th>
+<th>Mean inv</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fixed tight (0.5 bps)</td>
+<td>+250.8</td>
+<td>0.57</td>
+<td>55.2</td>
+<td>426.5</td>
+<td>543.7</td>
+<td>4.54</td>
+</tr>
+<tr>
+<td>Fixed mid (5 bps)</td>
+<td>+175.3</td>
+<td>0.33</td>
+<td>46.7</td>
+<td>298.1</td>
+<td>89.8</td>
+<td>3.75</td>
+</tr>
+<tr>
+<td>Fixed wide (10 bps)</td>
+<td>+99.9</td>
+<td>0.28</td>
+<td>50.6</td>
+<td>169.8</td>
+<td>22.0</td>
+<td>1.97</td>
+</tr>
+<tr>
+<td>A-S (calibrated)</td>
+<td>+94.1</td>
+<td><strong>0.99</strong></td>
+<td><strong>189.8</strong></td>
+<td>160.1</td>
+<td>446.9</td>
+<td><strong>0.50</strong></td>
+</tr>
+<tr>
+<td>C-PPO</td>
+<td>+36.5</td>
+<td>0.24</td>
+<td>47.1</td>
+<td>62.0</td>
+<td>3.5</td>
+<td>0.78</td>
+</tr>
+<tr>
+<td>Random</td>
+<td>−157.2</td>
+<td>−0.37</td>
+<td>−34.4</td>
+<td>−267.3</td>
+<td>137.7</td>
+<td>4.57</td>
+</tr>
+</tbody>
+</table>
+<h3 id="run-1-snapshot-fill-at-touch-kept-for-the-methodology-finding">Run 1 — snapshot fill-at-touch (kept for the methodology finding)</h3>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>PnL/ep</th>
+<th>Sharpe</th>
+<th>Fills/ep</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C-PPO</td>
+<td>−13.1</td>
+<td>−0.10</td>
+<td>2.2</td>
+</tr>
+<tr>
+<td>Fixed wide</td>
+<td>−68.6</td>
+<td>−0.19</td>
+<td>17.5</td>
+</tr>
+<tr>
+<td>Fixed mid</td>
+<td>−120.9</td>
+<td>−0.24</td>
+<td>66.0</td>
+</tr>
+<tr>
+<td>Random</td>
+<td>−347.5</td>
+<td>−0.80</td>
+<td>103.6</td>
+</tr>
+<tr>
+<td>Fixed tight</td>
+<td>−678.6</td>
+<td>−0.91</td>
+<td>301.5</td>
+</tr>
+<tr>
+<td>A-S</td>
+<td>−713.1</td>
+<td>−1.65</td>
+<td>278.0</td>
+</tr>
+</tbody>
+</table>
+<p>Fill assumption alone swings per-episode PnL by ~900 USD — simulator
+fidelity dominates strategy choice at this data frequency.</p>
 
 
 
