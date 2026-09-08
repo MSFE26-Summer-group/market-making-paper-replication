@@ -387,3 +387,113 @@ cap transfer issue is a separate, additive distortion; (3) AS remains
 exactly equal to Fixed(100%) under both referees, confirming the
 gamma-unit degeneracy is referee-independent; (4) D-DQN leads under
 both referees. Artifacts in results/exp4_tick/.
+
+### Exp 4 monthly rerun — tick fills on 2022-10-10..11-10 (2026-09-02)
+
+Same configuration and budgets as the tick-fill rerun above; only the
+data window grows from 11 days (88,727 rows) to the full monthly file
+(275,941 rows; 7,357 train / 1,839 test episodes). The monthly snapshot
+file lacks trade columns and the tick tape only covers 10-19..10-30, so
+per-interval side-aware extremes for the missing 20 days were built from
+Binance official daily aggTrades (scripts/build_monthly_tick_extremes.py);
+on the overlap day 2022-10-25 the two sources agree on 8,633/8,633
+buy-side and 8,632/8,633 sell-side intervals (the one difference is the
+midnight-boundary interval in the check itself). Interval coverage 100%.
+Data prep 492s; training + eval 139s (vs 129s on 11 days — compute is
+budget-bound, not data-bound). Frozen backbone reused from Exp 1b
+(pretrained on 10-19..10-30, inside the monthly train split, disjoint
+from the monthly test window).
+
+| Policy | Sharpe (11d test, tick) | Sharpe (monthly test, tick) | PnL$/ep (monthly) |
+|---|---|---|---|
+| C-PPO | +0.201 | -0.191 | -0.0083 |
+| D-DQN | +1.207 | -0.027 | -0.0000 |
+| Random | +0.207 | -0.181 | -0.0080 |
+| Fixed 15% | -0.044 | -0.202 | -0.0088 |
+| Fixed 50% | +0.198 | -0.189 | -0.0084 |
+| Fixed 100% | +0.385 | -0.167 | -0.0075 |
+| AS | +0.385 | -0.168 | -0.0076 |
+
+Findings: (1) this is NOT a single-variable comparison against the
+11-day rerun — both the training data and the test period change. The
+monthly 80/20 split places the test window on 11-04..11-10, which
+contains the FTX collapse (mid 20,756 -> low 15,596, -15.2% over the
+window; the 11-day test window was flat at -0.1%). (2) Under that
+regime every policy is slightly negative under tick fills too: the
+sign flip observed on the October window is period-dependent — the
+honest statement is "the fill model decides the sign on a calm window;
+a -15% crash week overwhelms spread capture at these caps regardless
+of referee." (3) The relative ordering is preserved: D-DQN again
+learns near-zero inventory and sits closest to flat (-0.027), and AS
+still tracks Fixed(100%) (gamma degeneracy unchanged). (4) PnLMAP std
+blows up (~108 vs ~17) — crash-week inventory marks dominate the
+denominator. Artifacts in results/exp4_month_tick/.
+
+### Exp 4 clean-window suite — expand the period, exclude the black swan (2026-09-03)
+
+Daily-RV scan of the monthly file: 10-10..11-07 stays in 0.7-3.7%/day
+(the CoinDesk story 11-02, the CZ tweet 11-06 and the crash eve 11-07
+are all inside October's normal range; October's own max was CPI day
+10-13 at 3.74%), then 11-08..11-10 jumps to 8.0-8.6% with 15-20%
+intraday ranges. The regime break is exactly the three FTX days, so the
+maximal clean window is 10-10..11-07 (29 days, 2.6x the 11-day file).
+Four runs, all tick fills on the monthly file's grid
+(scripts/run_exp4_clean_window.py):
+
+| Run | Train | Test | Sharpe: C-PPO / D-DQN / Fixed100 / AS | Time |
+|---|---|---|---|---|
+| run1_clean29 | 10-10..11-02 (80%) | 11-02..11-07 | -0.25 / +0.02 / -0.18 / -0.18 | 140s |
+| run1_clean29_budget (2.6x budget) | same | same | -0.25 / **-0.61** / -0.18 / -0.18 | 333s |
+| run2a_fixedtest_9d | 10-19..10-28 | 10-28 18:37..10-30 | -0.27 / +0.09 / -0.19 / -0.19 | 127s |
+| run2b_fixedtest_18d (1.9x data) | 10-10..10-28 | same | -0.28 / +0.04 / -0.19 / -0.19 | 136s |
+
+Findings. (1) More training data changes nothing (run2a vs run2b is
+single-variable: identical test episodes, 1.9x train data, all deltas
+within noise) — at this budget C-PPO is statistically random and D-DQN
+finds "stay flat" either way. (2) Scaling the budget 2.6x with the data
+makes D-DQN WORSE (-0.61): longer training pushes it off the flat local
+optimum into active quoting that loses — at these caps the learnable
+optimum really is "don't trade". (3) run2a repeats the 11-day tick
+run's calendar windows on the monthly grid and the slightly-positive
+result becomes slightly-negative. Diagnosed and ruled out: grid density
+(median interval 10.0s vs 10.1s), data gaps (none >20s on either grid),
+mid-price bias between files (0.00 where timestamps coincide). What
+remains is interval phase: the two files are independent ~10s samplings,
+so interval boundaries land differently. With the $0.10 spread cap a
+full round trip earns ~$0.0001 (0.001 BTC x $0.10), ~$0.003 per
+30-step episode, and the sign is a knife-edge between that and 10-second
+adverse drift — sampling phase alone flips it. (4) Takeaway for the
+report: under unit-transferred USD caps every calm-window tick-fill
+result is economically zero (|ND-PnL| < 0.011) with a referee-dependent
+sign; only the FTX regime produces a signal that survives referee
+construction. The unit-corrected caps rerun remains the prerequisite
+for any sign claim. Artifacts in results/exp4_run*.
+
+### Exp 4 Step A' — corrected caps + the paper's implicit touch floor (2026-09-04)
+
+The paper never states a min-spread hyperparameter (Eq. 10 allows
+spread=0), but its Fixed baselines quote at LOB levels 1-3 (never inside
+the touch) and the A-share tick (~= the whole market spread) leaves no
+room inside anyway. BTC's relatively ~1000x finer tick opens that region
+up — and the capfix C-PPO promptly fell into it (learned $0.35 spread
+inside the $0.54 touch, 55 fills/ep, -0.54 Sharpe). Mirror: clamp quotes
+to the current best bid/ask (TOUCH_FLOOR in exp4.py). Caps stay
+$2.70/$5.40; zeta still 0.01 (Step B pending).
+
+| Sharpe | capfix 10d | capfloor 10d | capfix 29d | capfloor 29d |
+|---|---|---|---|---|
+| C-PPO | -0.537 | **+0.183** | -0.600 | -0.001 |
+| D-DQN | 0.005 | 0.030 | 0.019 | 0.017 |
+| Random | -0.407 | -0.062 | -0.297 | 0.005 |
+| Fixed(15%) | 0.072 | 0.034 | 0.022 | 0.009 |
+| AS | 0.012 | -0.010 | 0.004 | 0.003 |
+
+Findings: (1) walling off the inside-the-touch region flips C-PPO from
+worst-in-table to best-in-table on the October window — the -0.54 was a
+toxic-region local optimum, not a PPO failure; Random improves for the
+same reason. (2) On 1-hour-equivalent terms (x sqrt(12) aggregation)
+capfloor C-PPO ~ 0.63, in the simple line's range — the official line
+stops being "crushed" once the same scale mirrors are applied, and its
+edge needs no signed-bias loophole. (3) The quiet 29d test window
+(11-02..11-07) yields ~0 for every policy — regime-dependence persists.
+Runtimes 127s/142s. Artifacts in results/exp4_capfloor_*.
