@@ -164,5 +164,226 @@ here: the qualitative finding below is not an artifact of one run.)
 
 _Document surprises, dead ends, and hyperparameter choices here._
 
+---
+
+## Run 1 — C-PPO vs benchmarks, snapshot fills (2026-07-23)
+
+**Setup**: BTC-USDT 10s snapshots (Oct 20-30, 2022), 88,678 states.
+Train = first 70%, test = last 30% (73 non-overlapping 1-hour episodes).
+C-PPO: 500 updates x 4 episodes, 833s wall-clock on Apple Silicon (CPU).
+Fill model: interval trade-price range crosses quote (no queue, no side).
+Env: eta=0.5, zeta=0.01, max_inv=10, bias<=5bps, half-spread 0.5-10bps.
+
+| Strategy | PnL/ep (USD/unit) | Sharpe | PnLMAP | ND-PnL | Fills/ep | Mean inv |
+|---|---|---|---|---|---|---|
+| C-PPO (trained) | **-13.1** | **-0.10** | -23.6 | -22.4 | 2.2 | 0.56 |
+| Fixed wide (10bps) | -68.6 | -0.19 | -33.3 | -116.6 | 17.5 | 2.06 |
+| Fixed mid (5bps) | -120.9 | -0.24 | -38.0 | -205.5 | 66.0 | 3.18 |
+| Random | -347.5 | -0.80 | -80.3 | -591.0 | 103.6 | 4.33 |
+| Fixed tight (0.5bps) | -678.6 | -0.91 | -141.5 | -1153.9 | 301.5 | 4.79 |
+| A-S (calibrated) | -713.1 | -1.65 | -757.4 | -1212.7 | 278.0 | 0.94 |
+
+**Findings**
+1. C-PPO beats every baseline on all risk-adjusted metrics — qualitatively
+   consistent with the paper.
+2. However, ALL strategies lose money. Under bar-based fill-at-touch
+   simulation, passive fills are systematically adversely selected: a
+   fill happens exactly when price trades through the quote, and the
+   bar's closing mid tends to be on the wrong side. The paper's
+   event-level simulator does not have this artifact to the same degree.
+3. The agent's "win" is mostly learned abstention (2.2 fills/ep vs 300
+   for tight quoting): it discovered fills are toxic in this simulator
+   and quotes wide. Economically sensible given (2), but it means the
+   current setup rewards avoidance rather than market making.
+4. Next: tick-based side-aware fills (bid fills only on seller-initiated
+   prints) should reduce the adverse-selection artifact and make the
+   comparison meaningful. Then re-run and compare.
+
+---
+
+## Run 2 — C-PPO vs benchmarks, tick-based side-aware fills (2026-07-23)
+
+Same setup as Run 1 except fills: a bid fills only when a
+seller-initiated trade prints at/below it, an ask only when a
+buyer-initiated trade prints at/above it (derived from the 69M-row
+tick tape). Training: 500 updates, 838s wall-clock.
+
+| Strategy | PnL/ep | Sharpe | PnLMAP | ND-PnL | Fills/ep | Mean inv |
+|---|---|---|---|---|---|---|
+| Fixed tight (0.5bps) | +250.8 | 0.57 | 55.2 | 426.5 | 543.7 | 4.54 |
+| Fixed mid (5bps) | +175.3 | 0.33 | 46.7 | 298.1 | 89.8 | 3.75 |
+| Fixed wide (10bps) | +99.9 | 0.28 | 50.6 | 169.8 | 22.0 | 1.97 |
+| A-S (calibrated) | +94.1 | **0.99** | **189.8** | 160.1 | 446.9 | **0.50** |
+| C-PPO (trained) | +36.5 | 0.24 | 47.1 | 62.0 | 3.5 | 0.78 |
+| Random | -157.2 | -0.37 | -34.4 | -267.3 | 137.7 | 4.57 |
+
+**Findings**
+1. Under realistic side-aware fills, market making IS profitable —
+   every non-random strategy flips to positive PnL. This confirms
+   Run 1's losses were an artifact of the fill-at-touch model, not a
+   property of the market.
+2. A-S is now the best risk-adjusted strategy (Sharpe 0.99, PnLMAP
+   189.8) with the smallest inventory (0.50): its inventory-skewing
+   mechanism works exactly as the theory promises. A strong baseline,
+   consistent with the paper's finding that "AS is good at inventory
+   controlling".
+3. Our lightweight C-PPO is profitable but under-trades (3.5 fills/ep)
+   — it carried over the conservative style learned under a hostile
+   reward landscape and did not discover aggressive spread capture in
+   500 updates. In the paper, C-PPO's edge came with Attn-LOB
+   pre-training; their own ablation shows performance collapses
+   without learned LOB representations. Our result is consistent:
+   without pre-training, RL does not beat the classical formula.
+4. Next steps, in order of expected value: (a) mid-price direction
+   pre-training of the encoder (tests H1/H4 directly), (b) longer
+   training / entropy schedule so the agent explores tighter quoting,
+   (c) volume-aware fills (queue position) as a further realism step.
+
+**Fill-model sensitivity (Run 1 vs Run 2, same strategies)**
+
+| Strategy | PnL/ep (snapshot fills) | PnL/ep (tick fills) |
+|---|---|---|
+| Fixed tight | -678.6 | +250.8 |
+| A-S | -713.1 | +94.1 |
+| C-PPO | -13.1 | +36.5 |
+
+The fill assumption alone swings results by ~900 USD/episode —
+methodologically, simulator fidelity dominates strategy choice at
+this data frequency.
+
+---
+
+## Attribution follow-up — what actually caused the Run 1 → Run 2 flip (2026-07-30)
+
+Run 1 → Run 2 changed two things at once (fill-price source AND side
+filter) — a confound. Decisive test: same benchmarks, same 73 episodes,
+three fill variants:
+
+| Fill variant | Fixed tight | A-S | Random |
+|---|---|---|---|
+| A: precomputed min/max cols, no side filter (=Run 1) | -678.6 | -713.1 | -347.5 |
+| B: true tick tape, no side filter | +257.6 | +98.2 | -201.9 |
+| C: true tick tape, side-aware (=Run 2) | +250.8 | +94.1 | -180.9 |
+
+**The flip is A→B (data source), not B→C (side filter, ~2% effect).**
+The precomputed min/max_trade_price columns leave "phantom fill" room
+(price below the interval's true low) in 17.7% of intervals, median
+0.36 bps — the same order as a tight half-spread, so tight quoting
+gets systematically filled at prices that never printed. Corrected
+claim: simulator fidelity dominates via INPUT DATA INTEGRITY ($900/ep);
+side-awareness is a small correctness refinement. Confirming the
+precomputed columns' definition with Brian is now a priority question.
+
+### External validation vs Binance official klines (2026-07-30)
+
+Sample window 2022-10-20 00:00-01:00 UTC, 60 one-minute klines from
+the Binance REST API as independent ground truth:
+
+| Source | Low exact | High exact | Trades/min |
+|---|---|---|---|
+| Binance klines (referee) | — | — | 4,699 |
+| Our ticks parquet | 100% (median dev $0.00) | 100% | 4,699 (exact) |
+| Precomputed trade columns | 5% (median dev $1.95) | 2% | 436 (~9%) |
+
+The ticks parquet IS the full Binance BTCUSDT tape; the precomputed
+min/max/count columns trace to a ~10x sparser source with ~1bp median
+range deviation — the scale that drove Run 1's phantom fills. Rounding
+ruled out (tolerance sweep). Question for Brian: what feed/sampling
+produced these columns?
+
+### Finding 3 — quote-information timing dominates at 10s cadence (2026-07-30)
+
+Concrete case: LOB row 58953 (label 2022-10-27 06:49:20 UTC) carries
+mid 20,714.84 / min_trade 20,713.90 — but the tape only reaches those
+prices in the NEXT interval (06:49:20-30, crash to 20,709). Snapshot
+content can lead its own label on fast intervals (collection lag:
+median 0.9s, max 3.6s on the calm 10/20 rds sample; larger in fast
+markets). Robustness bracket on the 73 test episodes:
+
+| Quote basis | Fixed tight | A-S |
+|---|---|---|
+| Row-t mid (Run 2 as-run, zero-latency-or-better) | +250.8 (SR 0.57) | +94.1 (SR 0.99) |
+| Previous-row mid (10s-stale, guaranteed no peek) | -622.8 (SR -0.90) | -647.6 (SR -1.56) |
+
+Interpretation: absolute profitability at 10s cadence is fragile —
+bracketed by information timing; relative comparisons under a fixed
+regime remain meaningful. This is partly genuine latency sensitivity
+(stale quoting at tight spreads loses regardless of data quality) and
+partly snapshot clock provenance, which must be confirmed with Brian:
+(1) what feed produced the trade-stat columns; (2) which clock stamps
+the snapshot rows (exchange time vs database_time vs schedule label).
+
+### Root cause identified — trade-stat columns cover (t, t+lag], not (t-10s, t] (2026-07-31)
+
+Decisive test: taking each row's claimed trade_count and grabbing the
+first `count` trades AFTER the row's label reproduces the claimed
+min AND max exactly in 34% of rows; the implied window span has
+median 0.96s — matching the rds database_time-minus-time lag (median
+0.94s). Neighboring-window check shows claimed max often equals the
+NEXT interval's tape max exactly. Conclusion: the columns were
+computed over the collection-lag window after the schedule label
+(~1s, ~10% of trades), not the trailing 10s interval. Run 1 therefore
+judged fills against a sparse, forward-shifted price sample.
+Question for Brian is now concrete: confirm the computation window.
+
+---
+
 - **Config drift bug (found while building Exp 2):** `TrainConfig.patience` had silently drifted to `10` in code while its own docstring, every notebook, and this file's Exp 1/1b writeups all said `5`. Nothing caught it until an unrelated rename-only re-run of notebook 05 produced quietly different numbers than what was documented. Root cause unclear (no single edit is implicated), but the practical lesson: a mismatch between a docstring and its own default value is exactly the kind of thing that survives silently unless something asserts on it. Fixed to `5` and pinned with a regression test (`test_default_patience_matches_documented_value`); Exp 1 and Exp 1b were both re-run under the corrected value and every number in this file reflects that re-run, not the original one. The qualitative findings (dropout delays overfitting, tuning buys a modest but real improvement, most of the gap to the paper is structural) held up across the fix — only the exact numbers and, notably, Exp 1b's *winning* candidate changed (`lower_lr_light` → `dropout_0.3`).
 - Exp 1b: regularization's effect was entirely on *how much better* the best val_loss got, not primarily on how many epochs it took to get there (8 vs. 9 epochs across every candidate, barely different) — a different pattern than what the pre-fix run suggested (dropout mainly buying more epochs). Worth re-examining if patience is tuned differently in a future search.
+
+---
+
+## Experiment 4 — independent reproduction (2026-08-21)
+
+The report's Exp 4 code was not in the repository, so we re-implemented
+it from the report's Section 9 spec (src/paper_replication/rl/exp4.py,
+scripts/run_exp4.py) and re-ran end to end: Attn-LOB pretrained fresh
+with Exp 1b's winning config (41s on MPS; val_loss 0.9399 vs report's
+0.9316; splits 35,467/8,867 match exactly), then C-PPO + D-DQN + five
+baselines on the identical 2,364/591 episode grid (113s).
+
+| Policy | Sharpe (report) | Sharpe (ours) |
+|---|---|---|
+| C-PPO | -0.788 | **-0.785** |
+| D-DQN | -0.243 | **-0.094** |
+| Random | -0.788 | -0.785 |
+| Fixed 15% | -0.784 | -0.779 |
+| Fixed 50% | -0.776 | -0.771 |
+| Fixed 100% | -0.774 | -0.769 |
+| AS | -0.775 | -0.772 |
+
+All four headline findings reproduce independently: (1) every policy
+loses; (2) D-DQN separates from the pack and beats C-PPO (H2
+contradicted at this budget; D-DQN's exact number is seed-noisy, as in
+the report's own re-run); (3) C-PPO is statistically indistinguishable
+from random/fixed; (4) AS tracks Fixed(100%) — consistent with the
+volatility-scaled spread pinning at the cap. PnLMAP magnitudes match
+(~-30); D-DQN's PnLMAP is unstable in both runs (near-zero-inventory
+denominator). Artifacts in results/exp4/.
+
+### Exp 4 single-variable rerun — fills switched to tick side-aware (2026-08-27)
+
+Identical to the Exp 4 reproduction in every respect (30-step episodes,
+591 test episodes, frozen pretrained backbone, paper reward, USD caps,
+same budgets and seed); ONLY the fill referee changes from
+quote-through endpoints to tick-tape side-aware fills. Runtime 129s.
+
+| Policy | Sharpe (quote-through) | Sharpe (tick fills) | PnL$/ep (tick) |
+|---|---|---|---|
+| C-PPO | -0.785 | **+0.201** | +0.0009 |
+| D-DQN | -0.094 | **+1.207** | +0.0023 |
+| Random | -0.785 | **+0.207** | +0.0009 |
+| Fixed 15% | -0.779 | -0.044 | -0.0002 |
+| Fixed 50% | -0.771 | **+0.198** | +0.0009 |
+| Fixed 100% | -0.769 | **+0.385** | +0.0021 |
+| AS | -0.772 | **+0.385** | +0.0021 |
+
+Findings: (1) six of seven policies flip from negative to positive
+Sharpe with everything else held fixed — the all-negative headline of
+Exp 4 is a property of the endpoint fill model, not of the asset or
+the strategies; (2) absolute levels remain economically tiny
+(~$0.001/ep) because the $0.10 spread cap bounds earnings — the USD
+cap transfer issue is a separate, additive distortion; (3) AS remains
+exactly equal to Fixed(100%) under both referees, confirming the
+gamma-unit degeneracy is referee-independent; (4) D-DQN leads under
+both referees. Artifacts in results/exp4_tick/.
