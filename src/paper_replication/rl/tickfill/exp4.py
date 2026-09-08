@@ -56,6 +56,11 @@ ETA = 0.5
 ZETA = 0.01
 MAX_BIAS = 0.05  # USD, as stated in the report
 MAX_SPREAD = 0.1  # USD
+# Paper mirror: its Fixed baselines quote at LOB levels 1-3 and the A-share
+# tick grid (~1 tick = the whole market spread) leaves no room inside the
+# touch, so quoting inside the spread effectively does not exist there.
+# With TOUCH_FLOOR on, quotes are clamped to the current touch (level 1).
+TOUCH_FLOOR = False
 TRADE_UNIT = 0.001  # BTC
 
 
@@ -81,9 +86,23 @@ def build_exp4_data(
     n_levels: int = 10,
     window_T: int = 50,
     ticks_parquet: str | None = None,
+    ts_min: float | None = None,
+    ts_max: float | None = None,
+    split_ts: float | None = None,
 ) -> Exp4Data:
-    """Load snapshots, run the frozen backbone once, and form episode grids."""
+    """Load snapshots, run the frozen backbone once, and form episode grids.
+
+    ts_min/ts_max crop the snapshot file to [ts_min, ts_max) before windowing;
+    split_ts puts the chronological train/test boundary at a fixed timestamp
+    (rows with aligned timestamp >= split_ts are test) instead of the default
+    80/20 row split — used for fixed-calendar-test comparisons.
+    """
     df = load_lob_snapshot(lob_parquet, symbol="BTCUSDT", n_levels=n_levels)
+    if ts_min is not None:
+        df = df[df["timestamp"] >= ts_min]
+    if ts_max is not None:
+        df = df[df["timestamp"] < ts_max]
+    df = df.reset_index(drop=True)
     raw = lob_state_matrix(df, "BTCUSDT", n_levels)
     windows = rolling_windows(raw, window_T)
     norm = normalize_lob_state(windows, n_levels)  # (n_win, 50, 40)
@@ -110,7 +129,11 @@ def build_exp4_data(
     ba = df[f"BTCUSDT.ask_price_1"].to_numpy(dtype=np.float64)[off:]
 
     n = len(feats)
-    n_train_rows = int(n * 0.8)
+    if split_ts is None:
+        n_train_rows = int(n * 0.8)
+    else:
+        ts_aligned = df["timestamp"].to_numpy(dtype=np.float64)[off:]
+        n_train_rows = int(np.searchsorted(ts_aligned, split_ts, side="left"))
     train_starts = list(range(0, n_train_rows - EPISODE_LEN, EPISODE_LEN))
     test_starts = list(range(n_train_rows, n - EPISODE_LEN, EPISODE_LEN))
 
@@ -195,6 +218,9 @@ class QuoteThroughEnv:
             p_r = mid - float(np.sign(self.inv)) * delta
             bid = p_r - spread / 2
             ask = p_r + spread / 2
+            if TOUCH_FLOOR:
+                bid = min(bid, self.d.best_bid[self.t])
+                ask = max(ask, self.d.best_ask[self.t])
 
             if self.fill_mode == "tick":
                 assert self.d.sell_min is not None and self.d.buy_max is not None
@@ -526,20 +552,43 @@ def run_exp4(
     device: str = "cpu",
     fill_mode: str = "quote_through",
     ticks_parquet: str | None = None,
+    ts_min: float | None = None,
+    ts_max: float | None = None,
+    split_ts: float | None = None,
+    cppo_updates: int = 300,
+    ddqn_steps: int = 150_000,
+    max_bias: float | None = None,
+    max_spread: float | None = None,
+    touch_floor: bool | None = None,
 ) -> dict[str, dict[str, float]]:
+    # Caps are module-level constants read at step() time; overriding them
+    # here (scale-transfer reruns) affects every env/policy built below.
+    global MAX_BIAS, MAX_SPREAD, TOUCH_FLOOR
+    if max_bias is not None:
+        MAX_BIAS = max_bias
+    if max_spread is not None:
+        MAX_SPREAD = max_spread
+    if touch_floor is not None:
+        TOUCH_FLOOR = touch_floor
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     data = build_exp4_data(
-        lob_parquet, checkpoint, device=device, ticks_parquet=ticks_parquet
+        lob_parquet,
+        checkpoint,
+        device=device,
+        ticks_parquet=ticks_parquet,
+        ts_min=ts_min,
+        ts_max=ts_max,
+        split_ts=split_ts,
     )
     print(
         f"data ready: {len(data.features)} rows, "
         f"{len(data.train_episode_starts)} train / {len(data.test_episode_starts)} test episodes",
         flush=True,
     )
-    cppo = train_cppo(data, fill_mode=fill_mode)
+    cppo = train_cppo(data, fill_mode=fill_mode, updates=cppo_updates)
     print("C-PPO trained", flush=True)
-    ddqn = train_ddqn(data, fill_mode=fill_mode)
+    ddqn = train_ddqn(data, fill_mode=fill_mode, total_steps=ddqn_steps)
     print("D-DQN trained", flush=True)
     results = {
         name: evaluate_policy(data, pol, fill_mode)
