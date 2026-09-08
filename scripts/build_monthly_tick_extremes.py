@@ -96,9 +96,7 @@ def accumulate(
         if m.any():
             grp = pd.Series(price[m]).groupby(idx[m])
             agg = grp.min() if s == -1 else grp.max()
-            arr[agg.index.to_numpy()] = red(
-                arr[agg.index.to_numpy()], agg.to_numpy()
-            )
+            arr[agg.index.to_numpy()] = red(arr[agg.index.to_numpy()], agg.to_numpy())
 
 
 def main() -> None:
